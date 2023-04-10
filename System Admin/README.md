@@ -18,5 +18,14 @@ https://www.reddit.com/r/selfhosted/comments/wu8y7s/hypervisor_options_xen_vs_pr
 Pfsense is a free, opensource fire wall with a nightly build version that has features earlier but costs money, that one is called pfsense CE. Has all the features that could be desired for a firewall. https://www.youtube.com/watch?v=0bTjibLYSOo
 
 
+## Intrusion Detection System
+Pfense helps to integrate Snort within its firewall system, allowing traffic analysis. Snort is an open source IDS.
+
+## Intrusion Prevention System
+
+## DNS
+Pi
+
+
 
 https://www.qubes-os.org/
