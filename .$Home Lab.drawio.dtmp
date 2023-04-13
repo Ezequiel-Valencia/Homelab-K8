@@ -1,6 +1,6 @@
-<mxfile modified="2023-04-11T19:31:53.569Z" host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.1.2 Chrome/106.0.5249.199 Electron/21.4.3 Safari/537.36" etag="UewgyPMSat30pTZHyu8F" version="21.1.2" type="device" pages="5">
+<mxfile modified="2023-04-13T14:45:21.596Z" host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.1.2 Chrome/106.0.5249.199 Electron/21.4.3 Safari/537.36" etag="BzeEVN12UOKOPsYit-jN" version="21.1.2" type="device" pages="5">
   <diagram id="l8hXMBHkgcEJcSW0mbfh" name="Atlas">
-    <mxGraphModel dx="1996" dy="3232" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+    <mxGraphModel dx="2390" dy="3127" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -33,7 +33,7 @@
         <mxCell id="j5Dm09K87L-iFoushg-k-11" value="" style="group" parent="j5Dm09K87L-iFoushg-k-31" vertex="1" connectable="0">
           <mxGeometry x="30" y="270" width="600" height="310" as="geometry" />
         </mxCell>
-        <mxCell id="j5Dm09K87L-iFoushg-k-7" value="Home Lab" style="rounded=1;whiteSpace=wrap;html=1;labelPosition=center;verticalLabelPosition=top;align=center;verticalAlign=bottom;fontSize=21;fillColor=#d5e8d4;strokeColor=#82b366;" parent="j5Dm09K87L-iFoushg-k-11" vertex="1">
+        <mxCell id="j5Dm09K87L-iFoushg-k-7" value="Home Lab, IP: 192.168.68.0/26" style="rounded=1;whiteSpace=wrap;html=1;labelPosition=center;verticalLabelPosition=top;align=center;verticalAlign=bottom;fontSize=21;fillColor=#d5e8d4;strokeColor=#82b366;" parent="j5Dm09K87L-iFoushg-k-11" vertex="1">
           <mxGeometry width="600" height="310" as="geometry" />
         </mxCell>
         <mxCell id="gu1yxmVQuiEHEdlH8d7m-2" value="&lt;font color=&quot;#000000&quot; style=&quot;font-size: 18px;&quot;&gt;Type 1 Hypervisor Cluster&lt;/font&gt;" style="sketch=0;aspect=fixed;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=#006EAF;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;fillColor=#1ba1e2;shape=mxgraph.mscae.enterprise.cluster_server;fontColor=#ffffff;fontSize=18;" parent="j5Dm09K87L-iFoushg-k-11" vertex="1">
