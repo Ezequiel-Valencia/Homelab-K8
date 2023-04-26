@@ -23,9 +23,35 @@ Pfense helps to integrate Snort within its firewall system, allowing traffic ana
 
 ## Intrusion Prevention System
 
+
+## Router
+
+## Access Point
+
+
+## Switch
+
+
+## Modem
+
+
 ## DNS
 Pi
 
 
 
 https://www.qubes-os.org/
+
+
+## Network Vids
+https://youtu.be/_IzyJTcnPu8
+https://youtu.be/hdoBQNI_Ab8
+https://youtu.be/8QTdW0Q8U3E
+https://youtu.be/lUzSsX4T4WQ
+
+## Potential Router
+https://www.ebay.com/itm/256050026761?mkcid=16&mkevt=1&mkrid=711-127632-2357-0&ssspo=aY7OL6JIRbO&sssrc=2047675&ssuid=&widget_ver=artemis&media=COPY 
+
+
+## Access points
+https://store.ui.com/collections/unifi-network-wireless/products/u6-lite-us 
