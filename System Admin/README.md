@@ -25,6 +25,18 @@ Pfense helps to integrate Snort within its firewall system, allowing traffic ana
 
 
 ## Router
+Software defined networking allows for the router to be a seperate entity from all other devices within a network. The router is used for fowarding packets along different IP addresses. 
+
+### Potential Routers
+- The netgate premade router but its expensive, and does not allow a lot of customization.
+
+- The Zimaboard seems fine and can have pf sense installed within it, but it seems to be best as a swiss army knife for small pi projects rather than a device that can handle proxmox with pfsense, PiHole, and PiVPN/Wireguard VPN.
+
+- Used mini PC's seem good and all, however security risk of firmware being compromised, lack of upgradability, and majority of them seem to not have reliable vendors.
+
+- Self made mini PC seems to be the best option as of now, need to do further research though.
+
+Currently it might prove itself to be most useful to just buy the mid range zimbaboard and use it only for pfsense. Seperately purchase a raspbery pi for the PiHole and PiVPN. The  cost being $224 - 204.
 
 ## Access Point
 
@@ -33,10 +45,12 @@ Pfense helps to integrate Snort within its firewall system, allowing traffic ana
 
 
 ## Modem
+The modem is the hardware which takes the raw signals provided by ISP and translate it into analog. Can change but not for now.
 
 
 ## DNS
 Pi
+https://youtu.be/FnFtWsZ8IP0
 
 
 

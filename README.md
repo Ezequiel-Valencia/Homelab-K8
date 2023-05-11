@@ -20,3 +20,6 @@ The applications that will be ran on top of the OS that are installed within the
 
 # Whole Picture
 
+
+
+An amazing web series that I found to late, but seems to be very informational. https://youtube.com/playlist?list=PLjLkaXQ353210citr52k74DWb3IOzHWL7
