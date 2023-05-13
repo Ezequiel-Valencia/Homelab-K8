@@ -36,7 +36,7 @@ Software defined networking allows for the router to be a seperate entity from a
 
 - Self made mini PC seems to be the best option as of now, need to do further research though.
 
-Currently it might prove itself to be most useful to just buy the mid range zimbaboard and use it only for pfsense. Seperately purchase a raspbery pi for the PiHole and PiVPN. The  cost being $224 - 204.
+Currently it might prove itself to be most useful to just buy the mid range zimbaboard and use it only for pfsense. Seperately use another device to run PiHole and PiVPN.
 
 ## Access Point
 
