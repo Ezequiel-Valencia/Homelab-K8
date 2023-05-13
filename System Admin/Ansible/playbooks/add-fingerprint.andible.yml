@@ -1,0 +1,7 @@
+---
+- name: Check Servers
+  hosts: "ubuntu_server"
+
+  tasks:
+    - name: Ping Server
+      ansible.builtin.ping:
