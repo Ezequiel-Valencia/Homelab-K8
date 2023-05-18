@@ -1,0 +1,15 @@
+---
+
+profile: safety
+
+enable_list:
+  - args
+  - avoid-implicit
+  - empty-string-compare
+  - fqcn
+  - ignore-errors # make sure not all errors are ignored
+  - internal-error
+  - jinja # ensures jinja works
+  - no-log-password # ensure that loops do not log any sensitive data
+  - risky-file-permissions
+  - risky-shell-pipe

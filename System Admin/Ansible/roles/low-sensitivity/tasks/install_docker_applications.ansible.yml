@@ -1,0 +1,24 @@
+- name: Create grocy groceries
+  community.docker.docker_container:
+    name: Grocy
+    image: linuxserver/grocy
+    state: started
+    recreate: true
+    published_ports:
+      - "7569:80"
+    env:
+      TZ: "{{ timezone }}"
+
+- name: Create jelly-fin media
+  community.docker.docker_container:
+    name: Jellyfin
+    image: jellyfin/jellyfin
+    state: started
+    recreate: true
+    published_ports:
+      - "7260:8096"
+
+
+- name: Create WGER Fiteness
+  community.docker.docker_container:
+    name: WGER

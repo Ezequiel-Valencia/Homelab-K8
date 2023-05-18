@@ -1,0 +1,6 @@
+---
+- name: System startup main
+  ansible.builtin.include_tasks:
+    update.ansible.yml
+    install_docker.ansible.yml
+    ssh.ansible.yml

@@ -1,0 +1,21 @@
+---
+
+shell: /bin/bash
+
+ssh_port: 5320
+
+packages:
+  - tmux
+  - apt-transport-https
+  - curl
+  - gnupg
+  - vim
+  - htop
+  - ca-certificates
+
+dock_packages:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+  - docker-buildx-plugin
+  - docker-compose-plugin

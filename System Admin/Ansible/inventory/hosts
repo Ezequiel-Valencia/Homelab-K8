@@ -1,2 +1,14 @@
-[ubuntu_server]
-10.0.0.121 ## The DHCP given IP address for the general purpose proxmox
+[control_server]
+general_vm ansible_host=10.0.0.121 ansible_user=general ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab
+## The DHCP given IP address for the general purpose proxmox
+
+[sus_server]
+
+[infra_server]
+
+[low_sensitivity]
+
+[sensitive_server]
+
+[ubuntu_server:children]
+control_server

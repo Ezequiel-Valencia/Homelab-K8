@@ -53,6 +53,8 @@ Pi
 https://youtu.be/FnFtWsZ8IP0
 
 
+## Kubernetes
+Would be good and definitly something I should persue in the future. But as of right now it would be to much to handle
 
 https://www.qubes-os.org/
 
