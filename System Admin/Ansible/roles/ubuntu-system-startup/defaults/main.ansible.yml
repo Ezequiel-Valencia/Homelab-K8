@@ -5,7 +5,6 @@ shell: /bin/bash
 ssh_port: 5320
 
 packages:
-  - tmux
   - apt-transport-https
   - curl
   - gnupg

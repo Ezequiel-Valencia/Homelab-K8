@@ -1,7 +1,0 @@
----
-- name: Initalize ubuntu servers
-  hosts: ubuntu_server
-  become: true
-
-  roles:
-    - role: ubuntu-system-startup

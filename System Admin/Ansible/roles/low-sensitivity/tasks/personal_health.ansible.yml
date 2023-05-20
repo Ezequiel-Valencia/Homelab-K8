@@ -1,0 +1,16 @@
+- name: Create grocy groceries
+  community.docker.docker_container:
+    name: Grocy
+    image: linuxserver/grocy
+    state: started
+    recreate: true
+    published_ports:
+      - "7569:80"
+    env:
+      TZ: "{{ timezone }}"
+    volumes:
+      - "{{ defualt_relative_docker_data_path }}/grocy:/config"
+
+# - name: Create WGER Fiteness
+#   community.docker.docker_container:
+#     name: WGER

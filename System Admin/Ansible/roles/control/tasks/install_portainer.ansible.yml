@@ -10,5 +10,5 @@
       - "8000:8000"
       - "9789:9443"
     volumes:
-      - portainer_data:/data/portainer-ce
+      - /docker/portainer_data:/data/portainer-ce
       - /var/run/docker.sock:/var/run/docker.sock

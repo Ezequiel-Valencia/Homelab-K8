@@ -6,7 +6,7 @@ general_vm ansible_host=10.0.0.121 ansible_user=general ansible_connection=ssh a
 
 [infra_server]
 
-[low_sensitivity]
+[low_server]
 
 [sensitive_server]
 

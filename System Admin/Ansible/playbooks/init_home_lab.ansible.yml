@@ -1,0 +1,30 @@
+---
+- name: Init home lab
+  hosts: ubuntu_server
+  become: true
+
+  tasks:
+    - name: Startup Ubuntu
+      ansible.builtin.include_role:
+        name: ubuntu-system-startup
+      when: "ansible_facts['os_family'] | lower == 'ubuntu'"
+
+    - name: Install low-sensitiviy applications
+      ansible.builtin.include_role:
+        name: low-sensitiviy
+      when: inventory_hostname in groups['low_server']
+
+    - name: Install infrastructure Applications
+      ansible.builtin.include_role:
+        name: infra
+      when: inventory_hostname in groups['infra_server']
+
+    - name: Install sus applications
+      ansible.builtin.include_role:
+        name: sus-applications
+      when: inventory_hostname in groups['sus_server']
+
+    - name: Install sensitive applications
+      ansible.builtin.include_role:
+        name: sensitive-applications
+      when: inventory_hostname in groups['sensitive_server']

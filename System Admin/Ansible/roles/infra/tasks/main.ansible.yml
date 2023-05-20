@@ -1,0 +1,4 @@
+- name: Install PiHole
+  ansible.builtin.import_tasks:
+    install_DNS.ansible.yml
+  when: "ansibel_facts['hostname'] | lower == dns"

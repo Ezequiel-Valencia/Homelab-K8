@@ -1,0 +1,8 @@
+- name: Create jellyfin media
+  community.docker.docker_container:
+    name: Jellyfin
+    image: jellyfin/jellyfin
+    state: started
+    recreate: true
+    published_ports:
+      - "7260:8096"
