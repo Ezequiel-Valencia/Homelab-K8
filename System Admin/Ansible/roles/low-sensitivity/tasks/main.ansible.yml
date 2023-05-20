@@ -2,8 +2,3 @@
   ansible.builtin.import_tasks:
     personal_health.ansible.yml
   when: ansible_facts['hostname']|lower == 'personal-health'
-
-- name: Install media apps
-  ansible.builtin.import_tasks:
-    media.ansible.yml
-  when: ansible_facts['hostname']|lower == 'media-apps'

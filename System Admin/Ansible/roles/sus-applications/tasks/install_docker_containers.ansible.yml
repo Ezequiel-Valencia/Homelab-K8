@@ -1,7 +1,0 @@
-- name: Create Jackett
-  community.docker.docker_container:
-    name: Jackett
-
-- name: Create Open books
-  community.docker.docker_container:
-    name: Open Books

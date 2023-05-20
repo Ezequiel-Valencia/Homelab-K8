@@ -1,14 +1,14 @@
-[control_server]
-general_vm ansible_host=10.0.0.121 ansible_user=general ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab
-## The DHCP given IP address for the general purpose proxmox
-
 [sus_server]
+Media ansible_host=10.0.0.7 ansible_user=media ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab
 
 [infra_server]
+DNS ansible_host=10.0.0.6 ansible_user=pihole ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab
 
 [low_server]
+Personal-Health ansible_host=10.0.0.8 ansible_user=phealth ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab
 
 [sensitive_server]
 
 [ubuntu_server:children]
-control_server
+infra_server
+low_server

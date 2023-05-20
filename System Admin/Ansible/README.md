@@ -31,6 +31,9 @@ This playbook installs docker and portainer within the remote server
 To automatically install non-control servers with kubernetes there is kubespray.
 Create a few config files for kubespray myself, then just clone the repo and execute it with my config files.
 
+### Execution structure
+Playbook runs all everything, checking if these roles are affiliated with the set of hosts. For each role, the sub-tasks executed are checked to make sure the hostname is what their expected sub-task affiliated with, allowing two layers of filtering. One layer is for general theme, the second is for specfic devices.
+
 
 ### Low applications
 https://hub.docker.com/r/linuxserver/grocy

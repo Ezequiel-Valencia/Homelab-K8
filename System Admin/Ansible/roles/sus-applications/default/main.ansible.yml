@@ -1,0 +1,13 @@
+---
+media_path_tv: "{{ defualt_relative_docker_data_path }}/media/tv"
+media_path_movies: "{{ defualt_relative_docker_data_path }}/media/movies"
+media_path_downloads: "{{ defualt_relative_docker_data_path }}/media/downloads"
+
+gluetune_ports:
+  - "7676:6767" # Bazarr
+  - "9898:8989" # Sonar
+  - "8787:7878" # Raddarr
+  # Qbittorent
+  - "8080:8080"
+  - "7439:6881/tcp"
+  - "7439:6881/udp"

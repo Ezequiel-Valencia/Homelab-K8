@@ -1,0 +1,9 @@
+- name: Create Vaultwarden
+  community.docker.docker_container:
+    name: Vaultwarden
+    image: vaultwarden/server
+    recreate: true
+    state: started
+    restart_policy: always
+    published_ports:
+      - "9730:443"

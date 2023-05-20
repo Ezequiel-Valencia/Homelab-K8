@@ -1,0 +1,12 @@
+- name: Create Trillium
+  community.docker.docker_container:
+    name: Trillium
+
+- name: Create Photoprisim
+  community.docker.docker_container:
+    name: Photoprisim
+    image: photoprism/photoprism
+
+- name: Create Nextcloud
+  community.docker.docker_container:
+    name: Nextcloud
