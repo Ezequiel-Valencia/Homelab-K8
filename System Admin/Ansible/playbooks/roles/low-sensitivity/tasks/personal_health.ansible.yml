@@ -1,4 +1,5 @@
 - name: Create grocy groceries
+  become: "{{ ansible_user }}"
   community.docker.docker_container:
     name: Grocy
     image: linuxserver/grocy

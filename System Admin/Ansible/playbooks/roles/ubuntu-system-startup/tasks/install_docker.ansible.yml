@@ -1,31 +1,37 @@
 ---
 - name: Add GPG key
+  become: true
   ansible.builtin.apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
     state: present
 
 - name: Add docker repository to apt
+  become: true
   ansible.builtin.apt_repository:
     repo: deb https://download.docker.com/linux/ubuntu lunar stable
     state: present
 
 - name: Install docker
+  become: true
   ansible.builtin.apt:
     state: present
     pkg: "{{ dock_packages }}"
 
 - name: Add user to docker group
+  become: true
   ansible.builtin.user:
-    user: "{{ username }}"
+    user: "{{ ansible_user }}"
     group: docker
 
 - name: Check docker is active
+  become: true
   ansible.builtin.service:
     name: docker
     state: started
     enabled: true
 
 - name: Ensure group "docker" exists
+  become: true
   ansible.builtin.group:
     name: docker
     state: present

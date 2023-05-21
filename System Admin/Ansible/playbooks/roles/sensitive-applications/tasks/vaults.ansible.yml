@@ -1,4 +1,5 @@
 - name: Create Vaultwarden
+  become: "{{ ansible_user }}"
   community.docker.docker_container:
     name: Vaultwarden
     image: vaultwarden/server

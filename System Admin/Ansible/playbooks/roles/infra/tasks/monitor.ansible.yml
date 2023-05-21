@@ -1,5 +1,6 @@
 ---
 - name: Create Portainer container
+  become: "{{ ansible_user }}"
   community.docker.docker_container:
     name: portainer
     image: portainer/portainer-ce

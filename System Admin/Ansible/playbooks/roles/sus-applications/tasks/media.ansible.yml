@@ -1,5 +1,6 @@
 # https://github.com/qdm12/gluetun/wiki
 - name: Create Gluetun
+  become: "{{ ansible_user }}"
   community.docker.docker_container:
     name: gluetun
     image: qmcgaw/gluetun

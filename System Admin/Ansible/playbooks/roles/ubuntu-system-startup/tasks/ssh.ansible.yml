@@ -1,5 +1,6 @@
 ---
 - name: Update SSH configuration to be more secure
+  become: true
   ansible.builtin.lineinfile:
     dest: "/etc/ssh/sshd_config"
     regexp: "{{ item.regexp }}"
@@ -17,7 +18,7 @@
       line: "PermitRootLogin no"
 
     - regexp: "^Port"
-      line: "Port {{ ssh_port }}"
+      line: "Port {{ alt_ssh_port }}"
 
     # Allows only addresses and not host names to be used for authorized keys
     - regexp: "^UseDNS"
@@ -37,5 +38,3 @@
       # Default is already no, double checking
     - regexp: "^X11Forwarding"
       line: "X11Forwarding no"
-  # Notifies the task "Restart ssh daemon" that it should be executed at the end of this playbook
-  notify: Restart ssh daemon

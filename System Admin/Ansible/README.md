@@ -38,6 +38,7 @@ Playbook runs all everything, checking if these roles are affiliated with the se
 - Dry run
     - ansible-playbook ./p*/init_home_lab.ansible.yml --check -i ./inventory --ask-vault-pass
 
+#96Ed9sKY&i9DRDQ^S
 
 ### Low applications
 https://hub.docker.com/r/linuxserver/grocy

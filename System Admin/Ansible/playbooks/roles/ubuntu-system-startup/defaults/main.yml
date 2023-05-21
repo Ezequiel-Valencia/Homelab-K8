@@ -2,8 +2,6 @@
 
 shell: /bin/bash
 
-ssh_port: 5320
-
 packages:
   - apt-transport-https
   - curl

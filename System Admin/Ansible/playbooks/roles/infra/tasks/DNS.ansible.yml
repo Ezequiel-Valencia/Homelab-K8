@@ -1,4 +1,5 @@
 - name: Create PiHole
+  become: "{{ ansible_user }}"
   community.docker.docker_container:
     name: PiHole
     image: pihole/pihole

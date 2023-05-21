@@ -1,4 +1,5 @@
 - name: Create Trillium
+  become: "{{ ansible_user }}"
   community.docker.docker_container:
     name: Trillium
 
