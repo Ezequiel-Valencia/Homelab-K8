@@ -1,4 +1,4 @@
-- name: Install Personal Info Manager
+- name: Install Money Manager
   ansible.builtin.import_tasks:
-    personal_info.ansible.yml
-  when: "ansible_facts['hostname'] | lower == personal-info"
+    money.ansible.yml
+  when: "ansible_facts['hostname'] | lower == money"
