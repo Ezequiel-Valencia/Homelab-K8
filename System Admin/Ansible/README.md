@@ -34,6 +34,10 @@ Create a few config files for kubespray myself, then just clone the repo and exe
 ### Execution structure
 Playbook runs all everything, checking if these roles are affiliated with the set of hosts. For each role, the sub-tasks executed are checked to make sure the hostname is what their expected sub-task affiliated with, allowing two layers of filtering. One layer is for general theme, the second is for specfic devices.
 
+### Commands
+- Dry run
+    - ansible-playbook ./p*/init_home_lab.ansible.yml --check -i ./inventory --ask-vault-pass
+
 
 ### Low applications
 https://hub.docker.com/r/linuxserver/grocy

@@ -11,7 +11,7 @@
 
     - name: Install low-sensitiviy applications
       ansible.builtin.include_role:
-        name: low-sensitiviy
+        name: "low-sensitivity"
       when: inventory_hostname in groups['low_server']
 
     - name: Install infrastructure Applications

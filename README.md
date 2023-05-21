@@ -27,9 +27,13 @@ An amazing web series that I found to late, but seems to be very informational. 
 # What I still need to do manually
 
 ## Provision Containers and VMs
+- Add public key to containers
+- Add user to containers
 
 ## Modify Ansible hosts file
 
 ## Edit vault secrets
+- Sudo passwords per host
+
 
 ## Setup PiHole DNS through GUI
