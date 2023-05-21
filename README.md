@@ -23,3 +23,13 @@ The applications that will be ran on top of the OS that are installed within the
 
 
 An amazing web series that I found to late, but seems to be very informational. https://youtube.com/playlist?list=PLjLkaXQ353210citr52k74DWb3IOzHWL7
+
+# What I still need to do manually
+
+## Provision Containers and VMs
+
+## Modify Ansible hosts file
+
+## Edit vault secrets
+
+## Setup PiHole DNS through GUI

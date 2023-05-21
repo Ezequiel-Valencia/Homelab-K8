@@ -1,4 +1,9 @@
 - name: Install PiHole
   ansible.builtin.import_tasks:
     install_DNS.ansible.yml
-  when: "ansibel_facts['hostname'] | lower == dns"
+  when: "ansible_facts['hostname'] | lower == dns"
+
+- name: Install Portainer
+  ansible.builtin.import_tasks:
+    monitor.ansible.yml
+  when: "ansible_facts['hostname'] | lower == monitor"

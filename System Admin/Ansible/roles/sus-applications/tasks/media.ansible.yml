@@ -12,8 +12,8 @@
       - VPN_SERVICE_PROVIDER: "{{ vpn_service_provider }}"
       - VPN_TYPE: wireguard
       - WIREGUARD_PRIVATE_KEY: "{{ wireguard_private_key }}"
-      - WIREGUARD_ADDRESSES: 10.64.222.21/32
-      - SERVER_CITIES: Amsterdam
+      - WIREGUARD_ADDRESSES: "{{ wireguard_address }}"
+      - SERVER_CITIES: New York
       - DOT_PROVIDERS: quad9
       - UPDATER_PERIOD: "48h"
 

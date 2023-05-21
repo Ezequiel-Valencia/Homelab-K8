@@ -1,4 +1,0 @@
----
-- name: Setup Control Server
-  ansible.builtin.include_tasks:
-    install_portainer.ansible.yml
