@@ -1,4 +1,4 @@
 - name: Install Money Manager
   ansible.builtin.import_tasks:
     money.ansible.yml
-  when: "ansible_facts['hostname'] | lower == money"
+  when: "ansible_facts['hostname'] | lower == 'money'"

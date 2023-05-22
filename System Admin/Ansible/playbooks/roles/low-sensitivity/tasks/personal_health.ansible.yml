@@ -1,16 +1,18 @@
+---
 - name: Create grocy groceries
-  become: "{{ ansible_user }}"
-  community.docker.docker_container:
-    name: Grocy
-    image: linuxserver/grocy
-    state: started
-    recreate: true
-    published_ports:
-      - "7569:80"
-    env:
-      TZ: "{{ timezone }}"
-    volumes:
-      - "{{ defualt_relative_docker_data_path }}/grocy:/config"
+  community.docker.docker_compose:
+    project_name: Grocy
+    definition:
+      services:
+        grocy:
+          image: linuxserver/grocy
+          restart: unless-stopped
+          ports:
+            - "7569:443"
+          environment:
+            - TZ="{{ time_zone }}"
+          volumes:
+            - "{{ defualt_relative_docker_data_path }}/grocy:/config"
 
 # - name: Create WGER Fiteness
 #   community.docker.docker_container:

@@ -56,3 +56,7 @@ https://hub.docker.com/r/vaultwarden/server
 
 ### Infrastructure applications
 https://hub.docker.com/r/pihole/pihole
+
+
+# Errors
+If "Missing privilege separation directory: /run/sshd\r\n" error than add the directory, than everything is fine.

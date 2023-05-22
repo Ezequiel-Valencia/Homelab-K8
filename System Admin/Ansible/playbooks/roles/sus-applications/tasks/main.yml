@@ -1,4 +1,4 @@
 - name: Install media apps
   ansible.builtin.import_tasks:
     media.ansible.yml
-  when: ansible_facts['hostname']|lower == 'media-apps'
+  when: ansible_facts['hostname']|lower == 'media'

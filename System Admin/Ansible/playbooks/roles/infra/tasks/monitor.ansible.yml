@@ -1,15 +1,15 @@
 ---
 - name: Create Portainer container
-  become: "{{ ansible_user }}"
-  community.docker.docker_container:
-    name: portainer
-    image: portainer/portainer-ce
-    state: started
-    restart_policy: always
-    recreate: true
-    published_ports:
-      - "8000:8000"
-      - "9789:9443"
-    volumes:
-      - "{{ defualt_relative_docker_data_path }}/portainer:/data/portainer-ce"
-      - /var/run/docker.sock:/var/run/docker.sock
+  community.docker.docker_compose:
+    project_name: portainer
+    definition:
+      services:
+        portainer:
+          image: portainer/portainer-ce
+          ports:
+            - "8000:8000"
+            - "9789:9443"
+          restart: always
+          volumes:
+            - "{{ defualt_relative_docker_data_path }}/portainer:/data/portainer-ce"
+            - /var/run/docker.sock:/var/run/docker.sock

@@ -6,11 +6,6 @@
     refused_ssh: "port 22: Connection refused"
     alt_ssh_port: 5320
 
-  # # roles:
-  # #   - { role: ubuntu-system-startup, when: "ansible_facts['distribution'] | lower == 'ubuntu'"}
-
-  # roles:
-  #   - ubuntu-system-startup
   tasks:
     - name: Check ssh port
       ansible.builtin.ping:
@@ -30,25 +25,25 @@
         name: ubuntu-system-startup
       when: "ansible_facts['distribution'] | lower == 'ubuntu'"
 
-  #   - name: Install low-sensitiviy applications
-  #     ansible.builtin.include_role:
-  #       name: "low-sensitivity"
-  #     when: inventory_hostname in groups['low_server']
+    - name: Install low-sensitiviy applications
+      ansible.builtin.include_role:
+        name: "low-sensitivity"
+      when: inventory_hostname in groups['low_server']
 
-  #   - name: Install infrastructure Applications
-  #     ansible.builtin.include_role:
-  #       name: infra
-  #     when: inventory_hostname in groups['infra_server']
+    - name: Install infrastructure Applications
+      ansible.builtin.include_role:
+        name: infra
+      when: inventory_hostname in groups['infra_server']
 
-  #   - name: Install sus applications
-  #     ansible.builtin.include_role:
-  #       name: sus-applications
-  #     when: inventory_hostname in groups['sus_server']
+    - name: Install sus applications
+      ansible.builtin.include_role:
+        name: sus-applications
+      when: inventory_hostname in groups['sus_server']
 
-  #   - name: Install sensitive applications
-  #     ansible.builtin.include_role:
-  #       name: sensitive-applications
-  #     when: inventory_hostname in groups['sensitive_server']
+    - name: Install sensitive applications
+      ansible.builtin.include_role:
+        name: sensitive-applications
+      when: inventory_hostname in groups['sensitive_server']
     - name: Restart ssh daemon
       become: true
       ansible.builtin.service:

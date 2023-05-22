@@ -9,6 +9,7 @@ packages:
   - vim
   - htop
   - ca-certificates
+  - python3-pip
 
 dock_packages:
   - docker-ce

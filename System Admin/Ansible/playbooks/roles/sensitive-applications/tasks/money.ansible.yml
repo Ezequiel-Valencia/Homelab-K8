@@ -1,3 +1,4 @@
+---
 - name: Create Firefly
   community.docker.docker_compose:
     project_name: Firefly
@@ -44,9 +45,9 @@
           networks:
             - firefly_iii
 
-      volumes:
-        "{{ defualt_relative_docker_data_path }}/fire_fly/upload":
-        "{{ defualt_relative_docker_data_path }}/fire_fly/db":
+      # volumes:
+      #   "{{ defualt_relative_docker_data_path }}/fire_fly/upload":
+      #   "{{ defualt_relative_docker_data_path }}/fire_fly/db":
 
       networks:
         firefly_iii:
