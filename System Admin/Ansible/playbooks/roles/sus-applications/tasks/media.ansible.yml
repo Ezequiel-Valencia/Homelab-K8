@@ -1,25 +1,25 @@
 ---
 # https://github.com/qdm12/gluetun/wiki
-- name: Create Gluetun and services that will use its networking
+- name: Create Gluetun
   become_user: "{{ ansible_user }}"
   community.docker.docker_compose:
-    project_name: "The good stuff :)"
+    project_name: "Gluetun"
     definition:
       services:
         gluetun:
           image: qmcgaw/gluetun
-          restart: always
+          restart: unless-stopped
           container_name: "{{ container_name }}"
           cap_add:
             - NET_ADMIN
           environment:
-            - VPN_SERVICE_PROVIDER="{{ vpn_service_provider }}"
+            - VPN_SERVICE_PROVIDER={{ vpn_service_provider }}
             - VPN_TYPE=wireguard
-            - WIREGUARD_PRIVATE_KEY="{{ wireguard_private_key }}"
-            - WIREGUARD_ADDRESSES="{{ wireguard_address }}"
-            - SERVER_CITIES=New York
+            - WIREGUARD_PRIVATE_KEY={{ wireguard_private_key }}
+            - WIREGUARD_ADDRESSES={{ wireguard_address }}
+            - SERVER_CITIES=New York NY
             - DOT_PROVIDERS=quad9
-            - UPDATER_PERIOD="48h"
+            - UPDATER_PERIOD=48h
           ports:
             - "7676:6767" # Bazarr
             - "9898:8989" # Sonar
@@ -31,64 +31,6 @@
           volumes:
             - "{{ defualt_relative_docker_data_path }}/gluetun:/gluetun"
 
-        # # Create Jackett, helps parse stuff of interest
-        # jackett:
-        #   image: linuxserver/jackett
-        #   restart: unless-stopped
-        #   environment:
-        #     - TZ="{{ time_zone }}"
-        #   network_mode: "{{ unified_network }}"
-        #   volumes:
-        #     - "{{ defualt_relative_docker_data_path }}/jackett/config:/config"
-
-        # # Gets subtitles
-        # bazarr:
-        #   image: linuxserver/bazarr
-        #   restart: unless-stopped
-        #   environment:
-        #     - TZ="{{ time_zone }}"
-        #   network_mode: "{{ unified_network }}"
-        #   volumes:
-        #     - "{{ defualt_relative_docker_data_path }}/bazarr/config:/config"
-        #     - "{{ media_path_tv }}:/tv"
-        #     - "{{ media_path_movies }}:/movies"
-
-        # # Request shows automatically, https://hub.docker.com/r/linuxserver/sonarr
-        # sonar:
-        #   image: linuxserver/sonarr
-        #   restart: unless-stopped
-        #   environment:
-        #     - TZ="{{ time_zone }}"
-        #   network_mode: "{{ unified_network }}"
-        #   volumes:
-        #     - "{{ defualt_relative_docker_data_path }}/sonar/config:/config"
-        #     - "{{ media_path_tv }}:/tv"
-        #     - "{{ media_path_downloads }}:/downloads"
-
-
-        # # Request movies automatically, https://hub.docker.com/r/linuxserver/radarr
-        # raddarr:
-        #   image: linuxserver/radarr
-        #   restart: unless-stopped
-        #   environment:
-        #     - TZ="{{ time_zone }}"
-        #   network_mode: "{{ unified_network }}"
-        #   volumes:
-        #     - "{{ defualt_relative_docker_data_path }}/raddarr/config:/config"
-        #     - "{{ media_path_movies }}:/movies"
-        #     - "{{ media_path_downloads }}:/downloads"
-
-        # # Actually does the downloading, https://hub.docker.com/r/linuxserver/qbittorrent
-        # qbittorent:
-        #   image: linuxserver/qbittorrent
-        #   restart: unless-stopped
-        #   environment:
-        #     - TZ="{{ time_zone }}"
-        #   network_mode: "{{ unified_network }}"
-        #   volumes:
-        #     - "{{ defualt_relative_docker_data_path }}/qbittorent/config:/config"
-        #     - "{{ media_path_downloads }}:/downloads"
-
 - name: Create Sonnar
   community.docker.docker_compose:
     project_name: "Sonnarr"
@@ -98,9 +40,11 @@
         sonar:
           image: linuxserver/sonarr
           restart: unless-stopped
-          environment:
-            - TZ="{{ time_zone }}"
           network_mode: "{{ unified_network }}"
+          container_name: sonnar
+          environment:
+            - TZ={{ time_zone }}
+          # network_mode: "{{ unified_network }}"
           volumes:
             - "{{ defualt_relative_docker_data_path }}/sonar/config:/config"
             - "{{ media_path_tv }}:/tv"

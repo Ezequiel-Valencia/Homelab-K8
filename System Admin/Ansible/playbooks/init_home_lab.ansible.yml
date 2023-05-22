@@ -44,8 +44,11 @@
       ansible.builtin.include_role:
         name: sensitive-applications
       when: inventory_hostname in groups['sensitive_server']
+
+    # Reset only if the ssh has not been changed already
     - name: Restart ssh daemon
       become: true
       ansible.builtin.service:
         name: sshd
         state: restarted
+      when: ssh_result.msg is defined and refused_ssh not in ssh_result.msg

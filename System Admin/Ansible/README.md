@@ -36,9 +36,12 @@ Playbook runs all everything, checking if these roles are affiliated with the se
 
 ### Commands
 - Dry run
-    - ansible-playbook ./p*/init_home_lab.ansible.yml --check -i ./inventory --ask-vault-pass
-
-#96Ed9sKY&i9DRDQ^S
+    - ansible-playbook ./p*/init_home_lab.ansible.yml --check--ask-vault-pass
+- Helpful docker commands
+    - dock rm
+    - dock compose up
+    - docker exec sonnar curl ifconfig.me (checks what public IP is)
+    - docker log "container name"
 
 ### Low applications
 https://hub.docker.com/r/linuxserver/grocy
@@ -60,3 +63,15 @@ https://hub.docker.com/r/pihole/pihole
 
 # Errors
 If "Missing privilege separation directory: /run/sshd\r\n" error than add the directory, than everything is fine.
+
+The docker_compose module works for creating containers, the other one bugs out.
+
+For some reason trying to set the network to container when composing it, it just bugs out.
+
+Docker run does not have itempotency
+
+GLUETUN DOES NOT WORK.
+Every time I try to use wireguard gluetun it does not work
+
+So what I had to do was read the logs for the gluetun container. Turns out that errors have been being raised within the container and I have not been able to read them. Makes sense why other networking related problems would occur, there was no container network to connect to since it kept on failing.
+Also it has to use a VM, cause other wise there is not TUN in containers which is required.

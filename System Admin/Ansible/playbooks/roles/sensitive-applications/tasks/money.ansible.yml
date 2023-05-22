@@ -1,4 +1,14 @@
 ---
+
+- name: Copy env files to container
+  ansible.builtin.copy:
+    mode: u=rw,g=r,o=r
+    src: "{{ item }}"
+    dest: "~/{{ item }}"
+  loop:
+    - ./firefly.db.env
+    - ./firefly.env
+
 - name: Create Firefly
   community.docker.docker_compose:
     project_name: Firefly
