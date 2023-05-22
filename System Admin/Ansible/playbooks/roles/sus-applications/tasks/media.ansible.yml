@@ -9,6 +9,7 @@
         gluetun:
           image: qmcgaw/gluetun
           restart: always
+          container_name: "{{ container_name }}"
           cap_add:
             - NET_ADMIN
           environment:
@@ -30,31 +31,72 @@
           volumes:
             - "{{ defualt_relative_docker_data_path }}/gluetun:/gluetun"
 
-        # Create Jackett, helps parse stuff of interest
-        jackett:
-          image: linuxserver/jackett
-          restart: unless-stopped
-          environment:
-            - TZ="{{ time_zone }}"
-          network_mode: "{{ unified_network }}"
-          volumes:
-            - "{{ defualt_relative_docker_data_path }}/jackett/config:/config"
+        # # Create Jackett, helps parse stuff of interest
+        # jackett:
+        #   image: linuxserver/jackett
+        #   restart: unless-stopped
+        #   environment:
+        #     - TZ="{{ time_zone }}"
+        #   network_mode: "{{ unified_network }}"
+        #   volumes:
+        #     - "{{ defualt_relative_docker_data_path }}/jackett/config:/config"
 
-        # Gets subtitles
-        bazarr:
-          image: linuxserver/bazarr
-          restart: unless-stopped
-          environment:
-            - TZ="{{ time_zone }}"
-          network_mode: "{{ unified_network }}"
-          volumes:
-            - "{{ defualt_relative_docker_data_path }}/bazarr/config:/config"
-            - "{{ media_path_tv }}:/tv"
-            - "{{ media_path_movies }}:/movies"
+        # # Gets subtitles
+        # bazarr:
+        #   image: linuxserver/bazarr
+        #   restart: unless-stopped
+        #   environment:
+        #     - TZ="{{ time_zone }}"
+        #   network_mode: "{{ unified_network }}"
+        #   volumes:
+        #     - "{{ defualt_relative_docker_data_path }}/bazarr/config:/config"
+        #     - "{{ media_path_tv }}:/tv"
+        #     - "{{ media_path_movies }}:/movies"
 
+        # # Request shows automatically, https://hub.docker.com/r/linuxserver/sonarr
+        # sonar:
+        #   image: linuxserver/sonarr
+        #   restart: unless-stopped
+        #   environment:
+        #     - TZ="{{ time_zone }}"
+        #   network_mode: "{{ unified_network }}"
+        #   volumes:
+        #     - "{{ defualt_relative_docker_data_path }}/sonar/config:/config"
+        #     - "{{ media_path_tv }}:/tv"
+        #     - "{{ media_path_downloads }}:/downloads"
+
+
+        # # Request movies automatically, https://hub.docker.com/r/linuxserver/radarr
+        # raddarr:
+        #   image: linuxserver/radarr
+        #   restart: unless-stopped
+        #   environment:
+        #     - TZ="{{ time_zone }}"
+        #   network_mode: "{{ unified_network }}"
+        #   volumes:
+        #     - "{{ defualt_relative_docker_data_path }}/raddarr/config:/config"
+        #     - "{{ media_path_movies }}:/movies"
+        #     - "{{ media_path_downloads }}:/downloads"
+
+        # # Actually does the downloading, https://hub.docker.com/r/linuxserver/qbittorrent
+        # qbittorent:
+        #   image: linuxserver/qbittorrent
+        #   restart: unless-stopped
+        #   environment:
+        #     - TZ="{{ time_zone }}"
+        #   network_mode: "{{ unified_network }}"
+        #   volumes:
+        #     - "{{ defualt_relative_docker_data_path }}/qbittorent/config:/config"
+        #     - "{{ media_path_downloads }}:/downloads"
+
+- name: Create Sonnar
+  community.docker.docker_compose:
+    project_name: "Sonnarr"
+    definition:
+      services:
         # Request shows automatically, https://hub.docker.com/r/linuxserver/sonarr
         sonar:
-          image: linuxserver/sonar
+          image: linuxserver/sonarr
           restart: unless-stopped
           environment:
             - TZ="{{ time_zone }}"
@@ -64,7 +106,11 @@
             - "{{ media_path_tv }}:/tv"
             - "{{ media_path_downloads }}:/downloads"
 
-
+- name: Create Raddarr
+  community.docker.docker_compose:
+    project_name: "raddar"
+    definition:
+      services:
         # Request movies automatically, https://hub.docker.com/r/linuxserver/radarr
         raddarr:
           image: linuxserver/radarr
@@ -77,6 +123,45 @@
             - "{{ media_path_movies }}:/movies"
             - "{{ media_path_downloads }}:/downloads"
 
+
+- name: Create Bazarr
+  community.docker.docker_compose:
+    project_name: "bazarr"
+    definition:
+      # Get subtitles
+      services:
+        bazarr:
+          image: linuxserver/bazarr
+          restart: unless-stopped
+          environment:
+            - TZ="{{ time_zone }}"
+          network_mode: "{{ unified_network }}"
+          volumes:
+            - "{{ defualt_relative_docker_data_path }}/bazarr/config:/config"
+            - "{{ media_path_tv }}:/tv"
+            - "{{ media_path_movies }}:/movies"
+
+
+- name: Create Jackett
+  community.docker.docker_compose:
+    project_name: "jacket"
+    definition:
+      services:
+        # Create Jackett, helps parse stuff of interest
+        jackett:
+          image: linuxserver/jackett
+          restart: unless-stopped
+          environment:
+            - TZ="{{ time_zone }}"
+          network_mode: "{{ unified_network }}"
+          volumes:
+            - "{{ defualt_relative_docker_data_path }}/jackett/config:/config"
+
+- name: Create Qbittorent
+  community.docker.docker_compose:
+    project_name: "qbittorent"
+    definition:
+      services:
         # Actually does the downloading, https://hub.docker.com/r/linuxserver/qbittorrent
         qbittorent:
           image: linuxserver/qbittorrent

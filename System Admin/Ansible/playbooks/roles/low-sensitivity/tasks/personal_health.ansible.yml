@@ -8,7 +8,7 @@
           image: linuxserver/grocy
           restart: unless-stopped
           ports:
-            - "7569:443"
+            - "7569:80/tcp"
           environment:
             - TZ="{{ time_zone }}"
           volumes:

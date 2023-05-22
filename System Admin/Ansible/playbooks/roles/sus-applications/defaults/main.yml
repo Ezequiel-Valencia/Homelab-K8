@@ -3,5 +3,6 @@ media_path_tv: "{{ defualt_relative_docker_data_path }}/media/tv"
 media_path_movies: "{{ defualt_relative_docker_data_path }}/media/movies"
 media_path_downloads: "{{ defualt_relative_docker_data_path }}/media/downloads"
 
+container_name: gluetun
 
-unified_network: "services:gluetun"
+unified_network: "container:{{ container_name }}"

@@ -2,6 +2,7 @@
 - name: Create Firefly
   community.docker.docker_compose:
     project_name: Firefly
+    env_file: firefly.env
     definition:
       version: '3.3'
 
@@ -11,7 +12,6 @@
           restart: always
           volumes:
             - "{{ defualt_relative_docker_data_path }}/fire_fly/upload:/var/www/html/storage/upload"
-          env_file: firefly.env
           environment:
             - "APP_KEY={{ firefly_app_key }}"
             - "DB_HOST=fireflyiiidb"
@@ -30,7 +30,11 @@
           image: mariadb
           hostname: fireflyiiidb
           restart: always
-          env_file: .db.env
+          environment:
+            - MYSQL_RANDOM_ROOT_PASSWORD=yes
+            - MYSQL_USER=firefly
+            - "MYSQL_PASSWORD={{ firefly_db_passwd }}"
+            - MYSQL_DATABASE=firefly
           networks:
             - firefly_iii
           volumes:

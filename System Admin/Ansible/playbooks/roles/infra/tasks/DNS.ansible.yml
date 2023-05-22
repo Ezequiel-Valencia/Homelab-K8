@@ -9,9 +9,9 @@
           image: pihole/pihole
           restart: always
           ports:
-            - "53:53/tcp"
-            - "53:53/udp"
-            - "8076:443/tcp"
+            - "5300:53/tcp"
+            - "5300:53/udp"
+            - "8076:80/tcp"
           environment:
             - TZ="{{ time_zone }}"
             - WEBPASSWORD="{{ web_password }}"
