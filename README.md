@@ -29,7 +29,7 @@ An amazing web series that I found to late, but seems to be very informational. 
 ## Provision Containers and VMs
 - Add public key to containers
 - Add user to containers
-- Add firefly env file to money container
+- Check VPN connection
 
 ## Modify Ansible hosts file
 

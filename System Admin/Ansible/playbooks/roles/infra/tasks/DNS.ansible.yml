@@ -2,21 +2,22 @@
 - name: Create PiHole
   become_user: "{{ ansible_user }}"
   community.docker.docker_compose:
-    project_name: pihole
+    project_name: DNS_Pihole
     definition:
       services:
         pihole:
           image: pihole/pihole
           restart: always
+          container_name: pihole
           ports:
             - "5300:53/tcp"
             - "5300:53/udp"
-            - "8076:80/tcp"
+            - "5790:80/tcp"
           environment:
-            - TZ="{{ time_zone }}"
-            - WEBPASSWORD="{{ web_password }}"
+            - TZ={{ time_zone }}
+            - WEBPASSWORD={{ web_password }}
             - WEBTHEME=default-dark
-            - PIHOLE_DNS_="9.9.9.9;1.1.1.1"
+            - PIHOLE_DNS_=9.9.9.9;1.1.1.1
             - DNSSEC="true"
           volumes:
             - "{{ defualt_relative_docker_data_path }}/pihole:/etc/pihole"

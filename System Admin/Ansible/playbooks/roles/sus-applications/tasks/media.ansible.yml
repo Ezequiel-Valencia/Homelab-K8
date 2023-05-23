@@ -1,4 +1,47 @@
 ---
+- name: Create media group
+  become: true
+  ansible.builtin.group:
+    name: media
+    state: present
+  register: group_return_values
+
+- name: Create users
+  become: true
+  ansible.builtin.user:
+    name: "{{ current_user.name }}"
+    uid: "{{ current_user.PUID }}"
+    groups: "{{ group_return_values.name }}"
+  loop: "{{ users }}"
+  loop_control:
+    loop_var: current_user
+
+
+- name: Create the folders requied
+  become: true
+  ansible.builtin.file:
+    path: "{{ item.dir }}"
+    state: directory
+    mode: u=rwx,g=rwx,o=rx
+    owner: "{{ item.owner }}"
+    group: "{{ group_return_values.gid }}"
+  with_items:
+    - dir: "{{ media_path_downloads }}"
+      owner: "{{ users[1].PUID }}"
+
+    - dir: "{{ media_path_tv }}"
+      owner: "{{ users[0].PUID }}"
+
+    - dir: "{{ media_path_movies }}"
+      owner: "{{ users[0].PUID }}"
+
+    - dir: "{{ media_path_music }}"
+      owner: "{{ users[0].PUID }}"
+
+    - dir: "{{ media_path_books }}"
+      owner: "{{ users[0].PUID }}"
+
+
 # https://github.com/qdm12/gluetun/wiki
 - name: Create Gluetun
   become_user: "{{ ansible_user }}"
@@ -24,14 +67,16 @@
             - "7676:6767" # Bazarr
             - "9898:8989" # Sonar
             - "8787:7878" # Raddarr
+            - "9845:9117" # Jackett
             # Qbittorent
-            - "8080:8080"
+            - "9078:9078"
             - "7439:6881/tcp"
             - "7439:6881/udp"
           volumes:
             - "{{ defualt_relative_docker_data_path }}/gluetun:/gluetun"
 
 - name: Create Sonnar
+  become_user: "{{ ansible_user }}"
   community.docker.docker_compose:
     project_name: "Sonnarr"
     definition:
@@ -44,13 +89,16 @@
           container_name: sonnar
           environment:
             - TZ={{ time_zone }}
-          # network_mode: "{{ unified_network }}"
+            - PUID="{{ users[0].PUID }}"
+            - PGID={{ group_return_values.gid }}
+            - UMASK={{ media_UMASK }}
           volumes:
             - "{{ defualt_relative_docker_data_path }}/sonar/config:/config"
-            - "{{ media_path_tv }}:/tv"
-            - "{{ media_path_downloads }}:/downloads"
+            - "{{ media_path_tv }}:/media/tv"
+            - "{{ media_path_downloads }}:/media/downloads"
 
 - name: Create Raddarr
+  become_user: "{{ ansible_user }}"
   community.docker.docker_compose:
     project_name: "raddar"
     definition:
@@ -59,16 +107,21 @@
         raddarr:
           image: linuxserver/radarr
           restart: unless-stopped
+          container_name: radarr
           environment:
-            - TZ="{{ time_zone }}"
+            - TZ={{ time_zone }}
+            - PUID="{{ users[0].PUID }}"
+            - PGID={{ group_return_values.gid }}
+            - UMASK={{ media_UMASK }}
           network_mode: "{{ unified_network }}"
           volumes:
             - "{{ defualt_relative_docker_data_path }}/raddarr/config:/config"
-            - "{{ media_path_movies }}:/movies"
-            - "{{ media_path_downloads }}:/downloads"
+            - "{{ media_path_movies }}:/media/movies"
+            - "{{ media_path_downloads }}:/media/downloads"
 
 
 - name: Create Bazarr
+  become_user: "{{ ansible_user }}"
   community.docker.docker_compose:
     project_name: "bazarr"
     definition:
@@ -77,16 +130,21 @@
         bazarr:
           image: linuxserver/bazarr
           restart: unless-stopped
+          container_name: bazarr
           environment:
-            - TZ="{{ time_zone }}"
+            - TZ={{ time_zone }}
+            - PUID="{{ users[0].PUID }}"
+            - PGID={{ group_return_values.gid }}
+            - UMASK={{ media_UMASK }}
           network_mode: "{{ unified_network }}"
           volumes:
             - "{{ defualt_relative_docker_data_path }}/bazarr/config:/config"
-            - "{{ media_path_tv }}:/tv"
-            - "{{ media_path_movies }}:/movies"
+            - "{{ media_path_tv }}:/media/tv"
+            - "{{ media_path_movies }}:/media/movies"
 
 
 - name: Create Jackett
+  become_user: "{{ ansible_user }}"
   community.docker.docker_compose:
     project_name: "jacket"
     definition:
@@ -95,13 +153,18 @@
         jackett:
           image: linuxserver/jackett
           restart: unless-stopped
+          container_name: jackett
           environment:
-            - TZ="{{ time_zone }}"
+            - TZ={{ time_zone }}
+            - PUID="{{ users[0].PUID }}"
+            - PGID={{ group_return_values.gid }}
+            - UMASK={{ media_UMASK }}
           network_mode: "{{ unified_network }}"
           volumes:
             - "{{ defualt_relative_docker_data_path }}/jackett/config:/config"
 
 - name: Create Qbittorent
+  become_user: "{{ ansible_user }}"
   community.docker.docker_compose:
     project_name: "qbittorent"
     definition:
@@ -110,15 +173,21 @@
         qbittorent:
           image: linuxserver/qbittorrent
           restart: unless-stopped
+          container_name: qbittorrent
           environment:
-            - TZ="{{ time_zone }}"
+            - TZ={{ time_zone }}
+            - WEBUI_PORT=9078
+            - PUID="{{ users[1].PUID }}"
+            - PGID={{ group_return_values.gid }}
+            - UMASK={{ media_UMASK }}
           network_mode: "{{ unified_network }}"
           volumes:
             - "{{ defualt_relative_docker_data_path }}/qbittorent/config:/config"
-            - "{{ media_path_downloads }}:/downloads"
+            - "{{ media_path_downloads }}:/media/downloads"
 
 
 - name: Create jellyfin media
+  become_user: "{{ ansible_user }}"
   community.docker.docker_compose:
     project_name: Jellyfin
     definition:
@@ -126,14 +195,18 @@
         jellyfin:
           image: linuxserver/jellyfin
           restart: unless-stopped
+          container_name: jellyfin
           environment:
-            - TZ="{{ time_zone }}"
+            - TZ={{ time_zone }}
+            - PUID="{{ users[0].PUID }}"
+            - PGID={{ group_return_values.gid }}
+            - UMASK={{ media_UMASK }}
           ports:
             - "7260:8096"
           volumes:
             - "{{ defualt_relative_docker_data_path }}/jellyfin:/config"
-            - "{{ media_path_tv }}:/data/tvshows"
-            - "{{ media_path_movies }}:/data/movies"
+            - "{{ media_path_tv }}:/media/tvshows"
+            - "{{ media_path_movies }}:/media/movies"
 
 # - name: Create Open books
 #   community.docker.docker_container:

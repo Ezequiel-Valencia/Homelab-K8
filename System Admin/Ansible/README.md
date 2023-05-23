@@ -41,6 +41,7 @@ Playbook runs all everything, checking if these roles are affiliated with the se
     - dock rm
     - dock compose up
     - docker exec sonnar curl ifconfig.me (checks what public IP is)
+    - docker exec "container name" hostname -i (find internal IP address, setting up qbit and jack)
     - docker log "container name"
 
 ### Low applications

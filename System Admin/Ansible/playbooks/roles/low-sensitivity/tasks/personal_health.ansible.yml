@@ -8,9 +8,9 @@
           image: linuxserver/grocy
           restart: unless-stopped
           ports:
-            - "7569:80/tcp"
+            - "9280:80/tcp"
           environment:
-            - TZ="{{ time_zone }}"
+            - TZ={{ time_zone }}
           volumes:
             - "{{ defualt_relative_docker_data_path }}/grocy:/config"
 
