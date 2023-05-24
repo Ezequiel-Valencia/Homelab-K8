@@ -30,6 +30,7 @@ An amazing web series that I found to late, but seems to be very informational. 
 - Add public key to containers
 - Add user to containers
 - Check VPN connection
+- Modify qbittorent download location
 
 ## Modify Ansible hosts file
 

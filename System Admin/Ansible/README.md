@@ -76,3 +76,6 @@ Every time I try to use wireguard gluetun it does not work
 
 So what I had to do was read the logs for the gluetun container. Turns out that errors have been being raised within the container and I have not been able to read them. Makes sense why other networking related problems would occur, there was no container network to connect to since it kept on failing.
 Also it has to use a VM, cause other wise there is not TUN in containers which is required.
+
+
+Qbit not downloading or super duper slow, its due to file permissions. Make the external directory where its data stored permissions accesible recursively.

@@ -6,7 +6,7 @@
     state: present
   register: group_return_values
 
-- name: Create users
+- name: Create users for media group
   become: true
   ansible.builtin.user:
     name: "{{ current_user.name }}"
@@ -17,12 +17,13 @@
     loop_var: current_user
 
 
-- name: Create the folders requied
+- name: Create the folders requied for media group
   become: true
   ansible.builtin.file:
     path: "{{ item.dir }}"
     state: directory
     mode: u=rwx,g=rwx,o=rx
+    recurse: true
     owner: "{{ item.owner }}"
     group: "{{ group_return_values.gid }}"
   with_items:
@@ -40,6 +41,34 @@
 
     - dir: "{{ media_path_books }}"
       owner: "{{ users[0].PUID }}"
+
+    - dir: "{{ jellyfin_config_path }}"
+      owner: "{{ users[0].PUID }}"
+
+# https://docs.docker.com/engine/reference/commandline/volume_create/#driver-specific-options
+# https://docs.docker.com/storage/volumes/
+# https://forums.docker.com/t/is-there-a-maximum-size-for-docker-volumes/20978
+#  In case the volume present is to small, can create future volumes to increase its size, want to share it
+#  Seems conflicted as to whether there is a storage limit though
+# - name: Create docker volumes
+#   community.docker.docker_volume:
+#     volume_name: "{{ volume.vname }}"
+#     state: present
+#     recreate: never
+#     driver: local
+#     driver_options:
+#       size: "{{ volume.size }}"
+#   loop:
+#     - vname: "Movies"
+#       size: 300G
+
+#     - vname: "TV"
+#       size: 300G
+
+#     - vname: "Downloads"
+#       size: 50G
+#   loop_control:
+#     loop_var: volume
 
 
 # https://github.com/qdm12/gluetun/wiki
@@ -73,7 +102,7 @@
             - "7439:6881/tcp"
             - "7439:6881/udp"
           volumes:
-            - "{{ defualt_relative_docker_data_path }}/gluetun:/gluetun"
+            - "{{ gluetun_config_path }}:/gluetun"
 
 - name: Create Sonnar
   become_user: "{{ ansible_user }}"
@@ -93,9 +122,9 @@
             - PGID={{ group_return_values.gid }}
             - UMASK={{ media_UMASK }}
           volumes:
-            - "{{ defualt_relative_docker_data_path }}/sonar/config:/config"
-            - "{{ media_path_tv }}:/media/tv"
-            - "{{ media_path_downloads }}:/media/downloads"
+            - "{{ sonarr_config_path }}:/config"
+            - "{{ media_path_tv }}:{{ internal_tv }}"
+            - "{{ media_path_downloads }}:{{ internal_downloads }}"
 
 - name: Create Raddarr
   become_user: "{{ ansible_user }}"
@@ -115,9 +144,9 @@
             - UMASK={{ media_UMASK }}
           network_mode: "{{ unified_network }}"
           volumes:
-            - "{{ defualt_relative_docker_data_path }}/raddarr/config:/config"
-            - "{{ media_path_movies }}:/media/movies"
-            - "{{ media_path_downloads }}:/media/downloads"
+            - "{{ radarr_config_path }}:/config"
+            - "{{ media_path_movies }}:{{ internal_movies }}"
+            - "{{ media_path_downloads }}:{{ internal_downloads }}"
 
 
 - name: Create Bazarr
@@ -138,9 +167,9 @@
             - UMASK={{ media_UMASK }}
           network_mode: "{{ unified_network }}"
           volumes:
-            - "{{ defualt_relative_docker_data_path }}/bazarr/config:/config"
-            - "{{ media_path_tv }}:/media/tv"
-            - "{{ media_path_movies }}:/media/movies"
+            - "{{ bazarr_config_path }}:/config"
+            - "{{ media_path_tv }}:{{ internal_tv }}"
+            - "{{ media_path_movies }}:{{ internal_movies }}"
 
 
 - name: Create Jackett
@@ -161,7 +190,7 @@
             - UMASK={{ media_UMASK }}
           network_mode: "{{ unified_network }}"
           volumes:
-            - "{{ defualt_relative_docker_data_path }}/jackett/config:/config"
+            - "{{ jackett_config_path }}:/config"
 
 - name: Create Qbittorent
   become_user: "{{ ansible_user }}"
@@ -182,8 +211,8 @@
             - UMASK={{ media_UMASK }}
           network_mode: "{{ unified_network }}"
           volumes:
-            - "{{ defualt_relative_docker_data_path }}/qbittorent/config:/config"
-            - "{{ media_path_downloads }}:/media/downloads"
+            - "{{ qbit_config_path }}:/config"
+            - "{{ media_path_downloads }}:{{ internal_downloads }}"
 
 
 - name: Create jellyfin media
@@ -204,9 +233,9 @@
           ports:
             - "7260:8096"
           volumes:
-            - "{{ defualt_relative_docker_data_path }}/jellyfin:/config"
-            - "{{ media_path_tv }}:/media/tvshows"
-            - "{{ media_path_movies }}:/media/movies"
+            - "{{ jellyfin_config_path }}:/config"
+            - "{{ media_path_tv }}:{{ internal_tv }}"
+            - "{{ media_path_movies }}:{{ internal_movies }}"
 
 # - name: Create Open books
 #   community.docker.docker_container:
