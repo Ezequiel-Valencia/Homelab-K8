@@ -9,14 +9,6 @@ media_path_books: "{{ mounted_path }}/media/books"
 media_path_music: "{{ mounted_path }}/media/music"
 media_path_downloads: "{{ mounted_path }}/media/downloads"
 
-# Needed since applications communicate giving paths within their own systems since
-# they believe they are communicating in the same machine
-internal_downloads: "/media/downloads"
-internal_movies: "/media/movies"
-internal_tv: "/media/tv"
-internal_books: "/media/books"
-internal_music: "/media/music"
-
 jellyfin_config_path: "{{ mounted_path }}/config/jellyfin"
 qbit_config_path: "{{ mounted_path }}/config/qbittorent"
 jackett_config_path: "{{ mounted_path }}/config/jackett"
@@ -24,6 +16,14 @@ bazarr_config_path: "{{ mounted_path }}/config/bazarr"
 radarr_config_path: "{{ mounted_path }}/config/radarr"
 sonarr_config_path: "{{ mounted_path }}/config/sonarr"
 gluetun_config_path: "{{ mounted_path }}/config/gluetun"
+
+# Needed since applications communicate giving paths within their own systems since
+# they believe they are communicating in the same machine
+internal_downloads: "/media/downloads"
+internal_movies: "/media/movies"
+internal_tv: "/media/tv"
+internal_books: "/media/books"
+internal_music: "/media/music"
 
 
 container_name: gluetun
