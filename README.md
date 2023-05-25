@@ -31,6 +31,7 @@ An amazing web series that I found to late, but seems to be very informational. 
 - Add user to containers
 - Check VPN connection
 - Modify qbittorent download location
+- Create additional hard drive for media VM
 
 ## Modify Ansible hosts file
 

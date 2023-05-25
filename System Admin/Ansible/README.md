@@ -79,3 +79,5 @@ Also it has to use a VM, cause other wise there is not TUN in containers which i
 
 
 Qbit not downloading or super duper slow, its due to file permissions. Make the external directory where its data stored permissions accesible recursively.
+
+Having really low stoarge because the lvm parition for the VM was only 100GB in total for some reason, and even when I increased it manually docker did not increase the size of the volumes. The fix to this was to create a small virtual disk for the bootable drive, then a completely empty other disk that had all of the storage. Then format this empty disk and put all of the volumes within it.
