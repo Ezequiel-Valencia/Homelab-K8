@@ -22,8 +22,8 @@
 
     - name: Startup Ubuntu
       ansible.builtin.include_role:
-        name: ubuntu-system-startup
-      when: "ansible_facts['distribution'] | lower == 'ubuntu'"
+        name: debian-system-startup
+      when: "ansible_facts['os_family'] | lower == 'debian'"
 
     - name: Install low-sensitiviy applications
       ansible.builtin.include_role:

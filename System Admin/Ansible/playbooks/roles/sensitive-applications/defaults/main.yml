@@ -1,0 +1,12 @@
+---
+
+firefly_smb_path: "/mnt/smb_share"
+
+cstorage_smb_path: "/mnt/smb_share"
+
+cstorage_nextcloud_db_path: "{{ cstorage_smb_path }}/{{ defualt_relative_docker_data_path }}/nextcloud/db"
+cstorage_nextcloud_config_path: "{{ cstorage_smb_path }}/{{ defualt_relative_docker_data_path }}/nextcloud/config"
+
+cloud_UUID: 1000
+cloud_UGID: 999
+

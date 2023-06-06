@@ -1,15 +1,17 @@
 [sus_server]
-Media ansible_host=10.0.0.7 ansible_user=media ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab
+media ansible_host=10.0.0.7 ansible_user=media ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab
 
 [infra_server]
-DNS ansible_host=10.0.0.6 ansible_user=pihole ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab
-Monitor ansible_host=10.0.0.9 ansible_user=oversee ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab
+dns ansible_host=10.0.0.6 ansible_user=pihole ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab
+; Monitor ansible_host=10.0.0.9 ansible_user=oversee ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab
 
 [low_server]
-Personal-Health ansible_host=10.0.0.8 ansible_user=phealth ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab
+; personal-health ansible_host=10.0.0.8 ansible_user=phealth ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab
 
 [sensitive_server]
-Money ansible_host=10.0.0.10 ansible_user=money-tracker ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab
+money ansible_host=10.0.0.10 ansible_user=money-tracker ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab
+; cstorage ansible_host=10.0.0.12 ansible_user=cloud ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab
+
 
 [ubuntu_server:children]
 infra_server

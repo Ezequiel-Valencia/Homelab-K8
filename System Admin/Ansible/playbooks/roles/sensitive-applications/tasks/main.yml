@@ -2,3 +2,8 @@
   ansible.builtin.import_tasks:
     money.ansible.yml
   when: "ansible_facts['hostname'] | lower == 'money'"
+
+# - name: Install CStorage
+#   ansible.builtin.import_tasks:
+#     cstorage.ansible.yml
+#   when: "ansible_facts['hostname'] | lower == 'cstorage'"

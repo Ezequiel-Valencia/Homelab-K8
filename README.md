@@ -1,5 +1,6 @@
 # Home-Network
  Internal home network architeture. Everything here is only for internal network and does not have any external connection, other than a singualr port that a VPN connection is required for.
+ https://superuser.com/questions/1324710/why-do-end-device-need-to-support-vlans
 
  ## Applications
 The applications that will be ran on top of the OS that are installed within the hypervisor, and the management interface for all of these applications.

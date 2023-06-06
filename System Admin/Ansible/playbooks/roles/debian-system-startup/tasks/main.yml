@@ -10,3 +10,7 @@
 - name: SSH
   ansible.builtin.include_tasks:
     ssh.ansible.yml
+
+- name: Hostname
+  ansible.builtin.include_tasks:
+    hostname.ansible.yml

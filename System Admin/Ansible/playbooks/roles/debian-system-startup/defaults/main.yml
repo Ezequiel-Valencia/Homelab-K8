@@ -17,3 +17,9 @@ dock_packages:
   - containerd.io
   - docker-buildx-plugin
   - docker-compose-plugin
+
+ubuntu_gpg: https://download.docker.com/linux/ubuntu/gpg
+ubuntu_repo: https://download.docker.com/linux/ubuntu
+
+debian_gpg: https://download.docker.com/linux/debian/gpg
+debian_repo: https://download.docker.com/linux/debian

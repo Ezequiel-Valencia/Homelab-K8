@@ -1,6 +1,22 @@
 ---
 
+# https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/storage_administration_guide/mounting_an_smb_share
+# https://linux.die.net/man/8/mount.cifs
+
+# Can't be bothered anymore :/
+
+# - name: Mount to SMB
+#   become: true
+#   ansible.posix.mount:
+#     src: //10.0.0.11/Firefly-Information
+#     path: "{{ firefly_smb_path }}"
+#     opts: "rw,username={{ firefly_smb_username }},password={{ firefly_smb_password }}"
+#     fstype: cifs
+#     state: mounted
+#     boot: true
+
 - name: Copy env files to container
+  become_user: "{{ ansible_user }}"
   ansible.builtin.copy:
     mode: u=rw,g=r,o=r
     src: "{{ item }}"
@@ -10,6 +26,7 @@
     - ./firefly.env
 
 - name: Create Firefly
+  become_user: "{{ ansible_user }}"
   community.docker.docker_compose:
     project_name: Firefly
     env_file: firefly.env
@@ -20,6 +37,7 @@
         app:
           image: fireflyiii/core:latest
           restart: always
+          container_name: firefly
           volumes:
             - "{{ defualt_relative_docker_data_path }}/fire_fly/upload:/var/www/html/storage/upload"
           environment:
@@ -39,6 +57,7 @@
         db:
           image: mariadb
           hostname: fireflyiiidb
+          container_name: db
           restart: always
           environment:
             - MYSQL_RANDOM_ROOT_PASSWORD=yes
@@ -55,6 +74,7 @@
           # The STATIC_CRON_TOKEN must be *exactly* 32 characters long
           #
           image: alpine
+          container_name: cron
           command: 'sh -c "echo \"0 3 * * * wget -qO- http://app:8080/api/v1/cron/{{ cron_token }}\" | crontab - && crond -f -L /dev/stdout"'
           networks:
             - firefly_iii

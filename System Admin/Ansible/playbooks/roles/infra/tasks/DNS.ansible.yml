@@ -1,4 +1,5 @@
 ---
+# Pihole should be setup on debian https://github.com/pi-hole/docker-pi-hole#installing-on-ubuntu
 - name: Create PiHole
   become_user: "{{ ansible_user }}"
   community.docker.docker_compose:
@@ -10,8 +11,8 @@
           restart: always
           container_name: pihole
           ports:
-            - "5300:53/tcp"
-            - "5300:53/udp"
+            - "53:53/tcp"
+            - "53:53/udp"
             - "5790:80/tcp"
           environment:
             - TZ={{ time_zone }}

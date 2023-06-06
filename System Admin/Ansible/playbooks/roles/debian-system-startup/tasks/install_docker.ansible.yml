@@ -2,13 +2,13 @@
 - name: Add GPG key
   become: true
   ansible.builtin.apt_key:
-    url: https://download.docker.com/linux/ubuntu/gpg
+    url: "{{ debian_gpg if ansible_facts['distribution'] | lower == 'debian' else ubuntu_gpg }}"
     state: present
 
 - name: Add docker repository to apt
   become: true
   ansible.builtin.apt_repository:
-    repo: deb https://download.docker.com/linux/ubuntu lunar stable
+    repo: deb "{{ debian_repo if ansible_facts['distribution'] | lower == 'debian' else ubuntu_repo }}" lunar stable
     state: present
 
 - name: Install docker

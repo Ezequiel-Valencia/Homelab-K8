@@ -11,3 +11,126 @@
 - name: Create Nextcloud
   community.docker.docker_container:
     name: Nextcloud
+
+# ---
+
+# - name: Mount to SMB
+#   become: true
+#   ansible.posix.mount:
+#     src: //10.0.0.13/Cstorage
+#     path: "{{ cstorage_smb_path }}"
+#     opts: "rw,username={{ cstorage_smb_username }},password={{ cstorage_smb_password }}"
+#     fstype: cifs
+#     state: mounted
+#     boot: true
+
+
+# - name: Create directories
+#   become: true
+#   ansible.builtin.file:
+#     path: "{{ item.dir }}"
+#     state: directory
+#     mode: u=rwx,g=rwx,o=rx
+#     owner: "{{ item.owner }}"
+#     group: "{{ item.group }}"
+#   with_items:
+#     - dir: "{{ cstorage_nextcloud_config_path }}"
+#       owner: "{{ cloud_UUID }}" # UUID of cloud
+#       group: "{{ cloud_UGID }}" # UGID of cloud
+
+#     - dir: "{{ cstorage_nextcloud_db_path }}"
+#       owner: "{{ cloud_UUID }}" # UUID of cloud
+#       group: "{{ cloud_UGID }}" # UGID of cloud
+
+
+# # - name: Create Nextcloud
+# #   community.docker.docker_compose:
+# #     project_name: Nextcloud
+# #     definition:- name: Create directories
+# #   become: true
+# #   ansible.builtin.file:
+# #     path: "{{ item.dir }}"
+# #     state: directory
+# #     mode: u=rwx,g=rwx,o=rx
+# #     owner: "{{ item.owner }}"
+# #     group: "{{ item.group }}"
+# #   with_items:
+# #     - dir: "{{ cstorage_nextcloud_config_path }}"
+# #       owner: "{{ cloud_UUID }}" # UUID of cloud
+# #       group: "{{ cloud_UGID }}" # UGID of cloud
+
+# #     - dir: "{{ cstorage_nextcloud_db_path }}"
+# #       owner: "{{ cloud_UUID }}" # UUID of cloud
+# #       group: "{{ cloud_UGID }}" # UGID of cloudoud:latest
+# #           container_name: nextcloud
+# #           environment:
+# #             - PUID=1000
+# #             - PGID=999
+# #             - TZ={{ time_zone }}
+# #           ports:
+# #             - 9782:443
+# #           restart: unless-stopped
+# #           volumes:
+# #             - "{{ cstorage_nextcloud_config_path }}:/config"
+# #             - "{{ cstorage_nextcloud_db_path }}:/data"
+
+
+# - name: Create Nextcloud
+#   become_user: "{{ ansible_user }}"
+#   community.docker.docker_compose:
+#     project_name: Nextcloud
+#     definition:
+#       version: '2'
+
+#       # https://docs.docker.com/storage/volumes/
+#       # volumes:
+#       #   data:
+#       #     driver_opts:
+#       #       type: cifs
+#       #       device: //10.0.0.13/Cstorage-Database
+#       #       o: "rw,username={{ cstorage_smb_username }},password={{ cstorage_smb_password }},file_mode=0777,dir_mode=0777"
+#       #       # username: "{{ cstorage_smb_username }}"
+#       #       # password: "{{ cstorage_smb_password }}"
+#       #       # uid: "{{ cloud_UUID }}"
+#       #       # gid: "{{ cloud_UGID }}"
+#       #   config:
+#       #     driver_opts:
+#       #       type: cifs
+#       #       device: //10.0.0.13/Cstorage-Config
+#       #       o: "rw,username={{ cstorage_smb_username }},password={{ cstorage_smb_password }},file_mode=0777,dir_mode=0777"
+
+#       services:
+#         db:
+#           image: postgres
+#           restart: unless-stopped
+#           cap_add:
+#             - SYS_ADMIN
+#           volumes:
+#             - "{{ cstorage_nextcloud_db_path }}:/var/lib/postgresql/data"
+#           container_name: postgres
+#           environment:
+#             - POSTGRES_PASSWORD={{ nextcloud_postgres_passwd }}
+#             - POSTGRES_DB=nextcloud
+#             - POSTGRES_USER=cloud
+
+#         nextcloud:
+#           image: nextcloud
+#           restart: unless-stopped
+#           container_name: nextcloud
+#           ports:
+#             - 9782:443
+#           links:
+#             - db
+#           volumes:
+#             - "{{ cstorage_nextcloud_config_path }}:/var/www/html"
+#           environment:
+#             - POSTGRES_PASSWORD={{ nextcloud_postgres_passwd }}
+#             - POSTGRES_DB=nextcloud
+#             - POSTGRES_USER=cloud
+#             - POSTGRES_HOST=db
+#             - NEXTCLOUD_ADMIN_USER=root
+#             - NEXTCLOUD_ADMIN_PASSWORD={{ nextcloud_admin_passwd }}
+
+      # volumes:
+      #   "nextcloud:"
+      #   "db:"
