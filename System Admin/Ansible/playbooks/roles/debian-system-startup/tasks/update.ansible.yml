@@ -11,10 +11,16 @@
     pkg: "{{ packages }}"
     state: present
 
-- name: Install python requirements
+- name: Install python requirements for user
   become_user: "{{ ansible_user }}"
   ansible.builtin.pip:
     name:
       - requests
       - docker
       - docker-compose
+
+- name: Clean repo
+  become: true
+  ansible.builtin.apt:
+    autoclean: true
+    autoremove: true

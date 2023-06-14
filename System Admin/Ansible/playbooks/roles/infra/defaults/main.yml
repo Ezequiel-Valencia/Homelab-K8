@@ -1,0 +1,6 @@
+---
+
+etc_resolv_path: "/etc/resolv.conf"
+etc_resolv_src: "/run/systemd/resolve/resolv.conf"
+
+netplan_dir: "/etc/netplan"

@@ -1,4 +1,68 @@
 ---
+# Pull image before DNS capabilites are on pause, would do it via ansible but seems not to work right now
+
+# - name: Pull docker image
+#   become: true
+#   community.docker.docker_image:
+#     pull: true
+#     name: pihole/pihole
+
+- name: Turn off DNS Stub listener
+  become: true
+  ansible.builtin.lineinfile:
+    dest: "/etc/systemd/resolved.conf"
+    regexp: "DNSStubListener=yes"
+    line: "DNSStubListener=no"
+    state: present
+
+- name: Determine resolve.conf link status
+  ansible.builtin.stat:
+    path: "{{ etc_resolv_path }}"
+  register: link_status
+
+- name: Remove old resolve.conf symlink
+  become: true
+  ansible.builtin.file:
+    path: "{{ etc_resolv_path }}"
+    state: absent
+  when: (not link_status.stat.islnk) or (link_status.stat.lnk_source != etc_resolv_src)
+
+- name: Create new symlink
+  become: true
+  ansible.builtin.file:
+    path: "{{ etc_resolv_path }}"
+    state: link
+    src: "{{ etc_resolv_src }}"
+  when: (not link_status.stat.islnk) or (link_status.stat.lnk_source != etc_resolv_src)
+
+- name: Restart daemon
+  become: true
+  ansible.builtin.systemd:
+    state: restarted
+    name: systemd-resolved
+    daemon_reload: true
+  when: (not link_status.stat.islnk) or (link_status.stat.lnk_source != etc_resolv_src)
+
+# - name: Copy over netplan
+#   become: true
+#   ansible.builtin.copy:
+#     src: "./dns-netplan.yaml"
+#     dest: "/etc/netplan"
+#     mode: 'u=rw,g=rw,o=r'
+
+# - name: Apply netplan
+#   become: true
+#   async: 50s
+#   ansible.builtin.shell:
+#     cmd: netplan apply
+
+# - name: Add DNS to pull docker images
+#   become: true
+#   ansible.builtin.lineinfile:
+#     dest: "{{ etc_resolv_path }}"
+#     line: "nameserver 9.9.9.9"
+#     state: present
+
 # Pihole should be setup on debian https://github.com/pi-hole/docker-pi-hole#installing-on-ubuntu
 - name: Create PiHole
   become_user: "{{ ansible_user }}"
@@ -23,3 +87,6 @@
           volumes:
             - "{{ defualt_relative_docker_data_path }}/pihole:/etc/pihole"
             - "{{ defualt_relative_docker_data_path }}/pihole-dnsmasq.d:/etc/dnsmasq.d"
+
+# Trying to install this in docker seems like to much work, better to initalize the OS
+# then manually install

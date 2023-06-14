@@ -8,7 +8,7 @@
 - name: Add docker repository to apt
   become: true
   ansible.builtin.apt_repository:
-    repo: deb "{{ debian_repo if ansible_facts['distribution'] | lower == 'debian' else ubuntu_repo }}" lunar stable
+    repo: deb "{{ debian_repo if ansible_facts['distribution'] | lower == 'debian' else ubuntu_repo }}" "{{ ansible_facts['distribution_release'] }}" stable
     state: present
 
 - name: Install docker
