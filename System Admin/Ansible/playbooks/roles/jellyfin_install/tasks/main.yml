@@ -2,4 +2,4 @@
   ansible.builtin.include_tasks: "{{ item }}"
   loop:
     - media.ansible.yml
-  when: ansible_facts['hostname']|lower == 'mediavm'
+  when: ansible_facts['hostname']|lower == 'media'
