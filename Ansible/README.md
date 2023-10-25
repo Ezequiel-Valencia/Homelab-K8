@@ -86,3 +86,15 @@ Also it has to use a VM, cause other wise there is not TUN in containers which i
 Qbit not downloading or super duper slow, its due to file permissions. Make the external directory where its data stored permissions accesible recursively.
 
 Having really low stoarge because the lvm parition for the VM was only 100GB in total for some reason, and even when I increased it manually docker did not increase the size of the volumes. The fix to this was to create a small virtual disk for the bootable drive, then a completely empty other disk that had all of the storage. Then format this empty disk and put all of the volumes within it. Overlay is simply a driver for the file system that is being used within the OS, and can not increase its size if the file systems parition is not large either!
+
+
+LVM not avialable what seemed to be due to the metadata getting fucked up. Most likely because of the constant turning off and on the prox machine manually instead of through the GUI. The fix I used was 
+- lvconvert --repair pve/data
+    - https://forum.proxmox.com/threads/task-error-activating-lv-pve-data-failed-activation-of-logical-volume-pve-data-is-prohibited-while-logical-volume-pve-data_tdata-is-active.106225/
+
+some other possible links for future problems are
+https://forum.proxmox.com/threads/local-lvm-not-available-after-kernel-update-on-pve-7.97406/page-3
+
+https://forum.proxmox.com/threads/check-of-pool-pve-data-failed-status-1-manual-repair-required.100588/
+
+Should buy some extra nvme to have the Proxmox OS mirrored so that if any errors persist I can just revert back to previous versions.
