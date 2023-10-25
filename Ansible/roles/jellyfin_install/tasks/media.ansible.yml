@@ -101,7 +101,7 @@
     group: "{{ group_return_values.gid }}"
   with_items:
     - dir: "{{ media_path_downloads }}"
-      owner: "{{ users[1].PUID }}"
+      owner: "{{ users[0].PUID }}"
 
     - dir: "{{ media_path_tv }}"
       owner: "{{ users[0].PUID }}"
@@ -254,7 +254,7 @@
           environment:
             - TZ={{ time_zone }}
             - WEBUI_PORT=9078
-            - PUID="{{ users[1].PUID }}"
+            - PUID="{{ users[0].PUID }}"
             - PGID={{ group_return_values.gid }}
             - UMASK={{ media_UMASK }}
           network_mode: "{{ unified_network }}"
