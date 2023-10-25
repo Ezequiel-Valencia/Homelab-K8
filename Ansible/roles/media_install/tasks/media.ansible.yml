@@ -1,0 +1,144 @@
+---
+- name: Create media group
+  become: true
+  ansible.builtin.group:
+    name: media
+    state: present
+  register: group_return_values
+
+- name: Create users for media group
+  become: true
+  ansible.builtin.user:
+    name: "{{ current_user.name }}"
+    uid: "{{ current_user.PUID }}"
+    groups: "{{ group_return_values.name }}"
+  loop: "{{ users }}"
+  loop_control:
+    loop_var: current_user
+
+# https://docs.docker.com/engine/reference/commandline/volume_create/#driver-specific-options
+# https://docs.docker.com/storage/volumes/
+# https://forums.docker.com/t/is-there-a-maximum-size-for-docker-volumes/20978
+# fd
+# https://www.redhat.com/sysadmin/resize-lvm-simple
+#  In case the volume present is to small, can create future volumes to increase its size, want to share it
+#  Seems conflicted as to whether there is a storage limit though
+# - name: Create docker volumes
+#   community.docker.docker_volume:
+#     volume_name: "{{ volume.vname }}"
+#     state: present
+#     recreate: never
+#     driver: local
+#     driver_options:
+#       size: "{{ volume.size }}"
+#   loop:
+#     - vname: "Movies"
+#       size: 300G
+
+#     - vname: "TV"
+#       size: 300G
+
+#     - vname: "Downloads"
+#       size: 50G
+#   loop_control:
+#     loop_var: volume
+
+# - name: Make the space available to containers larger
+#   become: true
+#   community.general.lvol:
+#     vg: ubuntu-vg
+#     lv: ubuntu-lv
+#     size: 90%FREE
+#     shrink: false
+
+##############################################
+## Increase storage for overlay file system ##
+##############################################
+- name: Partition new disk space
+  become: true
+  community.general.parted:
+    device: /dev/sdb
+    number: "{{ parition_number }}"
+    state: present
+    part_end: 100%
+  register: partition_result
+
+- name: Format new partition
+  become: true
+  community.general.filesystem:
+    fstype: "{{ file_system_type }}"
+    dev: "{{ new_partition }}"
+
+- name: Mount new partition
+  become: true
+  ansible.posix.mount:
+    src: "{{ new_partition }}"
+    path: "{{ where_to_mount_storage_device }}"
+    fstype: "{{ file_system_type }}"
+    state: mounted
+
+# - name: Update docker configuration
+#   become: true
+#   ansible.builtin.lineinfile:
+#     path: '/etc/docker/daemon.json'
+#     line: '"data-root": "{{ where_to_mount_storage_device }}"'
+
+# - name: Restart docker
+#   become: true
+#   ansible.builtin.systemd:
+#     name: docker
+#     state: restarted
+
+
+- name: Create the folders requied for media group
+  become: true
+  ansible.builtin.file:
+    path: "{{ item.dir }}"
+    state: directory
+    mode: u=rwx,g=rwx,o=rx
+    recurse: true
+    owner: "{{ item.owner }}"
+    group: "{{ group_return_values.gid }}"
+  with_items:
+    - dir: "{{ media_path_downloads }}"
+      owner: "{{ users[0].PUID }}"
+
+    - dir: "{{ media_path_tv }}"
+      owner: "{{ users[0].PUID }}"
+
+    - dir: "{{ media_path_movies }}"
+      owner: "{{ users[0].PUID }}"
+
+    - dir: "{{ media_path_music }}"
+      owner: "{{ users[0].PUID }}"
+
+    - dir: "{{ media_path_books }}"
+      owner: "{{ users[0].PUID }}"
+
+    - dir: "{{ jellyfin_config_path }}"
+      owner: "{{ users[0].PUID }}"
+
+
+- name: Template compose file
+  ansible.builtin.template:
+    mode: u=rw,g=r
+    src: ./media.compose.j2
+    dest: ~/media.compose
+
+# https://github.com/qdm12/gluetun/wiki
+- name: Media Compose Up
+  become_user: "{{ ansible_user }}"
+  community.docker.docker_compose:
+    project_name: "Film Media"
+    project_src: "~/"
+    files:
+      - media.compose
+
+- name: Delete template file
+  ansible.builtin.file:
+    state: absent
+    path: "~/media.compose"
+
+# - name: Create Open books
+#   community.docker.docker_container:
+#     name: Open Books

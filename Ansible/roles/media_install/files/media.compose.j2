@@ -1,0 +1,122 @@
+version: "3.3"
+services:
+    gluetun:
+        image: qmcgaw/gluetun
+        restart: unless-stopped
+        container_name: "{{ container_name }}"
+        cap_add:
+            - NET_ADMIN
+        environment:
+            - VPN_SERVICE_PROVIDER={{ vpn_service_provider }}
+            - VPN_TYPE=wireguard
+            - WIREGUARD_PRIVATE_KEY={{ wireguard_private_key }}
+            - WIREGUARD_ADDRESSES={{ wireguard_address }}
+            - SERVER_CITIES=New York NY
+            - DOT_PROVIDERS=quad9
+            - UPDATER_PERIOD=48h
+        ports:
+            - "7676:6767" # Bazarr
+            - "9898:8989" # Sonar
+            - "8787:7878" # Raddarr
+            - "9845:9117" # Jackett
+            # Qbittorent
+            - "9078:9078"
+            - "7439:6881/tcp"
+            - "7439:6881/udp"
+        volumes:
+        - "{{ gluetun_config_path }}:/gluetun"
+
+    # Request shows automatically, https://hub.docker.com/r/linuxserver/sonarr
+    sonar:
+        image: linuxserver/sonarr
+        restart: unless-stopped
+        network_mode: "{{ unified_network }}"
+        container_name: sonarr
+        environment:
+            - TZ={{ time_zone }}
+            - PUID="{{ users[0].PUID }}"
+            - PGID={{ group_return_values.gid }}
+            - UMASK={{ media_UMASK }}
+        volumes:
+            - "{{ sonarr_config_path }}:/config"
+            - "{{ media_path_tv }}:{{ internal_tv }}"
+            - "{{ media_path_downloads }}:{{ internal_downloads }}"
+
+    # Request movies automatically, https://hub.docker.com/r/linuxserver/radarr
+    raddarr:
+        image: linuxserver/radarr
+        restart: unless-stopped
+        network_mode: "{{ unified_network }}"
+        container_name: radarr
+        environment:
+            - TZ={{ time_zone }}
+            - PUID="{{ users[0].PUID }}"
+            - PGID={{ group_return_values.gid }}
+            - UMASK={{ media_UMASK }}
+        volumes:
+            - "{{ radarr_config_path }}:/config"
+            - "{{ media_path_movies }}:{{ internal_movies }}"
+            - "{{ media_path_downloads }}:{{ internal_downloads }}"
+    
+    bazarr:
+        image: linuxserver/bazarr
+        restart: unless-stopped
+        container_name: bazarr
+        environment:
+            - TZ={{ time_zone }}
+            - PUID="{{ users[0].PUID }}"
+            - PGID={{ group_return_values.gid }}
+            - UMASK={{ media_UMASK }}
+        network_mode: "{{ unified_network }}"
+        volumes:
+            - "{{ bazarr_config_path }}:/config"
+            - "{{ media_path_tv }}:{{ internal_tv }}"
+            - "{{ media_path_movies }}:{{ internal_movies }}"
+    
+    # Create Jackett, helps parse stuff of interest
+    jackett:
+        image: linuxserver/jackett
+        restart: unless-stopped
+        container_name: jackett
+        environment:
+            - TZ={{ time_zone }}
+            - PUID="{{ users[0].PUID }}"
+            - PGID={{ group_return_values.gid }}
+            - UMASK={{ media_UMASK }}
+        network_mode: "{{ unified_network }}"
+        volumes:
+            - "{{ jackett_config_path }}:/config"
+    
+    # Actually does the downloading, https://hub.docker.com/r/linuxserver/qbittorrent
+    qbittorent:
+        image: linuxserver/qbittorrent
+        restart: unless-stopped
+        container_name: qbittorrent
+        environment:
+            - TZ={{ time_zone }}
+            - WEBUI_PORT=9078
+            - PUID="{{ users[0].PUID }}"
+            - PGID={{ group_return_values.gid }}
+            - UMASK={{ media_UMASK }}
+        network_mode: "{{ unified_network }}"
+        volumes:
+            - "{{ qbit_config_path }}:/config"
+            - "{{ media_path_downloads }}:{{ internal_downloads }}"
+        
+    jellyfin:
+        image: linuxserver/jellyfin
+        restart: unless-stopped
+        container_name: jellyfin
+        environment:
+            - TZ={{ time_zone }}
+            - PUID="{{ users[0].PUID }}"
+            - PGID={{ group_return_values.gid }}
+            - UMASK={{ media_UMASK }}
+        ports:
+            - "7260:8096"
+        volumes:
+            - "{{ jellyfin_config_path }}:/config"
+            - "{{ media_path_tv }}:{{ internal_tv }}"
+            - "{{ media_path_movies }}:{{ internal_movies }}"
+
+
