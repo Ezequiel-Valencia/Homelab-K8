@@ -1,16 +1,76 @@
 ---
-- name: Update this
-  ansible.builtin.include_tasks:
-    update.ansible.yml
 
-- name: Install Dock
-  ansible.builtin.include_tasks:
-    install_docker.ansible.yml
 
-- name: SSH
-  ansible.builtin.include_tasks:
-    ssh.ansible.yml
+- name: Include Variables
+  ansible.builtin.include_vars:
+    dir: vars
+    extensions:
+      - "yml"
 
-- name: Hostname
-  ansible.builtin.include_tasks:
-    hostname.ansible.yml
+########################
+## Dependency Install ##
+########################
+
+- name: Update packages
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+    upgrade: true
+
+- name: Clean repo
+  become: true
+  ansible.builtin.apt:
+    autoclean: true
+    autoremove: true
+
+- name: Install essential packages
+  become: true
+  ansible.builtin.apt:
+    pkg: "{{ packages }}"
+    state: present
+
+- name: Geerlinguy Pip Install
+  ansible.builtin.include_role:
+    name: geerlinguy.pip
+    apply:
+      become: true
+
+- name: Geerlinguy Docker Install
+  ansible.builtin.include_role:
+    name: geerlinguy.docker
+    apply:
+      become: true
+
+
+####################
+## Base Sec       ##
+####################
+# Would use OSAP for security, but its automated ansible scripts maybe a pain to implement
+- name: Geerling Security
+  ansible.builtin.include_role:
+    # https://github.com/geerlingguy/ansible-role-security
+    name: geerlingguy.security
+    apply:
+      become: true
+
+- name: Restart sshd
+  become: true
+  ansible.builtin.service:
+    name: sshd
+    state: restarted
+
+- name: Ensure the configured SSH port is used for remainder of role
+  ansible.builtin.set_fact:
+    ansible_port: "{{ ssh_port }}"
+
+
+###################
+## Misc          ##
+###################
+
+
+- name: Set hostname
+  become: true
+  ansible.builtin.hostname:
+    name: "{{ inventory_hostname }}"
+    use: debian
