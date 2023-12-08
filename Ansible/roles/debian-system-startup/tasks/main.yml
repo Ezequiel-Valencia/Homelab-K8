@@ -29,11 +29,31 @@
     pkg: "{{ packages }}"
     state: present
 
-- name: Geerlinguy Pip Install
-  ansible.builtin.include_role:
-    name: geerlinguy.pip
-    apply:
-      become: true
+- name: Install PythonVenv
+  become: true
+  ansible.builtin.apt:
+    name:
+      - python3-virtualenv
+
+- name: Create Venv
+  become: true
+  ansible.builtin.pip:
+    virtualenv: /home/ansible/pyvenv
+    name:
+      - docker
+      - docker-compose==1.25
+  when: not pythonvenv_status.stat.exists
+
+- name: Switch to New Python interpreter
+  ansible.builtin.set_fact:
+    ansible_python_interpreter: '{{ ansible_env.HOME }}/pyvenv/bin/python3'
+  when: not pythonvenv_status.stat.exists
+
+- name: Install Docker Compose Pip Package # Work around to current balone with docker-compose pip package
+  become: true
+  ansible.builtin.pip:
+    name:
+      - pyyaml==6.0
 
 - name: Geerlinguy Docker Install
   ansible.builtin.include_role:
