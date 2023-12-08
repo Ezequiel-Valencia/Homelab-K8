@@ -6,7 +6,7 @@
     refused_ssh: "port 22: Connection refused"
     alt_ssh_port: 5320
 
-  tasks:
+  pre_tasks:
     - name: Check ssh port
       ansible.builtin.ping:
       ignore_unreachable: true
@@ -20,35 +20,39 @@
     - name: Gather facts now
       ansible.builtin.gather_facts:
 
+    - name: Check for python env
+      ansible.builtin.stat:
+        path: '{{ ansible_env.HOME }}/pyvenv/bin/python3'
+      register: pythonvenv_status
+
+    - name: Set python interpreter
+      ansible.builtin.set_fact:
+        ansible_python_interpreter: '{{ ansible_env.HOME }}/pyvenv/bin/python3'
+      when: pythonvenv_status.stat.exists
+
+  tasks:
     - name: Startup Ubuntu
+      when: "ansible_facts['os_family'] | lower == 'debian'"
       ansible.builtin.include_role:
         name: debian-system-startup
-      when: "ansible_facts['os_family'] | lower == 'debian'"
 
     - name: Install low-sensitiviy applications
+      when: inventory_hostname in groups['low_server']
       ansible.builtin.include_role:
         name: "low-sensitivity"
-      when: inventory_hostname in groups['low_server']
+
 
     - name: Install infrastructure Applications
+      when: inventory_hostname in groups['infra_server']
       ansible.builtin.include_role:
         name: infra
-      when: inventory_hostname in groups['infra_server']
 
     - name: Install sus applications
+      when: inventory_hostname in groups['media_server']
       ansible.builtin.include_role:
-        name: sus-applications
-      when: inventory_hostname in groups['sus_server']
+        name: media_install
 
     - name: Install sensitive applications
-      ansible.builtin.include_role:
-        name: sensitive-applications
       when: inventory_hostname in groups['sensitive_server']
-
-    # Reset only if the ssh has not been changed already
-    - name: Restart ssh daemon
-      become: true
-      ansible.builtin.service:
-        name: sshd
-        state: restarted
-      when: ssh_result.msg is defined and refused_ssh not in ssh_result.msg
+      ansible.builtin.include_role:
+        name: firefly_install
