@@ -1,7 +1,7 @@
 version: "3.3"
 services:
     gluetun:
-        image: qmcgaw/gluetun
+        image: qmcgaw/gluetun:latest
         restart: unless-stopped
         container_name: "{{ container_name }}"
         cap_add:
@@ -28,7 +28,7 @@ services:
 
     # Request shows automatically, https://hub.docker.com/r/linuxserver/sonarr
     sonar:
-        image: linuxserver/sonarr
+        image: linuxserver/sonarr:latest
         restart: unless-stopped
         network_mode: "{{ unified_network }}"
         container_name: sonarr
@@ -44,7 +44,7 @@ services:
 
     # Request movies automatically, https://hub.docker.com/r/linuxserver/radarr
     raddarr:
-        image: linuxserver/radarr
+        image: linuxserver/radarr:latest
         restart: unless-stopped
         network_mode: "{{ unified_network }}"
         container_name: radarr
@@ -59,7 +59,7 @@ services:
             - "{{ media_path_downloads }}:{{ internal_downloads }}"
     
     bazarr:
-        image: linuxserver/bazarr
+        image: linuxserver/bazarr:latest
         restart: unless-stopped
         container_name: bazarr
         environment:
@@ -75,7 +75,7 @@ services:
     
     # Create Jackett, helps parse stuff of interest
     jackett:
-        image: linuxserver/jackett
+        image: linuxserver/jackett:latest
         restart: unless-stopped
         container_name: jackett
         environment:
@@ -89,7 +89,7 @@ services:
     
     # Actually does the downloading, https://hub.docker.com/r/linuxserver/qbittorrent
     qbittorent:
-        image: linuxserver/qbittorrent
+        image: linuxserver/qbittorrent:latest
         restart: unless-stopped
         container_name: qbittorrent
         environment:
@@ -104,7 +104,7 @@ services:
             - "{{ media_path_downloads }}:{{ internal_downloads }}"
         
     jellyfin:
-        image: linuxserver/jellyfin
+        image: linuxserver/jellyfin:latest
         restart: unless-stopped
         container_name: jellyfin
         environment:
