@@ -32,6 +32,8 @@ services:
         restart: unless-stopped
         network_mode: "{{ unified_network }}"
         container_name: sonarr
+        depends_on:
+            - gluetun
         environment:
             - TZ={{ time_zone }}
             - PUID="{{ users[0].PUID }}"
@@ -48,6 +50,8 @@ services:
         restart: unless-stopped
         network_mode: "{{ unified_network }}"
         container_name: radarr
+        depends_on:
+            - gluetun
         environment:
             - TZ={{ time_zone }}
             - PUID="{{ users[0].PUID }}"
@@ -62,6 +66,8 @@ services:
         image: linuxserver/bazarr:latest
         restart: unless-stopped
         container_name: bazarr
+        depends_on:
+            - gluetun
         environment:
             - TZ={{ time_zone }}
             - PUID="{{ users[0].PUID }}"
@@ -78,6 +84,8 @@ services:
         image: linuxserver/jackett:latest
         restart: unless-stopped
         container_name: jackett
+        depends_on:
+            - gluetun
         environment:
             - TZ={{ time_zone }}
             - PUID="{{ users[0].PUID }}"
@@ -92,6 +100,8 @@ services:
         image: linuxserver/qbittorrent:latest
         restart: unless-stopped
         container_name: qbittorrent
+        depends_on:
+            - gluetun
         environment:
             - TZ={{ time_zone }}
             - WEBUI_PORT=9078

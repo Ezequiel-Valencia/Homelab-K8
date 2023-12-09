@@ -3,19 +3,14 @@
   hosts: media_server
   gather_facts: false
   vars:
-    refused_ssh: "port 22: Connection refused"
+    other_port: true
     alt_ssh_port: 5320
 
   pre_tasks:
-    - name: Check ssh port
-      ansible.builtin.ping:
-      ignore_unreachable: true
-      register: ssh_result
-
     - name: Set ssh port if not 22
       ansible.builtin.set_fact:
         ansible_port: "{{ alt_ssh_port }}"
-      when: ssh_result.msg is defined and refused_ssh in ssh_result.msg
+      when: other_port
 
     - name: Gather facts now
       ansible.builtin.gather_facts:
@@ -31,9 +26,9 @@
       when: pythonvenv_status.stat.exists
 
   tasks:
-    - name: Startup Ubuntu
-      ansible.builtin.include_role:
-        name: debian-system-startup
+    # - name: Startup Ubuntu
+    #   ansible.builtin.include_role:
+    #     name: debian-system-startup
 
     - name: Install Media Server
       ansible.builtin.include_role:

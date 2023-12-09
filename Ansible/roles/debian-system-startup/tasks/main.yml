@@ -1,12 +1,4 @@
 ---
-
-
-- name: Include Variables
-  ansible.builtin.include_vars:
-    dir: vars
-    extensions:
-      - "yml"
-
 ########################
 ## Dependency Install ##
 ########################
@@ -38,26 +30,25 @@
 - name: Create Venv
   become: true
   ansible.builtin.pip:
-    virtualenv: /home/ansible/pyvenv
+    virtualenv: '/home/{{ ansible_user }}/pyvenv'
     name:
       - docker
-      - docker-compose==1.25
-  when: not pythonvenv_status.stat.exists
+      - docker-compose==1.7.0
 
 - name: Switch to New Python interpreter
   ansible.builtin.set_fact:
     ansible_python_interpreter: '{{ ansible_env.HOME }}/pyvenv/bin/python3'
   when: not pythonvenv_status.stat.exists
 
-- name: Install Docker Compose Pip Package # Work around to current balone with docker-compose pip package
-  become: true
-  ansible.builtin.pip:
-    name:
-      - pyyaml==6.0
+# - name: Install Docker Compose Pip Package # Work around to current balone with docker-compose pip package
+#   become: true
+#   ansible.builtin.pip:
+#     name:
+#       - pyyaml==6.0
 
 - name: Geerlinguy Docker Install
   ansible.builtin.include_role:
-    name: geerlinguy.docker
+    name: geerlingguy.docker
     apply:
       become: true
 
@@ -66,22 +57,22 @@
 ## Base Sec       ##
 ####################
 # Would use OSAP for security, but its automated ansible scripts maybe a pain to implement
-- name: Geerling Security
-  ansible.builtin.include_role:
-    # https://github.com/geerlingguy/ansible-role-security
-    name: geerlingguy.security
-    apply:
-      become: true
+# - name: Geerling Security
+#   ansible.builtin.include_role:
+#     # https://github.com/geerlingguy/ansible-role-security
+#     name: geerlingguy.security
+#     apply:
+#       become: true
 
-- name: Restart sshd
-  become: true
-  ansible.builtin.service:
-    name: sshd
-    state: restarted
+# - name: Restart sshd
+#   become: true
+#   ansible.builtin.service:
+#     name: sshd
+#     state: restarted
 
-- name: Ensure the configured SSH port is used for remainder of role
-  ansible.builtin.set_fact:
-    ansible_port: "{{ ssh_port }}"
+# - name: Ensure the configured SSH port is used for remainder of role
+#   ansible.builtin.set_fact:
+#     ansible_port: "{{ ssh_port }}"
 
 
 ###################
