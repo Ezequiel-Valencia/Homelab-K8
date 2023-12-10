@@ -46,7 +46,7 @@ services:
 
     # Request movies automatically, https://hub.docker.com/r/linuxserver/radarr
     raddarr:
-        image: linuxserver/radarr:latest
+        image: lscr.io/linuxserver/radarr:latest
         restart: unless-stopped
         network_mode: "{{ unified_network }}"
         container_name: radarr
