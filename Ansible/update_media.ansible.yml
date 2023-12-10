@@ -26,9 +26,9 @@
       when: pythonvenv_status.stat.exists
 
   tasks:
-    # - name: Startup Ubuntu
-    #   ansible.builtin.include_role:
-    #     name: debian-system-startup
+    - name: Startup Ubuntu
+      ansible.builtin.include_role:
+        name: debian-system-startup
 
     - name: Install Media Server
       ansible.builtin.include_role:
