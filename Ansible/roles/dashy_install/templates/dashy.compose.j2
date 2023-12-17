@@ -1,0 +1,14 @@
+services:
+    homer:
+        image: lissy93/dashy:latest
+        restart: always
+        container_name: dashy
+        volumes:
+        - "{{ defualt_relative_docker_data_path }}/dashy:/app/public"
+        networks:
+            - dashy
+        ports:
+        - 8080:80
+
+networks:
+    dashy:
