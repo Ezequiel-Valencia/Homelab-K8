@@ -1,0 +1,35 @@
+---
+- name: Update Media Server
+  hosts: media_server
+  gather_facts: false
+  vars:
+    other_port: true
+    alt_ssh_port: 5320
+
+  pre_tasks:
+    - name: Set ssh port if not 22
+      ansible.builtin.set_fact:
+        ansible_port: "{{ alt_ssh_port }}"
+      when: other_port
+
+    - name: Gather facts now
+      ansible.builtin.gather_facts:
+
+    - name: Check for python env
+      ansible.builtin.stat:
+        path: '{{ ansible_env.HOME }}/pyvenv/bin/python3'
+      register: pythonvenv_status
+
+    - name: Set python interpreter
+      ansible.builtin.set_fact:
+        ansible_python_interpreter: '{{ ansible_env.HOME }}/pyvenv/bin/python3'
+      when: pythonvenv_status.stat.exists
+
+  tasks:
+    - name: Startup Ubuntu
+      ansible.builtin.include_role:
+        name: debian-system-startup
+
+    - name: Install Media Server
+      ansible.builtin.include_role:
+        name: media_install

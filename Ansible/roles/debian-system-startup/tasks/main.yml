@@ -1,16 +1,81 @@
 ---
-- name: Update this
-  ansible.builtin.include_tasks:
-    update.ansible.yml
+########################
+## Dependency Install ##
+########################
 
-- name: Install Dock
-  ansible.builtin.include_tasks:
-    install_docker.ansible.yml
+- name: Update packages
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+    upgrade: true
 
-- name: SSH
-  ansible.builtin.include_tasks:
-    ssh.ansible.yml
+- name: Clean repo
+  become: true
+  ansible.builtin.apt:
+    autoclean: true
+    autoremove: true
 
-- name: Hostname
-  ansible.builtin.include_tasks:
-    hostname.ansible.yml
+- name: Install essential packages
+  become: true
+  ansible.builtin.apt:
+    pkg: "{{ packages }}"
+    state: present
+
+- name: Install PythonVenv
+  become: true
+  ansible.builtin.apt:
+    name:
+      - python3-virtualenv
+
+- name: Create Venv
+  ansible.builtin.pip:
+    virtualenv: '/home/{{ ansible_user }}/pyvenv'
+    name:
+      - docker==6.1.2
+      - docker-compose
+      - pyyaml==5.3.1
+
+- name: Switch to New Python interpreter
+  ansible.builtin.set_fact:
+    ansible_python_interpreter: '{{ ansible_env.HOME }}/pyvenv/bin/python3'
+  when: not pythonvenv_status.stat.exists
+
+- name: Geerlinguy Docker Install
+  ansible.builtin.include_role:
+    name: geerlingguy.docker
+    apply:
+      become: true
+
+
+####################
+## Base Sec       ##
+####################
+# Would use OSAP for security, but its automated ansible scripts maybe a pain to implement
+# - name: Geerling Security
+#   ansible.builtin.include_role:
+#     # https://github.com/geerlingguy/ansible-role-security
+#     name: geerlingguy.security
+#     apply:
+#       become: true
+
+# - name: Restart sshd
+#   become: true
+#   ansible.builtin.service:
+#     name: sshd
+#     state: restarted
+
+# - name: Ensure the configured SSH port is used for remainder of role
+#   ansible.builtin.set_fact:
+#     ansible_port: "{{ ssh_port }}"
+
+
+###################
+## Misc          ##
+###################
+
+
+- name: Set hostname
+  become: true
+  ansible.builtin.hostname:
+    name: "{{ inventory_hostname }}"
+    use: debian

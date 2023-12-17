@@ -17,72 +17,24 @@
 
 - name: Copy env files to container
   become_user: "{{ ansible_user }}"
-  ansible.builtin.copy:
-    mode: u=rw,g=r,o=r
-    src: "{{ item }}"
-    dest: "~/{{ item }}"
-  loop:
-    - ./firefly.db.env
-    - ./firefly.env
+  ansible.builtin.template:
+    mode: u=rw,g=r
+    src: "{{ item.src }}"
+    dest: "~/{{ item.name }}"
+  loop: '{{ template_files }}'
 
 - name: Create Firefly
   become_user: "{{ ansible_user }}"
   community.docker.docker_compose:
     project_name: Firefly
+    project_src: "~/"
     env_file: firefly.env
-    definition:
-      version: '3.3'
+    files:
+      - "firefly.compose"
 
-      services:
-        app:
-          image: fireflyiii/core:latest
-          restart: always
-          container_name: firefly
-          volumes:
-            - "{{ defualt_relative_docker_data_path }}/fire_fly/upload:/var/www/html/storage/upload"
-          environment:
-            - "APP_KEY={{ firefly_app_key }}"
-            - "DB_HOST=fireflyiiidb"
-            - "DB_PORT=3306"
-            - "DB_CONNECTION=mysql"
-            - "DB_DATABASE=firefly"
-            - "DB_USERNAME=firefly"
-            - "DB_PASSWORD={{ firefly_db_passwd }}"
-          networks:
-            - firefly_iii
-          ports:
-            - 5780:8080
-          depends_on:
-            - db
-        db:
-          image: mariadb
-          hostname: fireflyiiidb
-          container_name: db
-          restart: always
-          environment:
-            - MYSQL_RANDOM_ROOT_PASSWORD=yes
-            - MYSQL_USER=firefly
-            - "MYSQL_PASSWORD={{ firefly_db_passwd }}"
-            - MYSQL_DATABASE=firefly
-          networks:
-            - firefly_iii
-          volumes:
-            - "{{ defualt_relative_docker_data_path }}/fire_fly/db:/var/lib/mysql"
-        cron:
-          #
-          # To make this work, set STATIC_CRON_TOKEN in your .env file or as an environment variable and replace REPLACEME below
-          # The STATIC_CRON_TOKEN must be *exactly* 32 characters long
-          #
-          image: alpine
-          container_name: cron
-          command: 'sh -c "echo \"0 3 * * * wget -qO- http://app:8080/api/v1/cron/{{ cron_token }}\" | crontab - && crond -f -L /dev/stdout"'
-          networks:
-            - firefly_iii
-
-      # volumes:
-      #   "{{ defualt_relative_docker_data_path }}/fire_fly/upload":
-      #   "{{ defualt_relative_docker_data_path }}/fire_fly/db":
-
-      networks:
-        firefly_iii:
-          driver: bridge
+- name: Delete env files
+  become_user: "{{ ansible_user }}"
+  ansible.builtin.file:
+    path: "~/{{ item.name }}"
+    state: absent
+  loop: '{{ template_files }}'

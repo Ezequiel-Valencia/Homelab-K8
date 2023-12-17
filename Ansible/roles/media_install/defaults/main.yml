@@ -28,7 +28,7 @@ internal_music: "/media/music"
 
 container_name: gluetun
 
-unified_network: "container:{{ container_name }}"
+unified_network: "service:{{ container_name }}"
 
 parition_number: 1
 new_partition: /dev/sdb{{ parition_number }} # !!! DANGEROUS CONSTANT !!! # dont want name conflictions
