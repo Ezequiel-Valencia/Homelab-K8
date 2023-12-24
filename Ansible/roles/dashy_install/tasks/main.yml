@@ -1,0 +1,20 @@
+- name: Copy compose file
+  become_user: "{{ ansible_user }}"
+  ansible.builtin.template:
+    mode: u=rw,g=r
+    src: "dashy.compose.j2"
+    dest: "~/dashy.compose"
+
+- name: Spin up dashy
+  become_user: "{{ ansible_user }}"
+  community.docker.docker_compose:
+    project_name: Dashy
+    project_src: "~/"
+    files:
+      - "dashy.compose"
+
+- name: Delete compose file
+  become_user: "{{ ansible_user }}"
+  ansible.builtin.file:
+    path: "~/dashy.compose"
+    state: absent
