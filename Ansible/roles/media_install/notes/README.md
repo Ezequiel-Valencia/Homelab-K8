@@ -1,5 +1,7 @@
 ### Network Stack
 
+Each container has it's own loopback interface, associated with 127.0.0.1. This is different from the host loopback interface.
+
 Because all of the containers use the gluetuen network stack, this means they all have the same IP address and local interface. So when communicating between different services which use glueten as the network stack, all that needs to be done is set the port and IP address to localhost.
 
 Failed attempts:

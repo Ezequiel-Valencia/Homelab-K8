@@ -131,6 +131,7 @@
   community.docker.docker_compose:
     project_name: "Film Media"
     project_src: "~/"
+    recreate: always
     files:
       - media.compose
 
