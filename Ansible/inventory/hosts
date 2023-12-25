@@ -1,5 +1,5 @@
 [media_server]
-media ansible_host=10.0.0.7 ansible_user=media ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab
+media ansible_host=10.0.0.7 ansible_user=ansible ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab
 
 [infra_server]
 dns ansible_host=10.0.0.6 ansible_user=pihole ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab

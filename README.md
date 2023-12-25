@@ -24,7 +24,7 @@ The applications that will be ran on top of the OS that are installed within the
 
 # Ansible command
 
-ansible-playbook --ask-vault-pass ./update_media.ansible.yml
+ansible-playbook --ask-vault-pass -K ./update_media.ansible.yml
 
 
 
