@@ -1,6 +1,0 @@
-# Defaults
-pip_package: python3-pip
-pip_executable: pip3
-pip_install_packages:
-  - docker
-  - docker-compose
