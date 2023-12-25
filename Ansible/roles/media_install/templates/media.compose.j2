@@ -4,6 +4,9 @@ services:
         image: qmcgaw/gluetun:latest
         restart: unless-stopped
         container_name: "{{ container_name }}"
+        hostname: gluetun
+        networks:
+            gluetun_vpn:
         cap_add:
             - NET_ADMIN
         environment:
@@ -27,8 +30,8 @@ services:
         - "{{ gluetun_config_path }}:/gluetun"
 
     # Request shows automatically, https://hub.docker.com/r/linuxserver/sonarr
-    sonar:
-        image: linuxserver/sonarr:latest
+    sonarr:
+        image: lscr.io/linuxserver/sonarr:latest
         restart: unless-stopped
         network_mode: "{{ unified_network }}"
         container_name: sonarr
@@ -45,7 +48,7 @@ services:
             - "{{ media_path_downloads }}:{{ internal_downloads }}"
 
     # Request movies automatically, https://hub.docker.com/r/linuxserver/radarr
-    raddarr:
+    radarr:
         image: lscr.io/linuxserver/radarr:latest
         restart: unless-stopped
         network_mode: "{{ unified_network }}"
@@ -63,7 +66,7 @@ services:
             - "{{ media_path_downloads }}:{{ internal_downloads }}"
     
     bazarr:
-        image: linuxserver/bazarr:latest
+        image: lscr.io/linuxserver/bazarr:latest
         restart: unless-stopped
         container_name: bazarr
         depends_on:
@@ -81,7 +84,7 @@ services:
     
     # Create Jackett, helps parse stuff of interest
     jackett:
-        image: linuxserver/jackett:latest
+        image: lscr.io/linuxserver/jackett:latest
         restart: unless-stopped
         container_name: jackett
         depends_on:
@@ -91,13 +94,14 @@ services:
             - PUID="{{ users[0].PUID }}"
             - PGID={{ group_return_values.gid }}
             - UMASK={{ media_UMASK }}
+            - AUTO_UPDATE=true
         network_mode: "{{ unified_network }}"
         volumes:
             - "{{ jackett_config_path }}:/config"
     
     # Actually does the downloading, https://hub.docker.com/r/linuxserver/qbittorrent
-    qbittorent:
-        image: linuxserver/qbittorrent:latest
+    qbittorrent:
+        image: lscr.io/linuxserver/qbittorrent:latest
         restart: unless-stopped
         container_name: qbittorrent
         depends_on:
@@ -114,9 +118,11 @@ services:
             - "{{ media_path_downloads }}:{{ internal_downloads }}"
         
     jellyfin:
-        image: linuxserver/jellyfin:latest
+        image: lscr.io/linuxserver/jellyfin:latest
         restart: unless-stopped
         container_name: jellyfin
+        group_add:
+            - "109" # Render group
         environment:
             - TZ={{ time_zone }}
             - PUID="{{ users[0].PUID }}"
@@ -130,3 +136,6 @@ services:
             - "{{ media_path_movies }}:{{ internal_movies }}"
 
 
+
+networks:
+    gluetun_vpn:
