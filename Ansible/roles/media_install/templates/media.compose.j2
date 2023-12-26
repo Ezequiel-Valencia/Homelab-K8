@@ -4,6 +4,9 @@ services:
         image: qmcgaw/gluetun:latest
         restart: unless-stopped
         container_name: "{{ container_name }}"
+        hostname: gluetun
+        networks:
+            gluetun_vpn:
         cap_add:
             - NET_ADMIN
         environment:
@@ -24,11 +27,17 @@ services:
             - "7439:6881/tcp"
             - "7439:6881/udp"
         volumes:
-        - "{{ gluetun_config_path }}:/gluetun"
+            - "{{ gluetun_config_path }}:/gluetun"
+        healthcheck:
+            test: {{ health_check_vpn.test }}
+            interval: {{ health_check_vpn.interval }}
+            retries: {{ health_check_vpn.retries }}
+            start_period: {{ health_check_vpn.start_period }}
+            timeout: {{ health_check_vpn.timeout }}
 
     # Request shows automatically, https://hub.docker.com/r/linuxserver/sonarr
-    sonar:
-        image: linuxserver/sonarr:latest
+    sonarr:
+        image: lscr.io/linuxserver/sonarr:latest
         restart: unless-stopped
         network_mode: "{{ unified_network }}"
         container_name: sonarr
@@ -43,9 +52,15 @@ services:
             - "{{ sonarr_config_path }}:/config"
             - "{{ media_path_tv }}:{{ internal_tv }}"
             - "{{ media_path_downloads }}:{{ internal_downloads }}"
+        healthcheck:
+            test: {{ health_check_vpn.test }}
+            interval: {{ health_check_vpn.interval }}
+            retries: {{ health_check_vpn.retries }}
+            start_period: {{ health_check_vpn.start_period }}
+            timeout: {{ health_check_vpn.timeout }}
 
     # Request movies automatically, https://hub.docker.com/r/linuxserver/radarr
-    raddarr:
+    radarr:
         image: lscr.io/linuxserver/radarr:latest
         restart: unless-stopped
         network_mode: "{{ unified_network }}"
@@ -61,9 +76,15 @@ services:
             - "{{ radarr_config_path }}:/config"
             - "{{ media_path_movies }}:{{ internal_movies }}"
             - "{{ media_path_downloads }}:{{ internal_downloads }}"
+        healthcheck:
+            test: {{ health_check_vpn.test }}
+            interval: {{ health_check_vpn.interval }}
+            retries: {{ health_check_vpn.retries }}
+            start_period: {{ health_check_vpn.start_period }}
+            timeout: {{ health_check_vpn.timeout }}
     
     bazarr:
-        image: linuxserver/bazarr:latest
+        image: lscr.io/linuxserver/bazarr:latest
         restart: unless-stopped
         container_name: bazarr
         depends_on:
@@ -78,10 +99,16 @@ services:
             - "{{ bazarr_config_path }}:/config"
             - "{{ media_path_tv }}:{{ internal_tv }}"
             - "{{ media_path_movies }}:{{ internal_movies }}"
+        healthcheck:
+            test: {{ health_check_vpn.test }}
+            interval: {{ health_check_vpn.interval }}
+            retries: {{ health_check_vpn.retries }}
+            start_period: {{ health_check_vpn.start_period }}
+            timeout: {{ health_check_vpn.timeout }}
     
     # Create Jackett, helps parse stuff of interest
     jackett:
-        image: linuxserver/jackett:latest
+        image: lscr.io/linuxserver/jackett:latest
         restart: unless-stopped
         container_name: jackett
         depends_on:
@@ -91,13 +118,20 @@ services:
             - PUID="{{ users[0].PUID }}"
             - PGID={{ group_return_values.gid }}
             - UMASK={{ media_UMASK }}
+            - AUTO_UPDATE=true
         network_mode: "{{ unified_network }}"
         volumes:
             - "{{ jackett_config_path }}:/config"
+        healthcheck:
+            test: {{ health_check_vpn.test }}
+            interval: {{ health_check_vpn.interval }}
+            retries: {{ health_check_vpn.retries }}
+            start_period: {{ health_check_vpn.start_period }}
+            timeout: {{ health_check_vpn.timeout }}
     
     # Actually does the downloading, https://hub.docker.com/r/linuxserver/qbittorrent
-    qbittorent:
-        image: linuxserver/qbittorrent:latest
+    qbittorrent:
+        image: lscr.io/linuxserver/qbittorrent:latest
         restart: unless-stopped
         container_name: qbittorrent
         depends_on:
@@ -112,11 +146,19 @@ services:
         volumes:
             - "{{ qbit_config_path }}:/config"
             - "{{ media_path_downloads }}:{{ internal_downloads }}"
+        healthcheck:
+            test: {{ health_check_vpn.test }}
+            interval: {{ health_check_vpn.interval }}
+            retries: {{ health_check_vpn.retries }}
+            start_period: {{ health_check_vpn.start_period }}
+            timeout: {{ health_check_vpn.timeout }}
         
     jellyfin:
-        image: linuxserver/jellyfin:latest
+        image: lscr.io/linuxserver/jellyfin:latest
         restart: unless-stopped
         container_name: jellyfin
+        group_add:
+            - "109" # Render group
         environment:
             - TZ={{ time_zone }}
             - PUID="{{ users[0].PUID }}"
@@ -130,3 +172,6 @@ services:
             - "{{ media_path_movies }}:{{ internal_movies }}"
 
 
+
+networks:
+    gluetun_vpn:

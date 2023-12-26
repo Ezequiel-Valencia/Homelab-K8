@@ -1,4 +1,12 @@
 ---
+
+- name: Include Variables
+  ansible.builtin.include_vars:
+    dir: vars
+    extensions:
+      - "yml"
+
+
 ########################
 ## Dependency Install ##
 ########################
@@ -51,22 +59,22 @@
 ## Base Sec       ##
 ####################
 # Would use OSAP for security, but its automated ansible scripts maybe a pain to implement
-# - name: Geerling Security
-#   ansible.builtin.include_role:
-#     # https://github.com/geerlingguy/ansible-role-security
-#     name: geerlingguy.security
-#     apply:
-#       become: true
+- name: Geerling Security
+  ansible.builtin.include_role:
+    # https://github.com/geerlingguy/ansible-role-security
+    name: geerlingguy.security
+    apply:
+      become: true
 
-# - name: Restart sshd
-#   become: true
-#   ansible.builtin.service:
-#     name: sshd
-#     state: restarted
+- name: Restart sshd
+  become: true
+  ansible.builtin.service:
+    name: sshd
+    state: restarted
 
-# - name: Ensure the configured SSH port is used for remainder of role
-#   ansible.builtin.set_fact:
-#     ansible_port: "{{ ssh_port }}"
+- name: Ensure the configured SSH port is used for remainder of role
+  ansible.builtin.set_fact:
+    ansible_port: "{{ alt_ssh_port }}"
 
 
 ###################

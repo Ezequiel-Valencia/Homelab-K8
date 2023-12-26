@@ -42,3 +42,12 @@ users:
 
   - name: tors
     PUID: 1006
+
+
+# Either it matches exactly the VPN region or exits with status 1
+health_check_vpn:
+  test: 'curl -s --fail https://ipinfo.io/region | grep -qxo "{{ vpn_region }}" || exit 1'
+  interval: 240s
+  retries: 2
+  start_period: 30s
+  timeout: 10s

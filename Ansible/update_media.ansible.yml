@@ -4,7 +4,6 @@
   gather_facts: false
   vars:
     other_port: true
-    alt_ssh_port: 5320
 
   pre_tasks:
     - name: Set ssh port if not 22

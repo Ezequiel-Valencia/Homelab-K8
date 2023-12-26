@@ -77,27 +77,15 @@
     fstype: "{{ file_system_type }}"
     state: mounted
 
-# - name: Update docker configuration
-#   become: true
-#   ansible.builtin.lineinfile:
-#     path: '/etc/docker/daemon.json'
-#     line: '"data-root": "{{ where_to_mount_storage_device }}"'
-
-# - name: Restart docker
-#   become: true
-#   ansible.builtin.systemd:
-#     name: docker
-#     state: restarted
-
 
 - name: Create the folders requied for media group
   become: true
   ansible.builtin.file:
-    path: "{{ item.dir }}"
+    path: "{{ folders.dir }}"
     state: directory
     mode: u=rwx,g=rwx,o=rx
     recurse: true
-    owner: "{{ item.owner }}"
+    owner: "{{ folders.owner }}"
     group: "{{ group_return_values.gid }}"
   with_items:
     - dir: "{{ media_path_downloads }}"
@@ -117,11 +105,13 @@
 
     - dir: "{{ jellyfin_config_path }}"
       owner: "{{ users[0].PUID }}"
+  loop_control:
+    loop_var: folders
 
 
 - name: Template compose file
   ansible.builtin.template:
-    mode: u=rw,g=r
+    mode: u=rw,g=r,o=
     src: media.compose.j2
     dest: ~/media.compose
 
@@ -131,6 +121,7 @@
   community.docker.docker_compose:
     project_name: "Film Media"
     project_src: "~/"
+    recreate: always
     files:
       - media.compose
 
@@ -138,7 +129,3 @@
   ansible.builtin.file:
     state: absent
     path: "~/media.compose"
-
-# - name: Create Open books
-#   community.docker.docker_container:
-#     name: Open Books
