@@ -1,0 +1,55 @@
+---
+- name: Update packages
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+    upgrade: true
+
+- name: Clean repo
+  become: true
+  ansible.builtin.apt:
+    autoclean: true
+    autoremove: true
+
+- name: Install PythonVenv
+  become: true
+  ansible.builtin.apt:
+    name:
+      - python3-virtualenv
+
+- name: Install essential packages
+  become: true
+  ansible.builtin.apt:
+    pkg: "{{ packages }}"
+    state: present
+
+- name: Create Venv
+  ansible.builtin.pip:
+    virtualenv: '/home/{{ ansible_user }}/pyvenv'
+
+- name: Switch to New Python interpreter
+  ansible.builtin.set_fact:
+    ansible_python_interpreter: '{{ ansible_env.HOME }}/pyvenv/bin/python3'
+  when: not pythonvenv_status.stat.exists
+
+
+####################
+## Base Sec       ##
+####################
+# Would use OSAP for security, but its automated ansible scripts maybe a pain to implement
+- name: Geerling Security
+  ansible.builtin.include_role:
+    # https://github.com/geerlingguy/ansible-role-security
+    name: geerlingguy.security
+    apply:
+      become: true
+
+- name: Restart sshd
+  become: true
+  ansible.builtin.service:
+    name: sshd
+    state: restarted
+
+- name: Ensure the configured SSH port is used for remainder of role
+  ansible.builtin.set_fact:
+    ansible_port: "{{ alt_ssh_port }}"
