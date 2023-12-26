@@ -43,6 +43,7 @@ docker_apt_filename: "docker"
 
 docker_users:
   - "{{ owner_user }}"
+  - ansible
 
 # docker_daemon_options:
 #   storage-driver: "devicemapper"
