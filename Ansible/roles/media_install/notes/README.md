@@ -13,3 +13,10 @@ Failed attempts:
         - To much of a pain
     - Set the VPN container as the gateway
         - To much of a pain
+
+
+### Health Check
+
+Health check currently has intervals of 4 minutes not to spam the website which allows checking region. Start period does not seem necessary, and may not be helpful.
+
+[Source](https://www.paulsblog.dev/how-to-successfully-implement-a-healthcheck-in-docker-compose/)
