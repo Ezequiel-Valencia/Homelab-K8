@@ -3,7 +3,7 @@
   hosts: media_server
   gather_facts: false
   vars:
-    other_port: false
+    other_port: true
 
   pre_tasks:
     - name: Set ssh port if not 22
