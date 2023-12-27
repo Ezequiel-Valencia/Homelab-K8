@@ -6,6 +6,6 @@ template_files:
 
   - name: firefly.env
     src: ./firefly.env.j2
-    
-  - name: ./firefly.compose.j2
-    src: firefly.compose
+
+  - name: firefly.compose
+    src: ./firefly.compose.j2
