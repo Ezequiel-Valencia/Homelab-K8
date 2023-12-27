@@ -22,29 +22,38 @@ BLINK=$(tput blink)
 REVERSE=$(tput smso)
 UNDERLINE=$(tput smul)
 
+ADMIN_GROUP=admin
+
 if [ $(id -u) -eq 0 ]; then
-    printf "${CYAN}Making users and adding them to admin group\n${NORMAL}"
+    printf "${CYAN}Making users and adding them to groups\n${NORMAL}"
+
+    groupadd $ADMIN_GROUP
+
     for user in ansible zeke
     do
         printf "${MAGENTA}\nDealing with user $user\n${NORMAL}"
         if [ $(id "$user" | grep -c "$user") == 0 ]; then
             printf "${LIME_YELLOW}Making user $user\n${NORMAL}"
+            useradd -m "$user"
+            passwd "$user"
         elif [ $(id "$user" | grep -c "$user") == 1 ]; then
             printf "${GREEN}User $user already exists on this machine\n${NORMAL}"
         else
             printf "${RED}Number of users is strange, checkout user $user\n${NORMAL}"
         fi
 
-        adminGroup="admin"
-        if [ $(id "$user" | grep -c "$adminGroup") == 0 ]; then
-            printf "${LIME_YELLOW}Adding user $user to $adminGroup group\n${NORMAL}"
+        for group in $ADMIN_GROUP sudo
+        do
+            if [ $(id "$user" | grep -c "$group") == 0 ]; then
+                printf "${LIME_YELLOW}Adding user $user to $group group\n${NORMAL}"
+                usermod -aG "$group" "$user"
+            elif [ $(id "$user" | grep -c "$adminGroup") == 1 ]; then
+                printf "${GREEN}User $user already in $group group on this machine\n${NORMAL}"
 
-        elif [ $(id "$user" | grep -c "$adminGroup") == 1 ]; then
-            printf "${GREEN}User $user already in $adminGroup group on this machine\n${NORMAL}"
-
-        else
-            printf "${RED}User added to $adminGroup group is strange, checkout user $user\n${NORMAL}"
-        fi
+            else
+                printf "${RED}User added to $group group is strange, checkout user $user\n${NORMAL}"
+            fi
+        done
     done
 
 else
