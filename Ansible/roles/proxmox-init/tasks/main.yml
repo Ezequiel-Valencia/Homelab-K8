@@ -11,27 +11,11 @@
     autoclean: true
     autoremove: true
 
-- name: Install PythonVenv
-  become: true
-  ansible.builtin.apt:
-    name:
-      - python3-virtualenv
-
 - name: Install essential packages
   become: true
   ansible.builtin.apt:
     pkg: "{{ packages }}"
     state: present
-
-- name: Create Venv
-  ansible.builtin.pip:
-    virtualenv: '/home/{{ ansible_user }}/pyvenv'
-
-- name: Switch to New Python interpreter
-  ansible.builtin.set_fact:
-    ansible_python_interpreter: '{{ ansible_env.HOME }}/pyvenv/bin/python3'
-  when: not pythonvenv_status.stat.exists
-
 
 ####################
 ## Base Sec       ##

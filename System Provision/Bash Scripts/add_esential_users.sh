@@ -2,7 +2,9 @@
 
 # Manual Interaction
 # 1). Execute script
-# 2). Copy over ssh keys
+# 2). Deal with ssh keys
+    # a). Generate keys for the server "ssh-keygen -f ~/.ssh/tatu-key-ecdsa -t ed25519"
+    # b). Copy over ssh keys "ssh-copy-id -i ~/.ssh/tatu-key-ecdsa user@host"
 # 3). Execute ansible script
 # 4). If the system already had previous users then remove them with "userdel -r username"
 
@@ -35,6 +37,7 @@ if [ $(id -u) -eq 0 ]; then
         if [ $(id "$user" | grep -c "$user") == 0 ]; then
             printf "${LIME_YELLOW}Making user $user\n${NORMAL}"
             useradd -m "$user"
+            chsh --shell "/bin/bash" "$user"
             passwd "$user"
         elif [ $(id "$user" | grep -c "$user") == 1 ]; then
             printf "${GREEN}User $user already exists on this machine\n${NORMAL}"

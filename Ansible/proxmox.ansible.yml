@@ -1,0 +1,20 @@
+---
+- name: Setup Proxmox
+  hosts: proxmox_servers
+  gather_facts: false
+  vars:
+    other_port: false
+
+  pre_tasks:
+    - name: Set ssh port if not 22
+      ansible.builtin.set_fact:
+        ansible_port: "{{ alt_ssh_port }}"
+      when: other_port
+
+    - name: Gather facts now
+      ansible.builtin.gather_facts:
+
+  tasks:
+    - name: Init Proxmox
+      ansible.builtin.include_role:
+        name: proxmox-init
