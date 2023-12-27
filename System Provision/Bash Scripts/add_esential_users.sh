@@ -2,10 +2,12 @@
 
 # Manual Interaction
 # 1). Execute script
+    # a). Currently just copy the script into machines that will run it
 # 2). Deal with ssh keys
     # a). Generate keys for the server "ssh-keygen -f ~/.ssh/tatu-key-ecdsa -t ed25519"
     # b). Copy over ssh keys "ssh-copy-id -i ~/.ssh/tatu-key-ecdsa user@host"
 # 3). Execute ansible script
+    # a). Install sudo if the machine doesn't already have it
 # 4). If the system already had previous users then remove them with "userdel -r username"
 
 BLACK=$(tput setaf 0)
