@@ -122,7 +122,7 @@ services:
         volumes:
             - "{{ lidarr_config_path }}:/config"
             - "{{ media_path_music }}:{{ internal_music }}"
-            - "{{ media_path_downloads }}:/downloads"
+            - "{{ media_path_downloads }}:{{ internal_downloads }}"
         healthcheck:
             test: {{ health_check_vpn.test }}
             interval: {{ health_check_vpn.interval }}
