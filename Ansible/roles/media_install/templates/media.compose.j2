@@ -22,6 +22,7 @@ services:
             - "9898:8989" # Sonar
             - "8787:7878" # Raddarr
             - "9845:9117" # Jackett
+            - "8687:8686" # Lidarr
             # Qbittorent
             - "9078:9078"
             - "7439:6881/tcp"
@@ -99,6 +100,29 @@ services:
             - "{{ bazarr_config_path }}:/config"
             - "{{ media_path_tv }}:{{ internal_tv }}"
             - "{{ media_path_movies }}:{{ internal_movies }}"
+        healthcheck:
+            test: {{ health_check_vpn.test }}
+            interval: {{ health_check_vpn.interval }}
+            retries: {{ health_check_vpn.retries }}
+            start_period: {{ health_check_vpn.start_period }}
+            timeout: {{ health_check_vpn.timeout }}
+    
+    lidarr:
+        image: lscr.io/linuxserver/lidarr:latest
+        restart: unless-stopped
+        container_name: lidarr
+        depends_on:
+            - gluetun
+        environment:
+            - TZ={{ time_zone }}
+            - PUID="{{ users[0].PUID }}"
+            - PGID={{ group_return_values.gid }}
+            - UMASK={{ media_UMASK }}
+        network_mode: "{{ unified_network }}"
+        volumes:
+            - "{{ lidarr_config_path }}:/config"
+            - "{{ media_path_music }}:{{ internal_music }}"
+            - "{{ media_path_downloads }}:/downloads"
         healthcheck:
             test: {{ health_check_vpn.test }}
             interval: {{ health_check_vpn.interval }}
