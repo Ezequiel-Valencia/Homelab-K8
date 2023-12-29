@@ -7,41 +7,41 @@
 #     pull: true
 #     name: pihole/pihole
 
-- name: Turn off DNS Stub listener
-  become: true
-  ansible.builtin.lineinfile:
-    dest: "/etc/systemd/resolved.conf"
-    regexp: "DNSStubListener=yes"
-    line: "DNSStubListener=no"
-    state: present
+# - name: Turn off DNS Stub listener
+#   become: true
+#   ansible.builtin.lineinfile:
+#     dest: "/etc/systemd/resolved.conf"
+#     regexp: "DNSStubListener=yes"
+#     line: "DNSStubListener=no"
+#     state: present
 
-- name: Determine resolve.conf link status
-  ansible.builtin.stat:
-    path: "{{ etc_resolv_path }}"
-  register: link_status
+# - name: Determine resolve.conf link status
+#   ansible.builtin.stat:
+#     path: "{{ etc_resolv_path }}"
+#   register: link_status
 
-- name: Remove old resolve.conf symlink
-  become: true
-  ansible.builtin.file:
-    path: "{{ etc_resolv_path }}"
-    state: absent
-  when: (not link_status.stat.islnk) or (link_status.stat.lnk_source != etc_resolv_src)
+# - name: Remove old resolve.conf symlink
+#   become: true
+#   ansible.builtin.file:
+#     path: "{{ etc_resolv_path }}"
+#     state: absent
+#   when: (not link_status.stat.islnk) or (link_status.stat.lnk_source != etc_resolv_src)
 
-- name: Create new symlink
-  become: true
-  ansible.builtin.file:
-    path: "{{ etc_resolv_path }}"
-    state: link
-    src: "{{ etc_resolv_src }}"
-  when: (not link_status.stat.islnk) or (link_status.stat.lnk_source != etc_resolv_src)
+# - name: Create new symlink
+#   become: true
+#   ansible.builtin.file:
+#     path: "{{ etc_resolv_path }}"
+#     state: link
+#     src: "{{ etc_resolv_src }}"
+#   when: (not link_status.stat.islnk) or (link_status.stat.lnk_source != etc_resolv_src)
 
-- name: Restart daemon
-  become: true
-  ansible.builtin.systemd:
-    state: restarted
-    name: systemd-resolved
-    daemon_reload: true
-  when: (not link_status.stat.islnk) or (link_status.stat.lnk_source != etc_resolv_src)
+# - name: Restart daemon
+#   become: true
+#   ansible.builtin.systemd:
+#     state: restarted
+#     name: systemd-resolved
+#     daemon_reload: true
+#   when: (not link_status.stat.islnk) or (link_status.stat.lnk_source != etc_resolv_src)
 
 # - name: Copy over netplan
 #   become: true
@@ -67,7 +67,7 @@
 - name: Template compose file
   ansible.builtin.template:
     mode: u=rw,g=r
-    src: ./pi.compose.j2
+    src: pi.compose.j2
     dest: ~/pi.compose
 
 
