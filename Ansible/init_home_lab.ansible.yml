@@ -1,6 +1,6 @@
 ---
 - name: Init home lab
-  hosts: sensitive_server
+  hosts: infra_server
   gather_facts: false
   vars:
     other_port: true
@@ -37,10 +37,10 @@
     #     name: "low-sensitivity"
 
 
-    # - name: Install infrastructure Applications
-    #   when: inventory_hostname in groups['infra_server']
-    #   ansible.builtin.include_role:
-    #     name: infra
+    - name: Install infrastructure Applications
+      when: inventory_hostname in groups['infra_server']
+      ansible.builtin.include_role:
+        name: DNS_install
 
     # - name: Install sus applications
     #   when: inventory_hostname in groups['media_server']
@@ -52,7 +52,7 @@
     #   loop_control:
     #     loop_var: roleinput
 
-    - name: Install sensitive applications
-      when: inventory_hostname in groups['sensitive_server']
-      ansible.builtin.include_role:
-        name: firefly_install
+    # - name: Install sensitive applications
+    #   when: inventory_hostname in groups['sensitive_server']
+    #   ansible.builtin.include_role:
+    #     name: firefly_install
