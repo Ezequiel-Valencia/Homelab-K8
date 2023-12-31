@@ -2,9 +2,10 @@
 packages:
   - vim
 
-security_ssh_port: "{{ alt_ssh_port }}"
+security_ssh_port: "22"
 security_ssh_allowed_groups:
   - admin
+  - root
 security_sudoers_passworded:
   - "{{ owner_user }}"
   - ansible
@@ -12,12 +13,13 @@ security_sudoers_passworded:
 security_ssh_allowed_users:
   - "{{ owner_user }}"
   - ansible
+  - root
 
 security_autoupdate_enabled: false
+security_ssh_permit_root_login: "yes"
 
 # Defaults
 security_ssh_password_authentication: "no"
-security_ssh_permit_root_login: "no"
 security_ssh_usedns: "no"
 security_ssh_permit_empty_password: "no"
 security_ssh_challenge_response_auth: "no"
