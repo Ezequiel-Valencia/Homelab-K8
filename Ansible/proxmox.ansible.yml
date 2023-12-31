@@ -3,7 +3,7 @@
   hosts: proxmox_servers
   gather_facts: false
   vars:
-    other_port: true
+    other_port: false
 
   pre_tasks:
     - name: Set ssh port if not 22
