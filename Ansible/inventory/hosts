@@ -13,6 +13,7 @@ money ansible_host=10.0.0.10 ansible_user=ansible ansible_connection=ssh ansible
 ; cstorage ansible_host=10.0.0.12 ansible_user=cloud ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab
 
 [proxmox_servers]
+zimaProx ansible_host=10.0.0.3 ansible_user=ansible ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/proxmox
 laptop ansible_host=10.0.0.4 ansible_user=ansible ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/proxmox
 pc ansible_host=10.0.0.5 ansible_user=ansible ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/proxmox
 
