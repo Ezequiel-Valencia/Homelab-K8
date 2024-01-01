@@ -1,0 +1,24 @@
+---
+
+- name: Copy env files to container
+  become_user: "{{ ansible_user }}"
+  ansible.builtin.template:
+    mode: u=rw,g=r
+    src: "{{ item.src }}"
+    dest: "~/{{ item.name }}"
+  loop: '{{ template_files }}'
+
+- name: Create Traefik
+  become_user: "{{ ansible_user }}"
+  community.docker.docker_compose:
+    project_name: Traefik
+    project_src: "~/"
+    files:
+      - "traefik.compose"
+
+- name: Delete env files
+  become_user: "{{ ansible_user }}"
+  ansible.builtin.file:
+    path: "~/{{ item.name }}"
+    state: absent
+  loop: '{{ template_files }}'
