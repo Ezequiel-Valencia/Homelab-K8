@@ -13,10 +13,7 @@ services:
       - 80:80
       - 443:443
     environment:
-      - CF_API_EMAIL=user@example.com
-      - CF_DNS_API_TOKEN=YOUR_API_TOKEN
-      # - CF_API_KEY=YOUR_API_KEY
-      # be sure to use the correct one depending on if you are using a token or key
+      - GOOGLE_DOMAINS_ACCESS_TOKEN={{ googledomains_token }}
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -26,18 +23,18 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik.entrypoints=http"
-      - "traefik.http.routers.traefik.rule=Host(`traefik-dashboard.local.example.com`)"
+      - "traefik.http.routers.traefik.rule=Host(`traefik-dashboard.homelab.ezequielvalencia.com`)"
       - "traefik.http.middlewares.traefik-auth.basicauth.users=USER:BASIC_AUTH_PASSWORD"
       - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
       - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
       - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
       - "traefik.http.routers.traefik-secure.entrypoints=https"
-      - "traefik.http.routers.traefik-secure.rule=Host(`traefik-dashboard.local.example.com`)"
+      - "traefik.http.routers.traefik-secure.rule=Host(`traefik-dashboard.homelab.ezequielvalencia.com`)"
       - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
       - "traefik.http.routers.traefik-secure.tls=true"
-      - "traefik.http.routers.traefik-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.traefik-secure.tls.domains[0].main=local.example.com"
-      - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.local.example.com"
+      - "traefik.http.routers.traefik-secure.tls.certresolver=googledomains"
+      - "traefik.http.routers.traefik-secure.tls.domains[0].main=homelab.ezequielvalencia.com"
+      - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.homelab.ezequielvalencia.com"
       - "traefik.http.routers.traefik-secure.service=api@internal"
 
 networks:
