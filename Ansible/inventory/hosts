@@ -3,7 +3,7 @@ media ansible_host=10.0.0.7 ansible_user=ansible ansible_connection=ssh ansible_
 
 [infra_server]
 Pihole ansible_host=10.0.0.6 ansible_user=ansible ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab
-Treafik ansible_host=10.0.0.8 ansible_user=ansible ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab
+Traefik ansible_host=10.0.0.8 ansible_user=ansible ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab
 
 
 [low_server]
