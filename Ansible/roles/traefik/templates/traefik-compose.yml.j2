@@ -5,6 +5,7 @@ services:
     image: traefik:latest
     container_name: traefik
     restart: unless-stopped
+    user: {{ traefik_local_user }}
     security_opt:
       - no-new-privileges:true
     networks:
@@ -17,14 +18,14 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - {{ defualt_relative_docker_data_path }}/traefik/data/traefik.yml:/traefik.yml:ro
-      - {{ defualt_relative_docker_data_path }}/traefik/data/acme.json:/acme.json
-      - {{ defualt_relative_docker_data_path }}/traefik/data/config.yml:/config.yml:ro
+      - {{ defualt_relative_docker_data_path }}/traefik/traefik.yml:/traefik.yml:ro
+      - {{ defualt_relative_docker_data_path }}/traefik/acme.json:/acme.json
+      - {{ defualt_relative_docker_data_path }}/traefik/config.yml:/config.yml:ro
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik.entrypoints=http"
       - "traefik.http.routers.traefik.rule=Host(`traefik-dashboard.homelab.ezequielvalencia.com`)"
-      - "traefik.http.middlewares.traefik-auth.basicauth.users=USER:BASIC_AUTH_PASSWORD"
+      - "traefik.http.middlewares.traefik-auth.basicauth.users={{ traefik_user }}:{{ traefik_password }}"
       - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
       - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
       - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
@@ -39,4 +40,3 @@ services:
 
 networks:
   proxy:
-    external: true
