@@ -1,15 +1,38 @@
 http:
  #region routers 
   routers:
-    proxmox:
+
+    # Admin
+    ### Proxmox
+    zimaprox:
       entryPoints:
         - "https"
-      rule: "Host(`proxmox.homelab.ezequielvalencia.com`)"
+      rule: "Host(`zimaprox.homelab.ezequielvalencia.com`)"
       middlewares:
         - default-headers
         - https-redirectscheme
       tls: {}
-      service: proxmox
+      service: zimaprox
+    pcprox:
+      entryPoints:
+        - "https"
+      rule: "Host(`pcprox.homelab.ezequielvalencia.com`)"
+      middlewares:
+        - default-headers
+        - https-redirectscheme
+      tls: {}
+      service: pcprox
+    laptopprox:
+      entryPoints:
+        - "https"
+      rule: "Host(`laptopprox.homelab.ezequielvalencia.com`)"
+      middlewares:
+        - default-headers
+        - https-redirectscheme
+      tls: {}
+      service: laptopprox
+    
+    ### Other
     pihole:
       entryPoints:
         - "https"
@@ -21,15 +44,6 @@ http:
         - https-redirectscheme
       tls: {}
       service: pihole
-    syncthing:
-      entryPoints:
-        - "https"
-      rule: "Host(`syncthing.homelab.ezequielvalencia.com`)"
-      middlewares:
-        - default-headers
-        - https-redirectscheme
-      tls: {}
-      service: syncthing
     truenas:
       entryPoints:
         - "https"
@@ -39,6 +53,40 @@ http:
         - https-redirectscheme
       tls: {}
       service: truenas
+    
+
+    # Tools
+    
+    nextcloud:
+      entryPoints:
+        - "https"
+      rule: "Host(`nextcloud.homelab.ezequielvalencia.com`)"
+      middlewares:
+        - default-headers
+        - https-redirectscheme
+      tls: {}
+      service: nextcloud
+    firefly:
+      entryPoints:
+        - "https"
+      rule: "Host(`firefly.homelab.ezequielvalencia.com`)"
+      middlewares:
+        - default-headers
+        - https-redirectscheme
+      tls: {}
+      service: firefly
+    dashy:
+      entryPoints:
+        - "https"
+      rule: "Host(`dashy.homelab.ezequielvalencia.com`)"
+      middlewares:
+        - default-headers
+        - https-redirectscheme
+      tls: {}
+      service: dashy
+    
+
+    # Media
     jellyfin:
       entryPoints:
         - "https"
@@ -48,63 +96,146 @@ http:
         - https-redirectscheme
       tls: {}
       service: jellyfin
-    rancher:
+    sonarr:
       entryPoints:
         - "https"
-      rule: "Host(`rancher.homelab.ezequielvalencia.com`)"
+      rule: "Host(`sonarr.homelab.ezequielvalencia.com`)"
       middlewares:
         - default-headers
         - https-redirectscheme
       tls: {}
-      service: rancher
-    opnsense:
+      service: sonarr
+    radarr:
       entryPoints:
         - "https"
-      rule: "Host(`opnsense.homelab.ezequielvalencia.com`)"
+      rule: "Host(`radarr.homelab.ezequielvalencia.com`)"
       middlewares:
         - default-headers
         - https-redirectscheme
       tls: {}
-      service: opnsense
+      service: radarr
+    lidarr:
+      entryPoints:
+        - "https"
+      rule: "Host(`lidarr.homelab.ezequielvalencia.com`)"
+      middlewares:
+        - default-headers
+        - https-redirectscheme
+      tls: {}
+      service: lidarr
+    bazarr:
+      entryPoints:
+        - "https"
+      rule: "Host(`bazarr.homelab.ezequielvalencia.com`)"
+      middlewares:
+        - default-headers
+        - https-redirectscheme
+      tls: {}
+      service: bazarr
+    qbit:
+      entryPoints:
+        - "https"
+      rule: "Host(`qbit.homelab.ezequielvalencia.com`)"
+      middlewares:
+        - default-headers
+        - https-redirectscheme
+      tls: {}
+      service: qbit
+    jackett:
+      entryPoints:
+        - "https"
+      rule: "Host(`jackett.homelab.ezequielvalencia.com`)"
+      middlewares:
+        - default-headers
+        - https-redirectscheme
+      tls: {}
+      service: jackett
 
 #endregion
 #region services
   services:
-    proxmox:
+
+    # Admin
+    zimaprox:
       loadBalancer:
         servers:
-          - url: "https://192.168.0.100:8006"
+          - url: "https://10.0.0.3:8006"
+        passHostHeader: true
+    laptopprox:
+      loadBalancer:
+        servers:
+          - url: "https://10.0.0.4:8006"
+        passHostHeader: true
+    pcprox:
+      loadBalancer:
+        servers:
+          - url: "https://10.0.0.5:8006"
         passHostHeader: true
     pihole:
       loadBalancer:
         servers:
-          - url: "http://192.168.0.101:80"
-        passHostHeader: true
-    syncthing:
-      loadBalancer:
-        servers:
-          - url: "https://192.168.0.103:8384"
+          - url: "http://10.0.0.6:80"
         passHostHeader: true
     truenas:
       loadBalancer:
         servers:
-          - url: "https://192.168.0.104"
+          - url: "https://10.0.0.13"
         passHostHeader: true
+    
+    # Tools
+    firefly:
+      loadBalancer:
+        servers:
+          - url: "http://10.0.0.10:5780"
+        passHostHeader: true
+    nextcloud:
+      loadBalancer:
+        servers:
+          - url: "https://10.0.0.13:9782"
+        passHostHeader: true
+    dashy:
+      loadBalancer:
+        servers:
+          - url: "http://10.0.0.7:8080"
+        passHostHeader: true
+    
+    # Media
     jellyfin:
       loadBalancer:
         servers:
-          - url: "https://10.0.0.7:7260"
+          - url: "http://10.0.0.7:7260"
         passHostHeader: true
-    rancher:
+    sonarr:
       loadBalancer:
         servers:
-          - url: "https://192.168.0.107"
+          - url: "http://10.0.0.7:9898"
         passHostHeader: true
-    opnsense:
+    lidarr:
       loadBalancer:
         servers:
-          - url: "https://192.168.0.109"
+          - url: "http://10.0.0.7:8687"
         passHostHeader: true
+    radarr:
+      loadBalancer:
+        servers:
+          - url: "http://10.0.0.7:8787"
+        passHostHeader: true
+    jackett:
+      loadBalancer:
+        servers:
+          - url: "http://10.0.0.7:9845"
+        passHostHeader: true
+    bazarr:
+      loadBalancer:
+        servers:
+          - url: "http://10.0.0.7:7676"
+        passHostHeader: true
+    qbit:
+      loadBalancer:
+        servers:
+          - url: "http://10.0.0.7:9078"
+        passHostHeader: true
+
 #endregion
   middlewares:
     addprefix-pihole:
