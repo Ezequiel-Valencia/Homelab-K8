@@ -25,13 +25,15 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik.entrypoints=http"
       - "traefik.http.routers.traefik.rule=Host(`traefik-dashboard.homelab.ezequielvalencia.com`)"
-      - "traefik.http.middlewares.traefik-auth.basicauth.users={{ traefik_user }}:{{ traefik_password }}"
+      
+      # password has to be a hash of actual passwd
+      # - "traefik.http.middlewares.traefik-auth.basicauth.users={{ traefik_user }}:{{ traefik_password }}"
       - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
       - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
       - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
       - "traefik.http.routers.traefik-secure.entrypoints=https"
       - "traefik.http.routers.traefik-secure.rule=Host(`traefik-dashboard.homelab.ezequielvalencia.com`)"
-      - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
+      # - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
       - "traefik.http.routers.traefik-secure.tls=true"
       - "traefik.http.routers.traefik-secure.tls.certresolver=googledomains"
       - "traefik.http.routers.traefik-secure.tls.domains[0].main=homelab.ezequielvalencia.com"
