@@ -3,6 +3,8 @@ services:
         image: lissy93/dashy:2.1.1
         restart: always
         container_name: dashy
+        dns:
+            - 10.0.0.6
         volumes:
         - "{{ defualt_relative_docker_data_path }}/dashy:/app/public"
         networks:

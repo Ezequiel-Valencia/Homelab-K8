@@ -20,6 +20,8 @@ If local DNS is not resolving then the following could be the problem.
 
     1.  Some links to help. [1](https://askubuntu.com/questions/1012641/dns-set-to-systemds-127-0-0-53-how-to-change-permanently) [2](https://unix.stackexchange.com/questions/612416/why-does-etc-resolv-conf-point-at-127-0-0-53)
 
+    2. Set global options but use "resolvectl status" instead of the command in this [link](https://notes.enovision.net/linux/changing-dns-with-resolve) 
+
     2. If you want to read the logs of this service use [journalctl](https://unix.stackexchange.com/questions/328131/how-to-troubleshoot-dns-with-systemd-resolved) 
 
 3. Manually put the DNS resolver within the device

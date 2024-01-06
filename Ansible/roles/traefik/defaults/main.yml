@@ -1,0 +1,10 @@
+traefik_template_files:
+  - src: traefik-compose.yml.j2
+    name: traefik.compose
+
+traefik_files:
+  - traefik.yml
+  - config.yml
+
+
+traefik_local_user: root

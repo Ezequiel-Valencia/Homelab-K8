@@ -26,10 +26,10 @@
       when: pythonvenv_status.stat.exists
 
   tasks:
-    - name: Startup Ubuntu
-      when: "ansible_facts['os_family'] | lower == 'debian'"
-      ansible.builtin.include_role:
-        name: debian-system-startup
+    # - name: Startup Ubuntu
+    #   when: "ansible_facts['os_family'] | lower == 'debian'"
+    #   ansible.builtin.include_role:
+    #     name: debian-system-startup
 
     # - name: Install low-sensitiviy applications
     #   when: inventory_hostname in groups['low_server']
@@ -37,10 +37,15 @@
     #     name: "low-sensitivity"
 
 
+    # - name: Install infrastructure Applications
+    #   when: inventory_hostname in groups['infra_server']
+    #   ansible.builtin.include_role:
+    #     name: DNS_install
+
     - name: Install infrastructure Applications
       when: inventory_hostname in groups['infra_server']
       ansible.builtin.include_role:
-        name: DNS_install
+        name: traefik
 
     # - name: Install sus applications
     #   when: inventory_hostname in groups['media_server']
