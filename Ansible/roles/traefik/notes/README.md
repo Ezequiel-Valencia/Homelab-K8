@@ -18,3 +18,12 @@ What is needed for this to work is a DNS server that let's encrypt can access ex
 
 [Traefik Documentation](https://doc.traefik.io/traefik/https/acme/)
 [Lets Encrypt through GO and Google domains](https://go-acme.github.io/lego/dns/googledomains/)
+
+
+[Docker Security](https://docs.docker.com/engine/reference/run/)
+
+
+
+### What Needs DNS
+
+For the services I don't want publicly known such as proxmox, I have it accessible via DNS only through pihole. So any services that needs to access external services through their domain names (ex. dashboard dashy) they need to have their DNS set to pihole.
