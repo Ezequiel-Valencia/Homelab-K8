@@ -29,3 +29,8 @@ OpenID is similar to giving a badge instead of a key, this having the ID and per
 
 With Oauth client knows it can access these resources and what to do with it, but does not tie it back back to a user meanwhile OpenID allows for it to be tied back.
 [Video explaining it](https://youtu.be/t18YB3xDfXI?si=myaM5iJQGOta3WzZ)
+
+
+### Bugs
+
+Make sure docker network has authelia as an aliases for this to work, don't let it be implicitly defined.

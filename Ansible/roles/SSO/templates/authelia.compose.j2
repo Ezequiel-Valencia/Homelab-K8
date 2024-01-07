@@ -5,9 +5,11 @@ services:
     image: authelia/authelia
     container_name: authelia
     volumes:
-      - {{ defualt_relative_docker_data_path }}/authelia:/config
+      - {{ authelia_volume_folder }}:/config
     networks:
-      - traefik_proxy
+      traefik_proxy:
+          aliases:
+            - authelia
     labels:
       - 'traefik.enable=true'
       - 'traefik.http.routers.authelia.rule=Host(`auth.homelab.ezequielvalencia.com`)'
@@ -16,8 +18,8 @@ services:
       - 'traefik.http.middlewares.authelia.forwardauth.address=http://authelia:9091/api/verify?rd=https://auth.homelab.ezequielvalencia.com' # Docker automatic resolve of authelia name to internal IP
       - 'traefik.http.middlewares.authelia.forwardauth.trustForwardHeader=true'
       - 'traefik.http.middlewares.authelia.forwardauth.authResponseHeaders=Remote-User,Remote-Groups,Remote-Name,Remote-Email'
-    expose:
-      - 9091
+    # ports:
+    #   - 127.0.0.1:9091:9091
     restart: unless-stopped
     environment:
       - TZ={{ time_zone }}

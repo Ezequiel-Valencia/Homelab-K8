@@ -1,6 +1,6 @@
 ---
 - name: Init home lab
-  hosts: infra_server
+  hosts: Traefik
   gather_facts: false
   vars:
     other_port: true
@@ -45,7 +45,12 @@
     - name: Install infrastructure Applications
       when: inventory_hostname in groups['infra_server']
       ansible.builtin.include_role:
-        name: traefik
+        name: '{{ roleinput }}'
+      loop:
+        - traefik
+        - SSO
+      loop_control:
+        loop_var: roleinput
 
     # - name: Install sus applications
     #   when: inventory_hostname in groups['media_server']
