@@ -27,3 +27,11 @@ What is needed for this to work is a DNS server that let's encrypt can access ex
 ### What Needs DNS
 
 For the services I don't want publicly known such as proxmox, I have it accessible via DNS only through pihole. So any services that needs to access external services through their domain names (ex. dashboard dashy) they need to have their DNS set to pihole.
+
+
+
+### TrueNAS and NextCloud
+
+Nextcloud require for it's FQDN to be specified or else it doesn't work properly. [link](https://www.reddit.com/r/Traefik/comments/17w62b9/hostname_being_redirected_to_ip_address_instead/)
+
+Will fix in future.

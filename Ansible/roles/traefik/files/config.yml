@@ -9,6 +9,7 @@ http:
         - "https"
       rule: "Host(`zimaprox.homelab.ezequielvalencia.com`)"
       middlewares:
+        - authelia
         - default-headers
         - https-redirectscheme
       tls: {}
@@ -18,6 +19,7 @@ http:
         - "https"
       rule: "Host(`pcprox.homelab.ezequielvalencia.com`)"
       middlewares:
+        - authelia
         - default-headers
         - https-redirectscheme
       tls: {}
@@ -27,6 +29,7 @@ http:
         - "https"
       rule: "Host(`laptopprox.homelab.ezequielvalencia.com`)"
       middlewares:
+        - authelia
         - default-headers
         - https-redirectscheme
       tls: {}
@@ -38,6 +41,7 @@ http:
         - "https"
       rule: "Host(`pihole.homelab.ezequielvalencia.com`)"
       middlewares:
+        - authelia
         - redirectregex-pihole
         - default-headers
         - addprefix-pihole
@@ -62,6 +66,7 @@ http:
         - "https"
       rule: "Host(`nextcloud.homelab.ezequielvalencia.com`)"
       middlewares:
+        - authelia
         - default-headers
         - https-redirectscheme
       tls: {}
@@ -71,6 +76,7 @@ http:
         - "https"
       rule: "Host(`firefly.homelab.ezequielvalencia.com`)"
       middlewares:
+        - authelia
         - default-headers
         - https-redirectscheme
       tls: {}
@@ -80,6 +86,7 @@ http:
         - "https"
       rule: "Host(`dashy.homelab.ezequielvalencia.com`)"
       middlewares:
+        - authelia
         - default-headers
         - https-redirectscheme
       tls: {}
@@ -92,6 +99,7 @@ http:
         - "https"
       rule: "Host(`jellyfin.homelab.ezequielvalencia.com`)"
       middlewares:
+        - authelia
         - default-headers
         - https-redirectscheme
       tls: {}
@@ -101,6 +109,7 @@ http:
         - "https"
       rule: "Host(`sonarr.homelab.ezequielvalencia.com`)"
       middlewares:
+        - authelia
         - default-headers
         - https-redirectscheme
       tls: {}
@@ -110,6 +119,7 @@ http:
         - "https"
       rule: "Host(`radarr.homelab.ezequielvalencia.com`)"
       middlewares:
+        - authelia
         - default-headers
         - https-redirectscheme
       tls: {}
@@ -119,6 +129,7 @@ http:
         - "https"
       rule: "Host(`lidarr.homelab.ezequielvalencia.com`)"
       middlewares:
+        - authelia
         - default-headers
         - https-redirectscheme
       tls: {}
@@ -128,6 +139,7 @@ http:
         - "https"
       rule: "Host(`bazarr.homelab.ezequielvalencia.com`)"
       middlewares:
+        - authelia
         - default-headers
         - https-redirectscheme
       tls: {}
@@ -137,6 +149,7 @@ http:
         - "https"
       rule: "Host(`qbit.homelab.ezequielvalencia.com`)"
       middlewares:
+        - authelia
         - default-headers
         - https-redirectscheme
       tls: {}
@@ -146,6 +159,7 @@ http:
         - "https"
       rule: "Host(`jackett.homelab.ezequielvalencia.com`)"
       middlewares:
+        - authelia
         - default-headers
         - https-redirectscheme
       tls: {}
@@ -249,6 +263,9 @@ http:
       redirectRegex:
         regex: /admin/$
         replacement: /
+    authelia:
+      forwardAuth:
+        address: "http://authelia:9091/api/verify?rd=https://auth.homelab.ezequielvalencia.com"
 
     default-headers:
       headers:

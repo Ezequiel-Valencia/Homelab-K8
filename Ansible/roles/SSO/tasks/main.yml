@@ -1,0 +1,37 @@
+---
+
+- name: Make Authelia directory
+  become: true
+  ansible.builtin.file:
+    mode: u=rwx,g=rwx,o=
+    path: "{{ authelia_volume_folder }}"
+    state: directory
+
+- name: Template Authelia Docker file
+  become: true
+  ansible.builtin.template:
+    mode: u=rw,g=r
+    src: "{{ template_files.src }}"
+    dest: "{{ template_files.dst }}"
+  loop: '{{ authelia_template_files }}'
+  loop_control:
+    loop_var: template_files
+
+- name: Copy traefik config files
+  become: true
+  ansible.builtin.copy:
+    mode: u=rw,g=r,o=
+    src: "users_database.yml"
+    dest: "{{ authelia_volume_folder }}/users_database.yml"
+
+- name: Create Authelia
+  community.docker.docker_compose:
+    project_name: Authelia
+    project_src: "~/"
+    files:
+      - "authelia.compose"
+
+- name: Delete compose file
+  ansible.builtin.file:
+    path: "~/authelia.compose"
+    state: absent
