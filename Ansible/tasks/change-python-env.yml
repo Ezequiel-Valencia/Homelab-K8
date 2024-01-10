@@ -1,0 +1,10 @@
+---
+- name: Check for python env
+  ansible.builtin.stat:
+    path: '{{ ansible_env.HOME }}/pyvenv/bin/python3'
+  register: pythonvenv_status
+
+- name: Set python interpreter
+  ansible.builtin.set_fact:
+    ansible_python_interpreter: '{{ ansible_env.HOME }}/pyvenv/bin/python3'
+  when: pythonvenv_status.stat.exists
