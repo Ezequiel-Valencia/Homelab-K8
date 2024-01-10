@@ -1,0 +1,9 @@
+---
+- name: Init home lab
+  hosts: proxmox_servers
+  gather_facts: false
+  vars:
+    other_port: true
+
+  roles:
+    - proxmox-init
