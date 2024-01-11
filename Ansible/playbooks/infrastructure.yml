@@ -1,5 +1,5 @@
 ---
-- name: Init home lab
+- name: Setting Up Homelab Infrastructure
   hosts: infra_server
   gather_facts: false
   vars:

@@ -1,9 +1,8 @@
 ---
-- name: Init home lab
+- name: Init Proxmox Machines
   hosts: proxmox_servers
-  gather_facts: false
   vars:
-    other_port: true
+    other_port: false
 
   roles:
     - proxmox-init

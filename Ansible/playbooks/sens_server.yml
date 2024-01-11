@@ -1,5 +1,5 @@
 ---
-- name: Init Media Servers
+- name: Init Sens Servers
   hosts: infra_server
   gather_facts: false
   vars:
@@ -15,5 +15,4 @@
 
   roles:
     - debian-system-startup
-    - media_install
-    - dashy_install
+    - firefly_install
