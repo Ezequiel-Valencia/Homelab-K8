@@ -9,22 +9,12 @@ The applications that will be ran on top of the OS that are installed within the
 ## Work Enviroment
 
 
-
- ## Data Base Storage
-
-
-
  ## System Admin
  Consists of Firewall, intrusion detection system (IDS), intrusion prevention system (IPS), type one hypervisor, and DNS.
 
 
 
 # Whole Picture
-
-
-# Ansible command
-
-ansible-playbook --ask-vault-pass -K ./update_media.ansible.yml
 
 
 
@@ -38,11 +28,3 @@ An amazing web series that I found to late, but seems to be very informational. 
 - Check VPN connection
 - Modify qbittorent download location
 - Create additional hard drive for media VM
-
-## Modify Ansible hosts file
-
-## Edit vault secrets
-- Sudo passwords per host
-
-
-## Setup PiHole DNS through GUI
