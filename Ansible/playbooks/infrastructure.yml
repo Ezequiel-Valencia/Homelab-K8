@@ -1,0 +1,20 @@
+---
+- name: Setting Up Homelab Infrastructure
+  hosts: infra_server
+  gather_facts: false
+  vars:
+    other_port: true
+    alt_ssh_port: 5320
+
+  pre_tasks:
+    - name: Get facts after SSH set
+      ansible.builtin.include_tasks: tasks/gather-facts-ssh.yml
+
+    - name: Change Python Env
+      ansible.builtin.include_tasks: tasks/change-python-env.yml
+
+  roles:
+    - debian-system-startup
+    - DNS_install
+    - traefik
+    - SSO

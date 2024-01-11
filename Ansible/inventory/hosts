@@ -5,13 +5,8 @@ media ansible_host=10.0.0.7 ansible_user=ansible ansible_connection=ssh ansible_
 Pihole ansible_host=10.0.0.6 ansible_user=ansible ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab
 Traefik ansible_host=10.0.0.8 ansible_user=ansible ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab
 
-
-[low_server]
-; personal-health ansible_host=10.0.0.8 ansible_user=phealth ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab
-
 [sensitive_server]
 money ansible_host=10.0.0.10 ansible_user=ansible ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab
-; cstorage ansible_host=10.0.0.12 ansible_user=cloud ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab
 
 [proxmox_servers]
 zimaProx ansible_host=10.0.0.3 ansible_user=ansible ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/proxmox
@@ -20,6 +15,5 @@ pc ansible_host=10.0.0.5 ansible_user=ansible ansible_connection=ssh ansible_ssh
 
 [ubuntu_server:children]
 infra_server
-low_server
 media_server
 sensitive_server
