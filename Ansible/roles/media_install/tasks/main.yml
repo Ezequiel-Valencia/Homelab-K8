@@ -1,5 +1,72 @@
-- name: Install media apps
-  ansible.builtin.include_tasks: "{{ item }}"
-  loop:
-    - media.ansible.yml
-  when: ansible_facts['hostname']|lower == 'media'
+---
+- name: Setup laptop partition
+  ansible.builtin.include_tasks: setup_partition.yml
+
+- name: Create media group
+  become: true
+  ansible.builtin.group:
+    name: media
+    state: present
+  register: group_return_values
+
+- name: Create users for media group
+  become: true
+  ansible.builtin.user:
+    name: "{{ current_user.name }}"
+    uid: "{{ current_user.PUID }}"
+    groups: "{{ group_return_values.name }}"
+  loop: "{{ users }}"
+  loop_control:
+    loop_var: current_user
+
+- name: Create the folders requied for media group
+  become: true
+  ansible.builtin.file:
+    path: "{{ folders.dir }}"
+    state: directory
+    mode: u=rwx,g=rwx,o=rx
+    recurse: true
+    owner: "{{ folders.owner }}"
+    group: "{{ group_return_values.gid }}"
+  with_items:
+    - dir: "{{ media_path_downloads }}"
+      owner: "{{ users[0].PUID }}"
+
+    - dir: "{{ media_path_tv }}"
+      owner: "{{ users[0].PUID }}"
+
+    - dir: "{{ media_path_movies }}"
+      owner: "{{ users[0].PUID }}"
+
+    - dir: "{{ media_path_music }}"
+      owner: "{{ users[0].PUID }}"
+
+    - dir: "{{ media_path_books }}"
+      owner: "{{ users[0].PUID }}"
+
+    - dir: "{{ jellyfin_config_path }}"
+      owner: "{{ users[0].PUID }}"
+  loop_control:
+    loop_var: folders
+
+
+- name: Template compose file
+  ansible.builtin.template:
+    mode: u=rw,g=r,o=
+    src: media.compose.j2
+    dest: ~/media.compose
+
+# https://github.com/qdm12/gluetun/wiki
+- name: Media Compose Up
+  become_user: "{{ ansible_user }}"
+  community.docker.docker_compose:
+    project_name: "Film Media"
+    project_src: "~/"
+    recreate: always
+    files:
+      - media.compose
+
+- name: Delete template file
+  ansible.builtin.file:
+    state: absent
+    path: "~/media.compose"
