@@ -1,6 +1,6 @@
 ---
 - name: Init Sens Servers
-  hosts: infra_server
+  hosts: sensitive_server
   gather_facts: false
   vars:
     other_port: true
@@ -8,10 +8,10 @@
 
   pre_tasks:
     - name: Get facts after SSH set
-      ansible.builtin.include_tasks: tasks/gather-facts-ssh.yml
+      ansible.builtin.include_tasks: ../tasks/gather-facts-ssh.yml
 
     - name: Change Python Env
-      ansible.builtin.include_tasks: tasks/change-python-env.yml
+      ansible.builtin.include_tasks: ../tasks/change-python-env.yml
 
   roles:
     - debian-system-startup
