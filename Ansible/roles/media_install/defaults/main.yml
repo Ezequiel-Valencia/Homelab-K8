@@ -17,6 +17,7 @@ radarr_config_path: "{{ mounted_path }}/config/radarr"
 sonarr_config_path: "{{ mounted_path }}/config/sonarr"
 gluetun_config_path: "{{ mounted_path }}/config/gluetun"
 lidarr_config_path: "{{ defualt_relative_docker_data_path }}/lidarr/config"
+readarr_config_path: "{{ defualt_relative_docker_data_path }}/readarr/config"
 
 # Needed since applications communicate giving paths within their own systems since
 # they believe they are communicating in the same machine
