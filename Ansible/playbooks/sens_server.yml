@@ -15,4 +15,8 @@
 
   roles:
     - debian-system-startup
+
+- hosts: money
+  roles:
     - firefly_install
+

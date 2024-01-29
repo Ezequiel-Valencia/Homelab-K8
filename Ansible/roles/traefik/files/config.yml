@@ -188,7 +188,7 @@ http:
     pihole:
       loadBalancer:
         servers:
-          - url: "http://10.0.0.6:80"
+          - url: "http://10.0.0.6:5790"
         passHostHeader: true
     truenas:
       loadBalancer:
@@ -210,7 +210,7 @@ http:
     dashy:
       loadBalancer:
         servers:
-          - url: "http://10.0.0.7:8080"
+          - url: "http://10.0.0.8:8080"
         passHostHeader: true
     
     # Media
@@ -281,7 +281,7 @@ http:
           X-Forwarded-Proto: https
 
     default-whitelist:
-      ipWhiteList:
+      ipAllowList:
         sourceRange:
         - "10.0.0.0/24"
         # - "192.168.0.0/16"
