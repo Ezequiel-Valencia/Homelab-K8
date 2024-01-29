@@ -16,4 +16,3 @@
   roles:
     - debian-system-startup
     - media_install
-    - dashy_install
