@@ -15,4 +15,7 @@
 
   roles:
     - debian-system-startup
+
+- hosts: media
+  roles:
     - media_install
