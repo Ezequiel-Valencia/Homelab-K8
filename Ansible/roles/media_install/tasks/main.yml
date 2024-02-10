@@ -24,7 +24,7 @@
   ansible.builtin.file:
     path: "{{ folders.dir }}"
     state: directory
-    mode: u=rw,g=rw,o=rx
+    mode: u=rwx,g=rwx,o=rx
     # recurse: true
     owner: "{{ folders.owner }}"
     group: "{{ group_return_values.gid }}"
