@@ -24,13 +24,13 @@
   ansible.builtin.file:
     path: "{{ folders.dir }}"
     state: directory
-    mode: u=rwx,g=rwx,o=rx
-    recurse: true
+    mode: u=rw,g=rw,o=rx
+    # recurse: true
     owner: "{{ folders.owner }}"
     group: "{{ group_return_values.gid }}"
   with_items:
     - dir: "{{ media_path_downloads }}"
-      owner: "{{ users[0].PUID }}"
+      owner: "{{ users[1].PUID }}"
 
     - dir: "{{ media_path_tv }}"
       owner: "{{ users[0].PUID }}"
@@ -44,8 +44,8 @@
     - dir: "{{ media_path_books }}"
       owner: "{{ users[0].PUID }}"
 
-    - dir: "{{ jellyfin_config_path }}"
-      owner: "{{ users[0].PUID }}"
+    # - dir: "{{ jellyfin_config_path }}"
+    #   owner: "{{ users[2].PUID }}"
   loop_control:
     loop_var: folders
 
