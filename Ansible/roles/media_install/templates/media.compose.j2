@@ -29,7 +29,7 @@ services:
             - "7439:6881/tcp"
             - "7439:6881/udp"
         volumes:
-            - "{{ gluetun_config_path }}:/gluetun"
+            - "{{ gluetun_config_path }}:/gluetun:Z"
         healthcheck:
             test: {{ health_check_vpn.test }}
             interval: {{ health_check_vpn.interval }}
@@ -47,11 +47,11 @@ services:
             - gluetun
         environment:
             - TZ={{ time_zone }}
-            - PUID="{{ users[0].PUID }}"
+            - PUID={{ users[0].PUID }}
             - PGID={{ group_return_values.gid }}
             - UMASK={{ media_UMASK }}
         volumes:
-            - "{{ sonarr_config_path }}:/config"
+            - "{{ sonarr_config_path }}:/config:Z"
             - "{{ media_path_tv }}:{{ internal_tv }}"
             - "{{ media_path_downloads }}:{{ internal_downloads }}"
         healthcheck:
@@ -71,11 +71,11 @@ services:
             - gluetun
         environment:
             - TZ={{ time_zone }}
-            - PUID="{{ users[0].PUID }}"
+            - PUID={{ users[0].PUID }}
             - PGID={{ group_return_values.gid }}
             - UMASK={{ media_UMASK }}
         volumes:
-            - "{{ radarr_config_path }}:/config"
+            - "{{ radarr_config_path }}:/config:Z"
             - "{{ media_path_movies }}:{{ internal_movies }}"
             - "{{ media_path_downloads }}:{{ internal_downloads }}"
         healthcheck:
@@ -93,12 +93,12 @@ services:
             - gluetun
         environment:
             - TZ={{ time_zone }}
-            - PUID="{{ users[0].PUID }}"
+            - PUID={{ users[0].PUID }}
             - PGID={{ group_return_values.gid }}
             - UMASK={{ media_UMASK }}
         network_mode: "{{ unified_network }}"
         volumes:
-            - "{{ bazarr_config_path }}:/config"
+            - "{{ bazarr_config_path }}:/config:Z"
             - "{{ media_path_tv }}:{{ internal_tv }}"
             - "{{ media_path_movies }}:{{ internal_movies }}"
         healthcheck:
@@ -116,12 +116,12 @@ services:
             - gluetun
         environment:
             - TZ={{ time_zone }}
-            - PUID="{{ users[0].PUID }}"
+            - PUID={{ users[0].PUID }}
             - PGID={{ group_return_values.gid }}
             - UMASK={{ media_UMASK }}
         network_mode: "{{ unified_network }}"
         volumes:
-            - "{{ lidarr_config_path }}:/config"
+            - "{{ lidarr_config_path }}:/config:Z"
             - "{{ media_path_music }}:{{ internal_music }}"
             - "{{ media_path_downloads }}:{{ internal_downloads }}"
         healthcheck:
@@ -144,7 +144,7 @@ services:
     #         - UMASK={{ media_UMASK }}
     #     network_mode: "{{ unified_network }}"
     #     volumes:
-    #         - "{{ readarr_config_path }}:/config"
+    #         - "{{ readarr_config_path }}:/config:Z"
     #         - "{{ media_path_books }}:{{ internal_books }}"
     #         - "{{ media_path_downloads }}:{{ internal_downloads }}"
     #     healthcheck:
@@ -163,13 +163,13 @@ services:
             - gluetun
         environment:
             - TZ={{ time_zone }}
-            - PUID="{{ users[0].PUID }}"
+            - PUID={{ users[0].PUID }}
             - PGID={{ group_return_values.gid }}
             - UMASK={{ media_UMASK }}
             - AUTO_UPDATE=true
         network_mode: "{{ unified_network }}"
         volumes:
-            - "{{ jackett_config_path }}:/config"
+            - "{{ jackett_config_path }}:/config:Z"
         healthcheck:
             test: {{ health_check_vpn.test }}
             interval: {{ health_check_vpn.interval }}
@@ -187,12 +187,12 @@ services:
         environment:
             - TZ={{ time_zone }}
             - WEBUI_PORT=9078
-            - PUID="{{ users[0].PUID }}"
+            - PUID={{ users[1].PUID }}
             - PGID={{ group_return_values.gid }}
             - UMASK={{ media_UMASK }}
         network_mode: "{{ unified_network }}"
         volumes:
-            - "{{ qbit_config_path }}:/config"
+            - "{{ qbit_config_path }}:/config:Z"
             - "{{ media_path_downloads }}:{{ internal_downloads }}"
         healthcheck:
             test: {{ health_check_vpn.test }}
@@ -205,17 +205,15 @@ services:
         image: lscr.io/linuxserver/jellyfin:latest
         restart: unless-stopped
         container_name: jellyfin
-        group_add:
-            - "109" # Render group
         environment:
             - TZ={{ time_zone }}
-            - PUID="{{ users[0].PUID }}"
+            - PUID={{ users[2].PUID }}
             - PGID={{ group_return_values.gid }}
             - UMASK={{ media_UMASK }}
         ports:
             - "7260:8096"
         volumes:
-            - "{{ jellyfin_config_path }}:/config"
+            - "{{ jellyfin_config_path }}:/config:Z" # Z flag makes it only available to this container
             - "{{ media_path_tv }}:{{ internal_tv }}"
             - "{{ media_path_movies }}:{{ internal_movies }}"
 
