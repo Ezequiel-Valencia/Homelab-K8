@@ -49,7 +49,6 @@ services:
             - TZ={{ time_zone }}
             - PUID={{ users[0].PUID }}
             - PGID={{ group_return_values.gid }}
-            - UMASK={{ media_UMASK }}
         volumes:
             - "{{ sonarr_config_path }}:/config:Z"
             - "{{ media_path_tv }}:{{ internal_tv }}"
@@ -73,7 +72,6 @@ services:
             - TZ={{ time_zone }}
             - PUID={{ users[0].PUID }}
             - PGID={{ group_return_values.gid }}
-            - UMASK={{ media_UMASK }}
         volumes:
             - "{{ radarr_config_path }}:/config:Z"
             - "{{ media_path_movies }}:{{ internal_movies }}"
@@ -95,7 +93,6 @@ services:
             - TZ={{ time_zone }}
             - PUID={{ users[0].PUID }}
             - PGID={{ group_return_values.gid }}
-            - UMASK={{ media_UMASK }}
         network_mode: "{{ unified_network }}"
         volumes:
             - "{{ bazarr_config_path }}:/config:Z"
@@ -118,7 +115,6 @@ services:
             - TZ={{ time_zone }}
             - PUID={{ users[0].PUID }}
             - PGID={{ group_return_values.gid }}
-            - UMASK={{ media_UMASK }}
         network_mode: "{{ unified_network }}"
         volumes:
             - "{{ lidarr_config_path }}:/config:Z"
@@ -165,7 +161,6 @@ services:
             - TZ={{ time_zone }}
             - PUID={{ users[0].PUID }}
             - PGID={{ group_return_values.gid }}
-            - UMASK={{ media_UMASK }}
             - AUTO_UPDATE=true
         network_mode: "{{ unified_network }}"
         volumes:
@@ -189,7 +184,6 @@ services:
             - WEBUI_PORT=9078
             - PUID={{ users[1].PUID }}
             - PGID={{ group_return_values.gid }}
-            - UMASK={{ media_UMASK }}
         network_mode: "{{ unified_network }}"
         volumes:
             - "{{ qbit_config_path }}:/config:Z"
@@ -209,7 +203,6 @@ services:
             - TZ={{ time_zone }}
             - PUID={{ users[2].PUID }}
             - PGID={{ group_return_values.gid }}
-            - UMASK={{ media_UMASK }}
         ports:
             - "7260:8096"
         volumes:
