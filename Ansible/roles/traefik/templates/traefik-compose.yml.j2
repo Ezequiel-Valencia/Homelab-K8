@@ -14,7 +14,7 @@ services:
       - 80:80
       - 443:443
     environment:
-      - GOOGLE_DOMAINS_ACCESS_TOKEN={{ googledomains_token }}
+      - CF_DNS_API_TOKEN={{ cloudflare_token }}
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -35,7 +35,7 @@ services:
       - "traefik.http.routers.traefik-secure.rule=Host(`traefik-dashboard.homelab.ezequielvalencia.com`)"
       - "traefik.http.routers.traefik-secure.middlewares=authelia"
       - "traefik.http.routers.traefik-secure.tls=true"
-      - "traefik.http.routers.traefik-secure.tls.certresolver=googledomains"
+      - "traefik.http.routers.traefik-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.traefik-secure.tls.domains[0].main=homelab.ezequielvalencia.com"
       - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.homelab.ezequielvalencia.com"
       - "traefik.http.routers.traefik-secure.service=api@internal"
