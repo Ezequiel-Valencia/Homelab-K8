@@ -35,7 +35,7 @@ services:
       - "traefik.http.routers.traefik-secure.rule=Host(`traefik-dashboard.homelab.ezequielvalencia.com`)"
       - "traefik.http.routers.traefik-secure.middlewares=authelia"
       - "traefik.http.routers.traefik-secure.tls=true"
-      - "traefik.http.routers.traefik-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.traefik-secure.tls.certresolver=cloudflareResolver"
       - "traefik.http.routers.traefik-secure.tls.domains[0].main=homelab.ezequielvalencia.com"
       - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.homelab.ezequielvalencia.com"
       - "traefik.http.routers.traefik-secure.service=api@internal"

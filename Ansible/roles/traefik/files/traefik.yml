@@ -1,6 +1,8 @@
 api:
   dashboard: true
   debug: true
+log:
+  level: INFO
 entryPoints:
   http:
     address: ":80"
@@ -20,7 +22,7 @@ providers:
   file:
     filename: /config.yml
 certificatesResolvers:
-  cloudflare:
+  cloudflareResolver:
     acme:
       storage: acme.json
       dnsChallenge:
