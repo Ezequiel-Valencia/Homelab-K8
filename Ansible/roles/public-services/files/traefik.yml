@@ -21,6 +21,6 @@ certificatesResolvers:
   cloudflareResolver:
     acme:
       storage: acme.json
-      email: "{{ cert_admin_email }}"
+      email: wzeke123@gmail.com
       tlsChallenge: true
 
