@@ -29,6 +29,8 @@ services:
             - "{{ defualt_relative_docker_data_path }}/nextcloud:/var/www/html"
         environment:
             - SQLITE_DATABASE=nextcloud
+            - OVERWRITEPROTOCOL=https
+            - OVERWRITECLIURL=https://nextcloud.docker 
         networks:
             nextcloud:
                 aliases:
