@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: jellyfin
+  name: jellyfin
+spec:
+  selector:
+    matchLabels:
+      app: jellyfin
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: jellyfin
+    spec:
+      # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
+      containers: 
+        - name: jellyfin
+          image: lscr.io/linuxserver/jellyfin:latest
+          imagePullPolicy: "Always"
+          restart: unless-stopped
+          envFrom:
+            - 
+          securityContext:
+            runAsGroup: 1
+            runAsUser: 1
+            runAsNonRoot: true
+          ports:
+            - containerPort: 8096
+          volumeMounts:
+            - name: MediaConfigLocalStorage
+              mountPath: /config
+              subPath: /jellyfin
+            - name: MediaLocalStorage
+              mountPath: /media/tv
+              subPath: /tv
+            - name: MediaLocalStorage
+              mountPath: /media/movie
+              subPath: /movie
+          healthcheck: # https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/        
+
+      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: jellyfin
+  name: jellyfin
+spec:
+  ports:
+    - name: WebUI
+      port: 8096
+      targetPort: 7260
+  selector:
+    app: jellyfin

@@ -1,0 +1,121 @@
+# Merge Patch
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: arr
+spec:
+  selector:
+  matchLabels:
+    app: mediavpn
+  template:
+    spec:
+      containers:
+        - name: sonarr
+          image: lscr.io/linuxserver/sonarr:latest
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: timeZone
+            - configMapRef:
+                name: arrUser
+          securityContext:
+            runAsGroup: 1
+            runAsUser: 2
+            runAsNonRoot: true
+          volumeMounts:
+            - name: MediaLocalStorage
+              mountPath: /media/tv
+              subPath: /tv
+            - name: MediaLocalStorage
+              mountPath: /media/downloads
+              subPath: /downloads
+            - name: MediaConfigLocalStorage
+              mountPath: /config
+              subPath: /sonarr
+
+        - name: radarr
+          image: lscr.io/linuxserver/radarr:latest
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: timeZone
+            - configMapRef:
+                name: arrUser
+          securityContext:
+            runAsGroup: 1
+            runAsUser: 2
+            runAsNonRoot: true
+          volumeMounts:
+            - name: MediaLocalStorage
+              mountPath: /media/movies
+              subPath: /movies
+            - name: MediaLocalStorage
+              mountPath: /media/downloads
+              subPath: /downloads
+            - name: MediaConfigLocalStorage
+              mountPath: /config
+              subPath: /radarr
+
+        - name: bazarr
+          image: lscr.io/linuxserver/bazarr:latest
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: timeZone
+            - configMapRef:
+                name: arrUser
+          securityContext:
+            runAsGroup: 1
+            runAsUser: 2
+            runAsNonRoot: true
+          volumeMounts:
+            - name: MediaLocalStorage
+              mountPath: /media/tv
+              subPath: /tv
+            - name: MediaLocalStorage
+              mountPath: /media/movie
+              subPath: /movie
+            - name: MediaConfigLocalStorage
+              mountPath: /config
+              subPath: /bazarr
+        
+        - name: jackett
+          image: lscr.io/linuxserver/jackett:latest
+          imagePullPolicy: Always
+          envs:
+            - AUTO_UPDATE=true
+          envFrom:
+            - configMapRef:
+                name: timeZone
+            - configMapRef:
+                name: arrUser
+          securityContext:
+            runAsGroup: 1
+            runAsUser: 2
+            runAsNonRoot: true
+          volumeMounts:
+            - name: MediaConfigLocalStorage
+              mountPath: /config
+              subPath: /jackett
+        
+        - name: qbittorrent
+          image: lscr.io/linuxserver/qbittorrent:latest
+          imagePullPolicy: Always
+          envs:
+            - WEBUI_PORT=9078
+          envFrom:
+            - configMapRef:
+                name: timeZone
+            - configMapRef:
+                name: torrentUser
+          securityContext:
+            runAsGroup: 1
+            runAsUser: 2
+            runAsNonRoot: true
+          volumeMounts:
+            - name: MediaConfigLocalStorage
+              mountPath: /config
+              subPath: /qbittorent
+            - name: MediaLocalStorage
+              mountPath: /media/downloads
+              subPath: /downloads

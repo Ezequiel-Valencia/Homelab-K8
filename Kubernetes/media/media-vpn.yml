@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mediavpn
+  name: mediavpn
+spec:
+  selector:
+    matchLabels:
+      app: mediavpn
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mediavpn
+    spec:
+      # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
+      initContainers: 
+        - name: gluetun
+          image: qmcgaw/gluetun:latest
+          imagePullPolicy: "Always"
+          restart: unless-stopped
+          envFrom:
+            - secretRef:
+                name: vpn-secrets
+          securityContext:
+            runAsGroup: 1
+            runAsUser: 1
+            capabilities: 
+              add: ["NET_ADMIN"] # https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+          ports:
+            - containerPort: 6767
+            - containerPort: 8989
+            - containerPort: 7878
+            - containerPort: 9117
+            - containerPort: 8686
+            - containerPort: 9078
+            - containerPort: 6881
+          volumeMounts:
+            - name: MediaConfigLocalStorage
+              mountPath: /gluetun
+              subPath: /gluetun
+          healthcheck: # https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/        
+      
+      containers: []
+      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mediavpn
+  name: mediavpn
+spec:
+  ports:
+    - name: Bazarr
+      port: 6767
+      targetPort: 7676
+    - name: Sonarr
+      port: 8989
+      targetPort: 9898
+    - name: Jackett
+      port: 9117
+      targetPort: 9845
+    - name: Lidarr
+      port: 8686
+      targetPort: 8687
+    - name: Qbittorent WebUI
+      port: 9078
+      targetPort: 9078
+    - name: Qbittorent TCP
+      port: 6881
+      targetPort: 7439
+      type: TCP
+    - name: Qbittorent UDP
+      port: 6881
+      targetPort: 7439
+      type: UDP
+  selector:
+    app: mediavpn
