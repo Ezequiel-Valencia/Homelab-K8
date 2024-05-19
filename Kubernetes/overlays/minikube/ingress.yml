@@ -1,0 +1,69 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+  namespace: media
+spec:
+  rules:
+    - host: bazarr.minikube.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  mediavpn
+                port:
+                  name: bazarr
+    - host: sonarr.minikube.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  mediavpn
+                port:
+                  name: sonarr
+    - host: jackett.minikube.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  mediavpn
+                port:
+                  name: jackett
+    - host: lidarr.minikube.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  mediavpn
+                port:
+                  name: lidarr
+    - host: qbit.minikube.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  mediavpn
+                port:
+                  name: qbit-web-ui
+    - host: jellyfin.minikube.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  jellyfin
+                port:
+                  name: web-ui
+
+          
