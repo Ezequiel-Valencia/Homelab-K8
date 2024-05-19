@@ -6,11 +6,7 @@ kind: Kustomization
 
 namespace: media
 
-patches:
-  - target:
-      kind: Deployment
-      name: mediavpn
-    patch: arr-apps.yml
+
 
 resources:
 - media-viewer.yml
