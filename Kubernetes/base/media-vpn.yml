@@ -16,6 +16,7 @@ spec:
       labels:
         app: mediavpn
     spec:
+      # https://www.ibm.com/docs/de/spectrum-conductor/2.5.0?topic=instances-network-provisioning-docker-pods
       # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
       initContainers: 
         - name: gluetun

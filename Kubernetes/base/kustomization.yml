@@ -4,7 +4,7 @@ kind: Kustomization
 
 # Merge Patch https://stackoverflow.com/questions/76004172/how-to-add-init-container-with-kustomize
 
-namespace: Media
+namespace: media
 
 patches:
   - target:
@@ -13,7 +13,5 @@ patches:
     patch: arr-apps.yml
 
 resources:
-- media-vpn
-- viewer
-- storage
-- ../SealedSecrets/vpn-secrets
+- media-viewer.yml
+- media-vpn.yml
