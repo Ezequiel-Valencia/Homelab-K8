@@ -23,10 +23,11 @@ spec:
           imagePullPolicy: "Always"
           restart: unless-stopped
           envFrom:
-            - 
+            - configMapRef:
+                name: timeZone
+            - configMapRef:
+                name: arrUser
           securityContext:
-            runAsGroup: 1
-            runAsUser: 1
             runAsNonRoot: true
           ports:
             - containerPort: 8096
