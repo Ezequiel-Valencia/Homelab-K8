@@ -173,27 +173,27 @@ metadata:
 spec:
   ports:
     - name: bazarr
-      port: 6767
-      targetPort: 7676
+      port: 7676
+      targetPort: 6767
     - name: sonarr
-      port: 8989
-      targetPort: 9898
+      port: 9898
+      targetPort: 8989
     - name: jackett
-      port: 9117
-      targetPort: 9845
+      port: 9845
+      targetPort: 9117
     - name: lidarr
-      port: 8686
-      targetPort: 8687
+      port: 8687
+      targetPort: 8686
     - name: qbit-web-ui
       port: 9078
       targetPort: 9078
     - name: qbit-tcp
-      port: 6881
-      targetPort: 7439
+      port: 7439
+      targetPort: 6881
       protocol: TCP
     - name: qbit-udp
-      port: 6881
-      targetPort: 7439
+      port: 7439
+      targetPort: 6881
       protocol: UDP
   selector:
     app: mediavpn
