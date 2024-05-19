@@ -16,20 +16,20 @@ spec:
       labels:
         app: jellyfin
     spec:
+      # TODO: Add resource management
       # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
       containers: 
         - name: jellyfin
           image: lscr.io/linuxserver/jellyfin:latest
           imagePullPolicy: "Always"
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
           envFrom:
             - configMapRef:
                 name: time-zone
             - configMapRef:
                 name: arr-user
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-            runAsNonRoot: true
           ports:
             - containerPort: 8096
           volumeMounts:
@@ -63,6 +63,6 @@ spec:
   ports:
     - name: web-ui
       port: 8096
-      targetPort: 7260
+      targetPort: 8096
   selector:
     app: jellyfin
