@@ -21,28 +21,35 @@ spec:
         - name: jellyfin
           image: lscr.io/linuxserver/jellyfin:latest
           imagePullPolicy: "Always"
-          restart: unless-stopped
           envFrom:
             - configMapRef:
                 name: time-zone
             - configMapRef:
                 name: arr-user
           securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
             runAsNonRoot: true
           ports:
             - containerPort: 8096
           volumeMounts:
             - name: media-config-local-storage
               mountPath: /config
-              subPath: /jellyfin
+              subPath: jellyfin
             - name: media-local-storage
               mountPath: /media/tv
-              subPath: /tv
+              subPath: tv
             - name: media-local-storage
               mountPath: /media/movie
-              subPath: /movie
-          healthcheck: # https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/        
-
+              subPath: movie
+          # healthcheck: # https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/        
+      volumes:
+        - name: media-config-local-storage
+          persistentVolumeClaim:
+            claimName: media-config-local-storage-claim
+        - name: media-local-storage
+          persistentVolumeClaim:
+            claimName: media-local-storage-claim
       restartPolicy: Always
 
 ---

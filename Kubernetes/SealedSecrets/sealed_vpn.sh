@@ -20,7 +20,7 @@ kubectl create secret generic ${SECRET_NAME} --dry-run=client \
       --from-literal=SERVER_CITIES="New York NY" \
       --from-literal=WIREGUARD_ADDRESSES="${WIREGUARD_ADDRESSES}" \
       --from-literal=VPN_SERVICE_PROVIDER="${VPN_SERVICE_PROVIDER}" \
-      --from-literal=VPN_TYPE="" \
+      --from-literal=VPN_TYPE="wireguard" \
       --from-literal=DOT_PROVIDERS="quad9" \
       --from-literal=UPDATER_PERIOD="48h" \
       --namespace="${NAMESPACE}" -o yaml | kubeseal --format yaml

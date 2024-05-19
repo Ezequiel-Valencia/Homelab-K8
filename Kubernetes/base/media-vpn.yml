@@ -22,7 +22,6 @@ spec:
         - name: gluetun
           image: qmcgaw/gluetun:latest
           imagePullPolicy: "Always"
-          restart: unless-stopped
           envFrom:
             - secretRef:
                 name: vpn-secrets
@@ -40,8 +39,8 @@ spec:
           volumeMounts:
             - name: media-config-local-storage
               mountPath: /gluetun
-              subPath: /gluetun
-          healthcheck: # https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/        
+              subPath: gluetun
+          # healthcheck: # https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/        
       
       containers: 
         - name: sonarr
@@ -57,13 +56,13 @@ spec:
           volumeMounts:
             - name: media-local-storage
               mountPath: /media/tv
-              subPath: /tv
+              subPath: tv
             - name: media-local-storage
               mountPath: /media/downloads
-              subPath: /downloads
+              subPath: downloads
             - name: media-config-local-storage
               mountPath: /config
-              subPath: /sonarr
+              subPath: sonarr
 
         - name: radarr
           image: lscr.io/linuxserver/radarr:latest
@@ -78,13 +77,13 @@ spec:
           volumeMounts:
             - name: media-local-storage
               mountPath: /media/movies
-              subPath: /movies
+              subPath: movies
             - name: media-local-storage
               mountPath: /media/downloads
-              subPath: /downloads
+              subPath: downloads
             - name: media-config-local-storage
               mountPath: /config
-              subPath: /radarr
+              subPath: radarr
 
         - name: bazarr
           image: lscr.io/linuxserver/bazarr:latest
@@ -99,19 +98,20 @@ spec:
           volumeMounts:
             - name: media-local-storage
               mountPath: /media/tv
-              subPath: /tv
+              subPath: tv
             - name: media-local-storage
               mountPath: /media/movie
-              subPath: /movie
+              subPath: movie
             - name: media-config-local-storage
               mountPath: /config
-              subPath: /bazarr
+              subPath: bazarr
         
         - name: jackett
           image: lscr.io/linuxserver/jackett:latest
           imagePullPolicy: Always
-          envs:
-            - AUTO_UPDATE=true
+          env:
+            - name: AUTO_UPDATE
+              value: 'true'
           envFrom:
             - configMapRef:
                 name: time-zone
@@ -122,13 +122,14 @@ spec:
           volumeMounts:
             - name: media-config-local-storage
               mountPath: /config
-              subPath: /jackett
+              subPath: jackett
         
         - name: qbittorrent
           image: lscr.io/linuxserver/qbittorrent:latest
           imagePullPolicy: Always
-          envs:
-            - WEBUI_PORT=9078
+          env:
+            - name: WEBUI_PORT
+              value: '9078'
           envFrom:
             - configMapRef:
                 name: time-zone
@@ -139,10 +140,18 @@ spec:
           volumeMounts:
             - name: media-config-local-storage
               mountPath: /config
-              subPath: /qbittorent
+              subPath: qbittorent
             - name: media-local-storage
               mountPath: /media/downloads
-              subPath: /downloads
+              subPath: downloads
+      
+      volumes:
+        - name: media-config-local-storage
+          persistentVolumeClaim:
+            claimName: media-config-local-storage-claim
+        - name: media-local-storage
+          persistentVolumeClaim:
+            claimName: media-local-storage-claim
       restartPolicy: Always
 
 ---
@@ -172,10 +181,10 @@ spec:
     - name: qbit-tcp
       port: 6881
       targetPort: 7439
-      type: TCP
+      protocol: TCP
     - name: qbit-udp
       port: 6881
       targetPort: 7439
-      type: UDP
+      protocol: UDP
   selector:
     app: mediavpn
