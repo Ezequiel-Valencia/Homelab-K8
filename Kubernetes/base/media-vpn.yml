@@ -38,7 +38,7 @@ spec:
             - containerPort: 9078
             - containerPort: 6881
           volumeMounts:
-            - name: MediaConfigLocalStorage
+            - name: media-config-local-storage
               mountPath: /gluetun
               subPath: /gluetun
           healthcheck: # https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/        
@@ -55,13 +55,13 @@ spec:
           securityContext:
             runAsNonRoot: true
           volumeMounts:
-            - name: MediaLocalStorage
+            - name: media-local-storage
               mountPath: /media/tv
               subPath: /tv
-            - name: MediaLocalStorage
+            - name: media-local-storage
               mountPath: /media/downloads
               subPath: /downloads
-            - name: MediaConfigLocalStorage
+            - name: media-config-local-storage
               mountPath: /config
               subPath: /sonarr
 
@@ -76,13 +76,13 @@ spec:
           securityContext:
             runAsNonRoot: true
           volumeMounts:
-            - name: MediaLocalStorage
+            - name: media-local-storage
               mountPath: /media/movies
               subPath: /movies
-            - name: MediaLocalStorage
+            - name: media-local-storage
               mountPath: /media/downloads
               subPath: /downloads
-            - name: MediaConfigLocalStorage
+            - name: media-config-local-storage
               mountPath: /config
               subPath: /radarr
 
@@ -97,13 +97,13 @@ spec:
           securityContext:
             runAsNonRoot: true
           volumeMounts:
-            - name: MediaLocalStorage
+            - name: media-local-storage
               mountPath: /media/tv
               subPath: /tv
-            - name: MediaLocalStorage
+            - name: media-local-storage
               mountPath: /media/movie
               subPath: /movie
-            - name: MediaConfigLocalStorage
+            - name: media-config-local-storage
               mountPath: /config
               subPath: /bazarr
         
@@ -120,7 +120,7 @@ spec:
           securityContext:
             runAsNonRoot: true
           volumeMounts:
-            - name: MediaConfigLocalStorage
+            - name: media-config-local-storage
               mountPath: /config
               subPath: /jackett
         
@@ -137,10 +137,10 @@ spec:
           securityContext:
             runAsNonRoot: true
           volumeMounts:
-            - name: MediaConfigLocalStorage
+            - name: media-config-local-storage
               mountPath: /config
               subPath: /qbittorent
-            - name: MediaLocalStorage
+            - name: media-local-storage
               mountPath: /media/downloads
               subPath: /downloads
       restartPolicy: Always
@@ -154,26 +154,26 @@ metadata:
   name: mediavpn
 spec:
   ports:
-    - name: Bazarr
+    - name: bazarr
       port: 6767
       targetPort: 7676
-    - name: Sonarr
+    - name: sonarr
       port: 8989
       targetPort: 9898
-    - name: Jackett
+    - name: jackett
       port: 9117
       targetPort: 9845
-    - name: Lidarr
+    - name: lidarr
       port: 8686
       targetPort: 8687
-    - name: QbitWebUI
+    - name: qbit-web-ui
       port: 9078
       targetPort: 9078
-    - name: Qbittorent TCP
+    - name: qbit-tcp
       port: 6881
       targetPort: 7439
       type: TCP
-    - name: Qbittorent UDP
+    - name: qbit-udp
       port: 6881
       targetPort: 7439
       type: UDP

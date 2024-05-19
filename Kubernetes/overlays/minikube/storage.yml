@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: MediaLocalStorage
+  name: media-local-storage
 spec:
   capacity:
     storage: 10Gi
@@ -19,7 +19,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: MediaLocalStorageClaim
+  name: media-local-storage-claim
 spec:
   accessModes:
     - ReadWriteMany
@@ -27,13 +27,13 @@ spec:
   resources:
     requests:
       storage: 10Gi
-  volumeName: MediaLocalStorage
+  volumeName: media-local-storage
 
 --- 
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: MediaConfigLocalStorage
+  name: media-config-local-storage
 spec:
   capacity:
     storage: 10Gi
@@ -51,7 +51,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: MediaConfigLocalStorageClaim
+  name: media-config-local-storage-claim
 spec:
   accessModes:
     - ReadWriteMany
@@ -59,5 +59,5 @@ spec:
   resources:
     requests:
       storage: 10Gi
-  volumeName: MediaConfigLocalStorage
+  volumeName: media-config-local-storage
 

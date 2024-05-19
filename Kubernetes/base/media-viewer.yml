@@ -32,13 +32,13 @@ spec:
           ports:
             - containerPort: 8096
           volumeMounts:
-            - name: MediaConfigLocalStorage
+            - name: media-config-local-storage
               mountPath: /config
               subPath: /jellyfin
-            - name: MediaLocalStorage
+            - name: media-local-storage
               mountPath: /media/tv
               subPath: /tv
-            - name: MediaLocalStorage
+            - name: media-local-storage
               mountPath: /media/movie
               subPath: /movie
           healthcheck: # https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/        
@@ -54,7 +54,7 @@ metadata:
   name: jellyfin
 spec:
   ports:
-    - name: WebUI
+    - name: web-ui
       port: 8096
       targetPort: 7260
   selector:
