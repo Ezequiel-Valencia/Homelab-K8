@@ -24,9 +24,9 @@ spec:
           restart: unless-stopped
           envFrom:
             - configMapRef:
-                name: timeZone
+                name: time-zone
             - configMapRef:
-                name: arrUser
+                name: arr-user
           securityContext:
             runAsNonRoot: true
           ports:

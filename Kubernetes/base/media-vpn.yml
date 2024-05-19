@@ -49,9 +49,9 @@ spec:
           imagePullPolicy: Always
           envFrom:
             - configMapRef:
-                name: timeZone
+                name: time-zone
             - configMapRef:
-                name: arrUser
+                name: arr-user
           securityContext:
             runAsNonRoot: true
           volumeMounts:
@@ -70,9 +70,9 @@ spec:
           imagePullPolicy: Always
           envFrom:
             - configMapRef:
-                name: timeZone
+                name: time-zone
             - configMapRef:
-                name: arrUser
+                name: arr-user
           securityContext:
             runAsNonRoot: true
           volumeMounts:
@@ -91,9 +91,9 @@ spec:
           imagePullPolicy: Always
           envFrom:
             - configMapRef:
-                name: timeZone
+                name: time-zone
             - configMapRef:
-                name: arrUser
+                name: arr-user
           securityContext:
             runAsNonRoot: true
           volumeMounts:
@@ -114,9 +114,9 @@ spec:
             - AUTO_UPDATE=true
           envFrom:
             - configMapRef:
-                name: timeZone
+                name: time-zone
             - configMapRef:
-                name: torrentUser
+                name: torrent-user
           securityContext:
             runAsNonRoot: true
           volumeMounts:
@@ -131,9 +131,9 @@ spec:
             - WEBUI_PORT=9078
           envFrom:
             - configMapRef:
-                name: timeZone
+                name: time-zone
             - configMapRef:
-                name: torrentUser
+                name: torrent-user
           securityContext:
             runAsNonRoot: true
           volumeMounts:
@@ -166,7 +166,7 @@ spec:
     - name: Lidarr
       port: 8686
       targetPort: 8687
-    - name: Qbittorent WebUI
+    - name: QbitWebUI
       port: 9078
       targetPort: 9078
     - name: Qbittorent TCP
