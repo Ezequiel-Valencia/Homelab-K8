@@ -19,6 +19,7 @@ spec:
       # https://www.ibm.com/docs/de/spectrum-conductor/2.5.0?topic=instances-network-provisioning-docker-pods
       # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
       
+      # TODO: Check storage works
       # Sidecar container because of restart policy
       initContainers:
         - name: gluetun
@@ -37,6 +38,15 @@ spec:
               memory: 512M # 0.5GB Memory
               cpu: 500m # 0.5CPU core
           restartPolicy: Always
+
+          # If it's not "alive", then the container will restart itself, and since all containers
+          # rely on this containers network stack, if it restarts
+          livenessProbe:
+            exec:
+              command:
+                - curl -s --fail https://ipinfo.io/region | grep -qxo "Connecticut" || exit 1
+            periodSeconds: 120
+            timeoutSeconds: 20
           ports:
             - containerPort: 6767
             - containerPort: 8989
