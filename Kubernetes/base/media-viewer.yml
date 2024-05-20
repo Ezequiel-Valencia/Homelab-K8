@@ -16,7 +16,6 @@ spec:
       labels:
         app: jellyfin
     spec:
-      # TODO: Add resource management
       # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
       containers: 
         - name: jellyfin
@@ -30,6 +29,10 @@ spec:
                 name: time-zone
             - configMapRef:
                 name: arr-user
+          resources:
+            limits: 
+              memory: 1024M # 1GB Memory
+              cpu: 1000m # 1CPU core
           ports:
             - containerPort: 8096
           volumeMounts:
