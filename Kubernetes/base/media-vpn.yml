@@ -19,9 +19,8 @@ spec:
       # https://www.ibm.com/docs/de/spectrum-conductor/2.5.0?topic=instances-network-provisioning-docker-pods
       # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
       
-      # TODO: Get initContainers working instead of forever looping
-      # TODO: Add resource management
-      containers: 
+      # Sidecar container because of restart policy
+      initContainers:
         - name: gluetun
           image: qmcgaw/gluetun:latest
           imagePullPolicy: "Always"
@@ -37,6 +36,7 @@ spec:
             limits: 
               memory: 512M # 0.5GB Memory
               cpu: 500m # 0.5CPU core
+          restartPolicy: Always
           ports:
             - containerPort: 6767
             - containerPort: 8989
@@ -51,6 +51,7 @@ spec:
               subPath: gluetun
           # healthcheck: # https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/        
       
+      containers: 
         - name: sonarr
           image: lscr.io/linuxserver/sonarr:latest
           imagePullPolicy: Always
