@@ -34,6 +34,16 @@ http:
         - https-redirectscheme
       tls: {}
       service: laptopprox
+    zpcprox:
+      entryPoints:
+        - "https"
+      rule: "Host(`zpcprox.homelab.ezequielvalencia.com`)"
+      middlewares:
+        - authelia
+        - default-headers
+        - https-redirectscheme
+      tls: {}
+      service: zpcprox
     
     ### Other
     pihole:
@@ -184,6 +194,11 @@ http:
       loadBalancer:
         servers:
           - url: "https://10.0.0.5:8006"
+        passHostHeader: true
+    zpcprox:
+      loadBalancer:
+        servers:
+          - url: "https://10.0.0.14:8006"
         passHostHeader: true
     pihole:
       loadBalancer:
