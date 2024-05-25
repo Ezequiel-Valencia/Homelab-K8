@@ -4,15 +4,15 @@ metadata:
   name: media-local-storage
 spec:
   capacity:
-    storage: 10Gi
+    storage: 700Gi
   volumeMode: Filesystem
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   storageClassName: "standard"
   hostPath:
-    path: /home/zek/Documents/Minikube/Media/Content # Example host path to simulate an empty directory
-    type: Directory
+    path: /mnt/overlay2/docker_data/media # Example host path to simulate an empty directory
+    type: DirectoryOrCreate
 
 
 ---
@@ -26,7 +26,7 @@ spec:
   storageClassName: "standard"
   resources:
     requests:
-      storage: 10Gi
+      storage: 700Gi
   volumeName: media-local-storage
 
 --- 
@@ -43,8 +43,8 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: "standard"
   hostPath:
-    path: /home/zek/Documents/Minikube/Media/Config # Example host path to simulate an empty directory
-    type: Directory
+    path: /docker_data/Config # Example host path to simulate an empty directory
+    type: DirectoryOrCreate
 
 
 ---

@@ -4,8 +4,9 @@ kind: Kustomization
 
 # Merge Patch https://stackoverflow.com/questions/76004172/how-to-add-init-container-with-kustomize
 
+namespace: media
 
 resources:
-- ./media/
-- ../../../SealedSecrets/production
-- ingress.yml
+- ../../../base/media
+- ../../../config/production
+- storage.yml
