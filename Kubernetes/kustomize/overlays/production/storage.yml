@@ -4,15 +4,15 @@ metadata:
   name: media-local-storage
 spec:
   capacity:
-    storage: 700Gi
+    storage: 10Gi
   volumeMode: Filesystem
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   storageClassName: "standard"
   hostPath:
-    path: # Example host path to simulate an empty directory
-    type: DirectoryOrCreate
+    path: /home/zek/Documents/Minikube/Media/Content # Example host path to simulate an empty directory
+    type: Directory
 
 
 ---
@@ -26,7 +26,7 @@ spec:
   storageClassName: "standard"
   resources:
     requests:
-      storage: 700Gi
+      storage: 10Gi
   volumeName: media-local-storage
 
 --- 
@@ -43,8 +43,8 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: "standard"
   hostPath:
-    path: # Example host path to simulate an empty directory
-    type: DirectoryOrCreate
+    path: /home/zek/Documents/Minikube/Media/Config # Example host path to simulate an empty directory
+    type: Directory
 
 
 ---
