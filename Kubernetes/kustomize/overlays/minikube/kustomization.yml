@@ -6,5 +6,6 @@ kind: Kustomization
 
 
 resources:
+- ./media/
 - ../../../SealedSecrets/minikube
 - ingress.yml
