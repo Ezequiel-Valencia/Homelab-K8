@@ -15,7 +15,9 @@ WIREGUARD_PRIVATE_KEY=$1
 WIREGUARD_ADDRESSES=$2
 VPN_SERVICE_PROVIDER=$3
 
-kubectl create secret generic ${SECRET_NAME} --dry-run=client \
+# Broken on purpose since it has production configurations, remove kubconfig flag to bring it back to test
+
+kubectl create secret generic ${SECRET_NAME} --dry-run=client --kubeconfig=/home/zek/.kube/config_prd \
       --from-literal=WIREGUARD_PRIVATE_KEY="${WIREGUARD_PRIVATE_KEY}" \
       --from-literal=SERVER_CITIES="New York NY" \
       --from-literal=WIREGUARD_ADDRESSES="${WIREGUARD_ADDRESSES}" \
@@ -23,4 +25,6 @@ kubectl create secret generic ${SECRET_NAME} --dry-run=client \
       --from-literal=VPN_TYPE="wireguard" \
       --from-literal=DOT_PROVIDERS="quad9" \
       --from-literal=UPDATER_PERIOD="48h" \
-      --namespace="${NAMESPACE}" -o yaml | kubeseal --format yaml
+      --namespace="${NAMESPACE}" -o yaml | \
+    #   kubeseal --kubeconfig=/home/zek/.kube/config_prd \
+      --format yaml
