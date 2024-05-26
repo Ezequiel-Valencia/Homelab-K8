@@ -19,7 +19,8 @@ spec:
               key: cloudflare-token
         selector:
           dnsZones:
-            - "example.com"
+            - "homelab.ezequielvalencia.com"
+
 
 ---
 apiVersion: cert-manager.io/v1
@@ -42,7 +43,7 @@ spec:
               key: cloudflare-token
         selector:
           dnsZones:
-            - "ezequielvalencia.com"
+            - "homelab.ezequielvalencia.com"
 
 
 ---
@@ -57,10 +58,4 @@ spec:
     name: letsencrypt-staging
     kind: ClusterIssuer
   dnsNames:
-  - "jellyfin.homelab.ezequielvalencia.com"
-  - "bazarr.homelab.ezequielvalencia.com"
-  - "radarr.homelab.ezequielvalencia.com"
-  - "sonarr.homelab.ezequielvalencia.com"
-  - "jackett.homelab.ezequielvalencia.com"
-  - "qbit.homelab.ezequielvalencia.com"
-  - "lidarr.homelab.ezequielvalencia.com"
+  - "*.homelab.ezequielvalencia.com"
