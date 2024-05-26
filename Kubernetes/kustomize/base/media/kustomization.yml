@@ -1,0 +1,14 @@
+# create kustimization.yaml file
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Merge Patch https://stackoverflow.com/questions/76004172/how-to-add-init-container-with-kustomize
+
+namespace: media
+
+
+
+resources:
+- media-viewer.yml
+- media-vpn.yml
+- arr.yml

@@ -66,6 +66,8 @@
     apply:
       become: true
 
+
+## If Ubuntu its ssh not sshd
 - name: Restart sshd
   become: true
   ansible.builtin.service:

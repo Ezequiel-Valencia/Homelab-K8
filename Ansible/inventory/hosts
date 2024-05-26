@@ -10,14 +10,23 @@ Traefik ansible_host=10.0.0.8 ansible_user=ansible ansible_connection=ssh ansibl
 
 [sensitive_server]
 money ansible_host=10.0.0.10 ansible_user=ansible ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab
+main ansible_host=10.0.0.11 ansible_user=ansible ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab
+
 
 [proxmox_servers]
 zimaProx ansible_host=10.0.0.3 ansible_user=ansible ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/proxmox
 laptop ansible_host=10.0.0.4 ansible_user=ansible ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/proxmox
 pc ansible_host=10.0.0.5 ansible_user=ansible ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/proxmox
+zpcprox ansible_host=10.0.0.14 ansible_user=ansible ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/proxmox
 
 [public_services]
 public ansible_host=172.104.24.110 ansible_user=ansible ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab
+
+[k3s]
+k3s-control ansible_host=10.0.0.11 ansible_user=ansible ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/homelab
+
+[nas]
+nas ansible_host=10.0.0.13
 
 [ubuntu_server:children]
 infra_server
