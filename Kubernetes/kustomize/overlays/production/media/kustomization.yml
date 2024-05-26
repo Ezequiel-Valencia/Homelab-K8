@@ -6,6 +6,15 @@ kind: Kustomization
 
 namespace: media
 
+patches:
+  - target:
+      kind: Deployment
+      namespace: media
+    patch: |
+      - op: add
+        path: /spec/template/spec/nodeName
+        value: media
+
 resources:
 - ../../../base/media
 - ../../../config/production
