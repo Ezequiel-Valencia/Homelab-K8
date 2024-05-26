@@ -11,3 +11,4 @@ namespace: media
 resources:
 - media-viewer.yml
 - media-vpn.yml
+- arr.yml

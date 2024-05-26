@@ -23,7 +23,7 @@ spec:
       # Sidecar container because of restart policy
       initContainers:
         - name: gluetun
-          image: qmcgaw/gluetun:latest
+          image: qmcgaw/gluetun:v3.35.0
           imagePullPolicy: "Always"
           envFrom:
             - secretRef:
@@ -34,11 +34,14 @@ spec:
             capabilities: 
               add: ["NET_ADMIN"] # https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
           resources:
-            limits: 
+            limits:
+              cpu: 100m
               memory: 512M # 0.5GB Memory
-              cpu: 500m # 0.5CPU core
           restartPolicy: Always
 
+          env: 
+            - name: LOG_LEVEL
+              value: debug
           # If it's not "alive", then the container will restart itself, and since all containers
           # rely on this containers network stack, if it restarts
           livenessProbe:
@@ -47,99 +50,13 @@ spec:
                 - curl -s --fail https://ipinfo.io/region | grep -qxo "Connecticut" || exit 1
             periodSeconds: 120
             timeoutSeconds: 20
-          ports:
-            - containerPort: 6767
-            - containerPort: 8989
-            - containerPort: 7878
-            - containerPort: 9117
-            - containerPort: 8686
-            - containerPort: 9078
-            - containerPort: 6881
-          volumeMounts:
-            - name: media-config-local-storage
-              mountPath: /gluetun
-              subPath: gluetun
+          # volumeMounts:
+          #   - name: media-config-local-storage
+          #     mountPath: /gluetun
+          #     subPath: gluetun
           # healthcheck: # https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/        
       
-      containers: 
-        - name: sonarr
-          image: lscr.io/linuxserver/sonarr:latest
-          imagePullPolicy: Always
-          envFrom:
-            - configMapRef:
-                name: time-zone
-            - configMapRef:
-                name: arr-user
-          securityContext:
-            allowPrivilegeEscalation: false
-            privileged: false
-          resources:
-            limits: 
-              memory: 512M
-              cpu: 500m
-          volumeMounts:
-            - name: media-local-storage
-              mountPath: /media/tv
-              subPath: tv
-            - name: media-local-storage
-              mountPath: /media/downloads
-              subPath: downloads
-            - name: media-config-local-storage
-              mountPath: /config
-              subPath: sonarr
-
-        - name: radarr
-          image: lscr.io/linuxserver/radarr:latest
-          imagePullPolicy: Always
-          envFrom:
-            - configMapRef:
-                name: time-zone
-            - configMapRef:
-                name: arr-user
-          resources:
-            limits: 
-              memory: 512M
-              cpu: 500m
-          securityContext:
-            allowPrivilegeEscalation: false
-            privileged: false
-          volumeMounts:
-            - name: media-local-storage
-              mountPath: /media/movies
-              subPath: movies
-            - name: media-local-storage
-              mountPath: /media/downloads
-              subPath: downloads
-            - name: media-config-local-storage
-              mountPath: /config
-              subPath: radarr
-
-        - name: bazarr
-          image: lscr.io/linuxserver/bazarr:latest
-          imagePullPolicy: Always
-          envFrom:
-            - configMapRef:
-                name: time-zone
-            - configMapRef:
-                name: arr-user
-          resources:
-            limits: 
-              memory: 512M
-              cpu: 250m
-          securityContext:
-            allowPrivilegeEscalation: false
-            privileged: false
-          volumeMounts:
-            - name: media-local-storage
-              mountPath: /media/tv
-              subPath: tv
-            - name: media-local-storage
-              mountPath: /media/movie
-              subPath: movie
-            - name: media-config-local-storage
-              mountPath: /config
-              subPath: bazarr
-        
+      containers:   
         - name: jackett
           image: lscr.io/linuxserver/jackett:latest
           imagePullPolicy: Always
@@ -149,7 +66,8 @@ spec:
           resources:
             limits: 
               memory: 512M
-              cpu: 250m
+          ports:
+            - containerPort: 9117
           envFrom:
             - configMapRef:
                 name: time-zone
@@ -172,7 +90,8 @@ spec:
           resources:
             limits: 
               memory: 512M
-              cpu: 500m
+          ports:
+            - containerPort: 9078
           envFrom:
             - configMapRef:
                 name: time-zone
@@ -207,18 +126,9 @@ metadata:
   name: mediavpn
 spec:
   ports:
-    - name: bazarr
-      port: 7676
-      targetPort: 6767
-    - name: sonarr
-      port: 9898
-      targetPort: 8989
     - name: jackett
       port: 9845
       targetPort: 9117
-    - name: lidarr
-      port: 8687
-      targetPort: 8686
     - name: qbit-web-ui
       port: 9078
       targetPort: 9078
