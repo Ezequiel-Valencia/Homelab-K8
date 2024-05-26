@@ -7,13 +7,13 @@ metadata:
 spec:
   acme:
     server: https://acme-staging-v02.api.letsencrypt.org/directory
-    email: you@example.com
+    email: "casualcucumber59@gmail.com"
     privateKeySecretRef:
       name: letsencrypt-staging
     solvers:
       - dns01:
           cloudflare:
-            email: you@example.com
+            email: "ezequiel7835@gmail.com"
             apiTokenSecretRef:
               name: cloudflare-token-secret
               key: cloudflare-token
@@ -22,27 +22,46 @@ spec:
             - "example.com"
 
 ---
-apiVersion: v1
-kind: Secret
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
 metadata:
-  name: cloudflare-token-secret
+  name: letsencrypt-prod
   namespace: cert-manager
-type: Opaque
-stringData:
-  cloudflare-token: 123abc # be sure you are generating an API token and not a global API key https://cert-manager.io/docs/configuration/acme/dns01/cloudflare/#api-tokens
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: "casualcucumber59@gmail.com"
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    solvers:
+      - dns01:
+          cloudflare:
+            email: "ezequiel7835@gmail.com"
+            apiTokenSecretRef:
+              name: cloudflare-token-secret
+              key: cloudflare-token
+        selector:
+          dnsZones:
+            - "ezequielvalencia.com"
+
 
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: local-example-com
-  namespace: default
+  name: media-certificate
+  namespace: media
 spec:
-  secretName: local-example-com-staging-tls
+  secretName: media-certs
   issuerRef:
     name: letsencrypt-staging
     kind: ClusterIssuer
-  commonName: "*.local.example.com"
+  commonName: "*.homelab.ezequielvalencia.com"
   dnsNames:
-  - "local.example.com"
-  - "*.local.example.com"
+  - "jellyfin.homelab.ezequielvalencia.com"
+  - "bazarr.homelab.ezequielvalencia.com"
+  - "radarr.homelab.ezequielvalencia.com"
+  - "sonarr.homelab.ezequielvalencia.com"
+  - "jackett.homelab.ezequielvalencia.com"
+  - "qbit.homelab.ezequielvalencia.com"
+  - "lidarr.homelab.ezequielvalencia.com"

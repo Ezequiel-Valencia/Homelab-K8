@@ -9,3 +9,4 @@ resources:
 - ./media/
 - ../../../SealedSecrets/production
 - ingress.yml
+- certs.yml

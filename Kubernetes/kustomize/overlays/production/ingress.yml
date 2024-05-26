@@ -4,9 +4,10 @@ metadata:
   name: media-ingress
   namespace: media 
 spec:
+  tls:
+    secretName: media-certs
   entryPoints:
     - websecure
-    - web
   routes:
     - kind: Rule
       match: Host(`bazarr.homelab.ezequielvalencia.com`)
@@ -50,73 +51,4 @@ spec:
           name: jellyfin
           namespace: media
           port: web-ui
-
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   name: ingress
-#   namespace: media
-# spec:
-#   rules:
-#     - host: bazarr.homelab.ezequielvalencia.com
-#       http:
-#         paths:
-#           - path: /
-#             pathType: Prefix
-#             backend:
-#               service:
-#                 name:  mediavpn
-#                 port:
-#                   name: bazarr
-#     - host: sonarr.homelab.ezequielvalencia.com
-#       http:
-#         paths:
-#           - path: /
-#             pathType: Prefix
-#             backend:
-#               service:
-#                 name:  mediavpn
-#                 port:
-#                   name: sonarr
-#     - host: jackett.homelab.ezequielvalencia.com
-#       http:
-#         paths:
-#           - path: /
-#             pathType: Prefix
-#             backend:
-#               service:
-#                 name:  mediavpn
-#                 port:
-#                   name: jackett
-#     - host: lidarr.homelab.ezequielvalencia.com
-#       http:
-#         paths:
-#           - path: /
-#             pathType: Prefix
-#             backend:
-#               service:
-#                 name:  mediavpn
-#                 port:
-#                   name: lidarr
-#     - host: qbit.homelab.ezequielvalencia.com
-#       http:
-#         paths:
-#           - path: /
-#             pathType: Prefix
-#             backend:
-#               service:
-#                 name:  mediavpn
-#                 port:
-#                   name: qbit-web-ui
-#     - host: jellyfin.homelab.ezequielvalencia.com
-#       http:
-#         paths:
-#           - path: /
-#             pathType: Prefix
-#             backend:
-#               service:
-#                 name:  jellyfin
-#                 port:
-#                   name: web-ui
-
           
