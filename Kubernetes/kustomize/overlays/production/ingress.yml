@@ -31,12 +31,12 @@ spec:
           namespace: media
           port: jackett
     - kind: Rule
-      match: Host(`lidarr.homelab.ezequielvalencia.com`)
+      match: Host(`radarr.homelab.ezequielvalencia.com`)
       services:
         - kind: Service
           name: mediaarr
           namespace: media
-          port: lidarr
+          port: radarr
     - kind: Rule
       match: Host(`qbit.homelab.ezequielvalencia.com`)
       services:
