@@ -14,6 +14,11 @@ kubectl kustomize ./overlays/minikube | kubectl apply --dry-run=client --validat
 kubectl kustomize ../overlays/dev-island | kubectl delete -f -
 
 
+### Cert Manager
+Manage the certificates for all services and ingress objects.
+https://artifacthub.io/packages/helm/cert-manager/cert-manager 
+
+
 ## Security
 
 Determine process user. ["ps aux" or "ps -ely"](https://man7.org/linux/man-pages/man1/ps.1.html)
