@@ -32,7 +32,6 @@ spec:
           resources:
             limits: 
               memory: 1024M # 1GB Memory
-              cpu: 1000m # 1CPU core
           ports:
             - containerPort: 8096
           volumeMounts:
