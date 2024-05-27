@@ -43,7 +43,7 @@ spec:
               subPath: tv
             - name: media-local-storage
               mountPath: /media/movie
-              subPath: movie
+              subPath: movies
           # healthcheck: # https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/        
       volumes:
         - name: media-config-local-storage
