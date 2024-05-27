@@ -48,25 +48,3 @@
     #   owner: "{{ users[2].PUID }}"
   loop_control:
     loop_var: folders
-
-
-# - name: Template compose file
-#   ansible.builtin.template:
-#     mode: u=rw,g=r,o=
-#     src: media.compose.j2
-#     dest: ~/media.compose
-
-# # https://github.com/qdm12/gluetun/wiki
-# - name: Media Compose Up
-#   become_user: "{{ ansible_user }}"
-#   community.docker.docker_compose:
-#     project_name: "Film Media"
-#     project_src: "~/"
-#     recreate: always
-#     files:
-#       - media.compose
-
-# - name: Delete template file
-#   ansible.builtin.file:
-#     state: absent
-#     path: "~/media.compose"
