@@ -93,7 +93,7 @@ spec:
               subPath: tv
             - name: media-local-storage
               mountPath: /media/movie
-              subPath: movie
+              subPath: movies
             - name: media-config-local-storage
               mountPath: /config
               subPath: bazarr

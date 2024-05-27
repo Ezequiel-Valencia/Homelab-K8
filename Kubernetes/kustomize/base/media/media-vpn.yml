@@ -19,11 +19,10 @@ spec:
       # https://www.ibm.com/docs/de/spectrum-conductor/2.5.0?topic=instances-network-provisioning-docker-pods
       # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
       
-      # TODO: Check storage works
       # Sidecar container because of restart policy
       initContainers:
         - name: gluetun
-          image: qmcgaw/gluetun:v3.35.0
+          image: qmcgaw/gluetun:v3.38.0
           imagePullPolicy: "Always"
           envFrom:
             - secretRef:
@@ -34,27 +33,20 @@ spec:
             capabilities: 
               add: ["NET_ADMIN"] # https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
           resources:
-            limits:
-              cpu: 100m
-              memory: 512M # 0.5GB Memory
           restartPolicy: Always
 
-          env: 
-            - name: LOG_LEVEL
-              value: debug
           # If it's not "alive", then the container will restart itself, and since all containers
           # rely on this containers network stack, if it restarts
           livenessProbe:
             exec:
               command:
                 - curl -s --fail https://ipinfo.io/region | grep -qxo "Connecticut" || exit 1
-            periodSeconds: 120
+            periodSeconds: 240
             timeoutSeconds: 20
           # volumeMounts:
           #   - name: media-config-local-storage
           #     mountPath: /gluetun
           #     subPath: gluetun
-          # healthcheck: # https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/        
       
       containers:   
         - name: jackett

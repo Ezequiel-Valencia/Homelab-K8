@@ -2,20 +2,13 @@
 
 # Example: ./sealed_vpn.sh wireguard_key address mullvad > output.yaml
 
-# validate the number of arguments
-if [ "$#" -ne 3 ]; then
-    echo "Illegal number of parameters"
-    echo "Usage: ./sealed_secret_api.sh <wireguard_private_key> <wireguard_address> <vpn_service_provider>"
-    exit 1
-fi
-
 SECRET_NAME="vpn-secrets"
 NAMESPACE="media"
-WIREGUARD_PRIVATE_KEY=$1
-WIREGUARD_ADDRESSES=$2
-VPN_SERVICE_PROVIDER=$3
 
-# Broken on purpose since it has production configurations, remove kubconfig flag to bring it back to test
+read -s -p "Wireguard Private Key: " WIREGUARD_PRIVATE_KEY
+read -s -p "Wireguard Address: " WIREGUARD_ADDRESSES
+read -s -p "VPN Service Provider: " VPN_SERVICE_PROVIDER
+
 
 kubectl create secret generic ${SECRET_NAME} --dry-run=client --kubeconfig=/home/zek/.kube/config_prd \
       --from-literal=WIREGUARD_PRIVATE_KEY="${WIREGUARD_PRIVATE_KEY}" \
@@ -27,4 +20,4 @@ kubectl create secret generic ${SECRET_NAME} --dry-run=client --kubeconfig=/home
       --from-literal=UPDATER_PERIOD="48h" \
       --namespace="${NAMESPACE}" -o yaml | \
       kubeseal --kubeconfig=/home/zek/.kube/config_prd \
-      --format yaml
+      --format yaml > ./vpn-secrets.yml

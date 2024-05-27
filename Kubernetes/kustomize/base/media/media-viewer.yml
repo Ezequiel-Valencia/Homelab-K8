@@ -32,7 +32,6 @@ spec:
           resources:
             limits: 
               memory: 1024M # 1GB Memory
-              cpu: 1000m # 1CPU core
           ports:
             - containerPort: 8096
           volumeMounts:
@@ -44,7 +43,7 @@ spec:
               subPath: tv
             - name: media-local-storage
               mountPath: /media/movie
-              subPath: movie
+              subPath: movies
           # healthcheck: # https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/        
       volumes:
         - name: media-config-local-storage
