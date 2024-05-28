@@ -1,8 +1,8 @@
 
 
-read -s -p "Apply to Production (y/n): " PRODUCTION
+read -p "Apply to Production (y/n): " PRODUCTION
 
-if [PRODUCTION -eq "y"]; then
+if [ "$PRODUCTION" = "y" ]; then
 kubectl kustomize \
     ./production \
     | kubectl apply --kubeconfig=/home/zek/.kube/config_prd -f -
