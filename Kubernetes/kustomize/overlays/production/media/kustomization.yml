@@ -19,3 +19,4 @@ resources:
 - ../../../base/media
 - ../../../config/production
 - storage.yml
+- ingress.yml

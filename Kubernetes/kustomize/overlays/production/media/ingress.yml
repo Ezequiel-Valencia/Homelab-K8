@@ -38,6 +38,13 @@ spec:
           namespace: media
           port: radarr
     - kind: Rule
+      match: Host(`tadarr.homelab.ezequielvalencia.com`)
+      services:
+        - kind: Service
+          name: mediaarr
+          namespace: media
+          port: tadarr
+    - kind: Rule
       match: Host(`qbit.homelab.ezequielvalencia.com`)
       services:
         - kind: Service
