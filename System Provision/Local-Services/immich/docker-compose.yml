@@ -18,7 +18,7 @@ services:
     networks:
       - immich
     volumes:
-      - ${UPLOAD_LOCATION}:/usr/src/app/upload
+      - ${EXTERNAL_PATH}:/usr/src/app/external
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - stack.env
@@ -41,7 +41,7 @@ services:
     security_opt:
       - no-new-privileges:true
     volumes:
-      - ${UPLOAD_LOCATION}:/usr/src/app/upload
+      - ${EXTERNAL_PATH}:/usr/src/app/external
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - stack.env
