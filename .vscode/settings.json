@@ -1,3 +1,32 @@
 {
-    "ansible.python.interpreterPath": "/bin/python3"
+    "ansible.python.interpreterPath": "/home/zek/Documents/Code/Homelab/pyVenv/bin/python",
+    "cSpell.words": [
+        "authelia",
+        "Bazarr",
+        "ezequielvalencia",
+        "gluetun",
+        "homelab",
+        "Jackett",
+        "jellyfin",
+        "Kustomization",
+        "laptopprox",
+        "Lidarr",
+        "lscr",
+        "mediaarr",
+        "mediavpn",
+        "nextcloud",
+        "pcprox",
+        "qbit",
+        "Qbittorent",
+        "qbittorrent",
+        "radarr",
+        "Raddarr",
+        "Readarr",
+        "Sonarr",
+        "tadarr",
+        "traefik",
+        "truenas",
+        "zimaprox",
+        "zpcprox"
+    ]
 }
