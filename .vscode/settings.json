@@ -1,5 +1,5 @@
 {
-    "ansible.python.interpreterPath": "/home/zek/Documents/Code/Homelab/pyVenv/bin/python",
+    "ansible.python.interpreterPath": "${workspaceFolder}/.venv/bin/activate",
     "cSpell.words": [
         "authelia",
         "Bazarr",
@@ -28,5 +28,6 @@
         "truenas",
         "zimaprox",
         "zpcprox"
-    ]
+    ],
+    "ansible.python.activationScript": "${workspaceFolder}/.venv/bin/activate"
 }
