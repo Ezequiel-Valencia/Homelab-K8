@@ -4,9 +4,7 @@ kind: Kustomization
 
 # Merge Patch https://stackoverflow.com/questions/76004172/how-to-add-init-container-with-kustomize
 
+namespace: monitoring
 
 resources:
-- ./media/
-- ../../../SealedSecrets/production
-- certs.yml
-- ./monitor/
+- ingress.yml

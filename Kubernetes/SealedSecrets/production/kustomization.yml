@@ -5,3 +5,4 @@ kind: Kustomization
 resources:
 - vpn-secrets.yml
 - certs.yml
+- monitor.yml

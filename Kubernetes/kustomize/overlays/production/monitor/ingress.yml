@@ -1,0 +1,23 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: monitor-ingress
+  namespace: monitoring 
+spec:
+  tls:
+    secretName: monitor-certs
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`grafana.homelab.ezequielvalencia.com`)
+      kind: Rule
+      services:
+        - name: grafana
+          port: 80
+          sticky:
+            cookie:
+              httpOnly: true
+              name: grafana
+              secure: true
+              sameSite: none
+          
