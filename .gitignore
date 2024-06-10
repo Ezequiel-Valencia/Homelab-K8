@@ -1,3 +1,4 @@
 /pyVenv
 .vscode/settings.json
 stack.env
+.venv
