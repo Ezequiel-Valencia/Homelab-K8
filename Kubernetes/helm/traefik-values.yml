@@ -97,7 +97,7 @@ logs:
     # format: json
     # By default, the level is set to ERROR.
     # -- Alternative logging levels are DEBUG, PANIC, FATAL, ERROR, WARN, and INFO.
-    level: DEBUG
+    level: INFO
 
 # -- Global command arguments to be passed to all traefik's pods
 globalArguments:

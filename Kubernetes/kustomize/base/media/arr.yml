@@ -15,9 +15,9 @@ spec:
     metadata:
       labels:
         app: mediaarr
-      # annotations:
-      #   consul.hashicorp.com/connect-inject: "true"
-      #   consul.hashicorp.com/transparent-proxy: "true" # Can use K8 DNS instead of having to specify available upstream services
+      annotations:
+        consul.hashicorp.com/connect-inject: "true"
+        consul.hashicorp.com/transparent-proxy: "true" # Can use K8 DNS instead of having to specify available upstream services
     spec:
       # https://www.ibm.com/docs/de/spectrum-conductor/2.5.0?topic=instances-network-provisioning-docker-pods
       # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
@@ -101,6 +101,8 @@ spec:
               mountPath: /config
               subPath: bazarr
       
+      serviceAccount: mediaarr
+      
       volumes:
         - name: media-config-local-storage
           persistentVolumeClaim:
@@ -133,3 +135,18 @@ spec:
       targetPort: 7878
   selector:
     app: mediaarr
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: mediaarr
+
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceDefaults
+metadata:
+  name: mediaarr
+spec:
+  transparentProxy:
+    dialedDirectly: true

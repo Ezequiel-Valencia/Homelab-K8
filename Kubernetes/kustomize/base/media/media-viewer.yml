@@ -15,9 +15,9 @@ spec:
     metadata:
       labels:
         app: jellyfin
-      # annotations:
-      #   consul.hashicorp.com/connect-inject: "true"
-      #   consul.hashicorp.com/transparent-proxy: "true" # Can use K8 DNS instead of having to
+      annotations:
+        consul.hashicorp.com/connect-inject: "true"
+        consul.hashicorp.com/transparent-proxy: "true" # Can use K8 DNS instead of having to
     spec:
       # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
       containers: 
@@ -56,6 +56,7 @@ spec:
           persistentVolumeClaim:
             claimName: media-local-storage-claim
       restartPolicy: Always
+      serviceAccount: jellyfin
 
 ---
 apiVersion: v1
@@ -71,3 +72,19 @@ spec:
       targetPort: 8096
   selector:
     app: jellyfin
+
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: jellyfin
+
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceDefaults
+metadata:
+  name: jellyfin
+spec:
+  transparentProxy:
+    dialedDirectly: true
