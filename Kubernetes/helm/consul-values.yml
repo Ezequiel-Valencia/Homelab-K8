@@ -5,8 +5,11 @@ global:
     enabled: false # Don't allow multi-cluster connections
   tls:
     enabled: true # Enable TLS between services
+  acls:
+    manageSystemACLs: false
 
-
+controller:
+  enabled: true
  
 # Control Plane Server
 server:
