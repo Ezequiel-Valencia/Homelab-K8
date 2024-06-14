@@ -1,0 +1,37 @@
+
+global:
+  name: consul
+  peering:
+    enabled: false # Don't allow multi-cluster connections
+  tls:
+    enabled: true # Enable TLS between services
+
+
+ 
+# Control Plane Server
+server:
+  replicas: 1
+  bootstrapExpect: 1
+
+
+meshGateway:
+  enabled: false
+
+connectInject:
+  enabled: true # 
+  default: false # Do not automatically put proxy for each deployment with a service
+
+
+ui:
+  enabled: true
+  services:
+    enabled: true
+    type: LoadBalancer
+
+
+
+
+
+
+
+
