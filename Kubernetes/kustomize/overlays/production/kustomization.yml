@@ -10,3 +10,4 @@ resources:
 - ../../../SealedSecrets/production
 - certs.yml
 - ./monitor/
+- servicemesh.yml
