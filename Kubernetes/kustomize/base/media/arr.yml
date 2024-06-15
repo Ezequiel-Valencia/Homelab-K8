@@ -2,22 +2,24 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: mediaarr
-  name: mediaarr
+    app: sonarr
+  name: sonarr
 spec:
   selector:
     matchLabels:
-      app: mediaarr
+      app: sonarr
   replicas: 1
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: mediaarr
+        app: sonarr
       annotations:
-        consul.hashicorp.com/connect-inject: "true"
-        consul.hashicorp.com/transparent-proxy: "true" # Can use K8 DNS instead of having to specify available upstream services
+        consul.hashicorp.com/connect-service: sonarr
+        consul.hashicorp.com/connect-inject: 'true'
+        consul.hashicorp.com/transparent-proxy-exclude-outbound-ports: '9845,9078'
+        consul.hashicorp.com/transparent-proxy: 'true'
     spec:
       # https://www.ibm.com/docs/de/spectrum-conductor/2.5.0?topic=instances-network-provisioning-docker-pods
       # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
@@ -46,7 +48,66 @@ spec:
             - name: media-config-local-storage
               mountPath: /config
               subPath: sonarr
+      
+      serviceAccount: sonarr
+      
+      volumes:
+        - name: media-config-local-storage
+          persistentVolumeClaim:
+            claimName: media-config-local-storage-claim
+        - name: media-local-storage
+          persistentVolumeClaim:
+            claimName: media-local-storage-claim
+      restartPolicy: Always
 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: sonarr
+  name: sonarr
+spec:
+  ports:
+    - name: sonarr
+      port: 9898
+      targetPort: 8989
+  selector:
+    app: sonarr
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sonarr
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: radarr
+  name: radarr
+spec:
+  selector:
+    matchLabels:
+      app: radarr
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: radarr
+      annotations:
+        consul.hashicorp.com/connect-service: radarr
+        consul.hashicorp.com/connect-inject: 'true'
+        consul.hashicorp.com/transparent-proxy-exclude-outbound-ports: '9845,9078'
+        consul.hashicorp.com/transparent-proxy: 'true'
+    spec:
+      # https://www.ibm.com/docs/de/spectrum-conductor/2.5.0?topic=instances-network-provisioning-docker-pods
+      # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
+      containers: 
         - name: radarr
           image: lscr.io/linuxserver/radarr:latest
           imagePullPolicy: Always
@@ -73,7 +134,68 @@ spec:
             - name: media-config-local-storage
               mountPath: /config
               subPath: radarr
+      
+      serviceAccount: radarr
+      volumes:
+        - name: media-config-local-storage
+          persistentVolumeClaim:
+            claimName: media-config-local-storage-claim
+        - name: media-local-storage
+          persistentVolumeClaim:
+            claimName: media-local-storage-claim
+      restartPolicy: Always
 
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: radarr
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: radarr
+  name: radarr
+spec:
+  ports:
+    - name: radarr
+      port: 7878
+      targetPort: 7878
+  selector:
+    app: radarr
+
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: bazarr
+  name: bazarr
+spec:
+  selector:
+    matchLabels:
+      app: bazarr
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: bazarr
+      annotations:
+        consul.hashicorp.com/connect-service: bazarr
+        consul.hashicorp.com/connect-inject: 'true'
+        consul.hashicorp.com/transparent-proxy-exclude-outbound-ports: '9845,9078'
+        consul.hashicorp.com/transparent-proxy: 'true'
+    spec:
+      # https://www.ibm.com/docs/de/spectrum-conductor/2.5.0?topic=instances-network-provisioning-docker-pods
+      # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
+      containers:
         - name: bazarr
           image: lscr.io/linuxserver/bazarr:latest
           imagePullPolicy: Always
@@ -101,7 +223,7 @@ spec:
               mountPath: /config
               subPath: bazarr
       
-      serviceAccount: mediaarr
+      serviceAccount: bazarr
       
       volumes:
         - name: media-config-local-storage
@@ -117,36 +239,18 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: mediaarr
-  name: mediaarr
+    app: bazarr
+  name: bazarr
 spec:
   ports:
     - name: bazarr
       port: 7676
       targetPort: 6767
-    - name: sonarr
-      port: 9898
-      targetPort: 8989
-    - name: jackett
-      port: 9845
-      targetPort: 9117
-    - name: radarr
-      port: 7878
-      targetPort: 7878
   selector:
-    app: mediaarr
+    app: bazarr
 
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: mediaarr
-
----
-apiVersion: consul.hashicorp.com/v1alpha1
-kind: ServiceDefaults
-metadata:
-  name: mediaarr
-spec:
-  transparentProxy:
-    dialedDirectly: true
+  name: bazarr
