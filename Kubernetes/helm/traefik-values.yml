@@ -2,10 +2,14 @@
 
 additionalArguments:
   # comment the line above when going to production
-  - --serversTransport.insecureSkipVerify=true
+  # - --serversTransport.insecureSkipVerify=true
   # you will need to add an annotation to ingresses you create kubernetes.io/ingress.class traefik-external
   # otherwise it will not servce those requests
   # - --log.level=DEBUG
+  # - "--entrypoints.web.proxyprotocol.insecure=true"
+  # - "--entrypoints.web.proxyprotocol=true"
+  # - "--entrypoints.websecure.proxyprotocol.insecure=true"
+  # - "--entrypoints.websecure.proxyprotocol=true"
 
 deployment:
   enabled: true
@@ -14,7 +18,12 @@ deployment:
   # Additional deployment annotations (e.g. for jaeger-operator sidecar injection)
   annotations: {}
   # Additional pod annotations (e.g. for mesh injection or prometheus scraping)
-  podAnnotations: {}
+  podAnnotations: {
+    consul.hashicorp.com/connect-inject: "true",
+    consul.hashicorp.com/transparent-proxy: "true",
+    consul.hashicorp.com/transparent-proxy-exclude-inbound-ports: "8000,80,443,9000,8443",
+    consul.hashicorp.com/transparent-proxy-exclude-outbound-cidrs: "10.43.0.1/32"
+  }
   # Additional containers (e.g. for metric offloading sidecars)
   additionalContainers: []
   # Additional initContainers (e.g. for setting file permission as shown below)
@@ -33,25 +42,28 @@ deployment:
 
 ingressRoute:
   dashboard:
-    enabled: false
+    enabled: true
 
 # volumes:
 #   - mountPath: /data
 #     name: traefik-config
 #     type: configMap
 # without this, ingress get stuck on initializing
-providers:
-  kubernetesCRD:
-    enabled: true
-    ingressClass: traefik
-  kubernetesIngress:
-    enabled: true
-    publishedService:
-      enabled: false
+# providers:
+#   kubernetesCRD:
+#     enabled: true
+#     ingressClass: traefik
+#   kubernetesIngress:
+#     enabled: true
+#     publishedService:
+#       enabled: false
 
 # Role Based Access Control
 rbac:
   enabled: true
+  namespaced: false
+  serviceAccount:
+    name: "traefik"
 
 service:
   enabled: true
@@ -64,7 +76,7 @@ service:
   # type, selector or ports entries.
   spec:
     # externalTrafficPolicy: Cluster
-    loadBalancerIP: 192.168.49.2 # this should be your Metal LB IP
+    loadBalancerIP: 10.0.0.80 # this should be your Metal LB IP
     # clusterIP: "2.3.4.5"
   loadBalancerSourceRanges: []
     # - 192.168.0.1/32
@@ -85,7 +97,7 @@ logs:
     # format: json
     # By default, the level is set to ERROR.
     # -- Alternative logging levels are DEBUG, PANIC, FATAL, ERROR, WARN, and INFO.
-    level: DEBUG
+    level: INFO
 
 # -- Global command arguments to be passed to all traefik's pods
 globalArguments:
