@@ -1,5 +1,5 @@
 {
-    "ansible.python.interpreterPath": "${workspaceFolder}/.venv/bin/activate",
+    "ansible.python.interpreterPath": ".venv/bin/activate",
     "cSpell.words": [
         "authelia",
         "Bazarr",
@@ -22,6 +22,7 @@
         "radarr",
         "Raddarr",
         "Readarr",
+        "servicemesh",
         "Sonarr",
         "tadarr",
         "traefik",
@@ -29,5 +30,6 @@
         "zimaprox",
         "zpcprox"
     ],
-    "ansible.python.activationScript": "${workspaceFolder}/.venv/bin/activate"
+    "ansible.python.activationScript": ".venv/bin/activate",
+    "ansible.validation.lint.path": ".venv/bin/ansible-lint"
 }
