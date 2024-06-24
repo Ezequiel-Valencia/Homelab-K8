@@ -11,11 +11,8 @@
   become: true
   ansible.builtin.template:
     mode: u=rw,g=r
-    src: "{{ template_files.src }}"
-    dest: "{{ template_files.dst }}"
-  loop: '{{ authelia_template_files }}'
-  loop_control:
-    loop_var: template_files
+    src: config.yml.j2
+    dest: '{{ authelia_volume_folder }}/configuration.yml'
 
 - name: Copy traefik config files
   become: true
@@ -24,14 +21,12 @@
     src: "users_database.yml"
     dest: "{{ authelia_volume_folder }}/users_database.yml"
 
-- name: Create Authelia
-  community.docker.docker_compose:
-    project_name: Authelia
-    project_src: "~/"
-    files:
-      - "authelia.compose"
-
-- name: Delete compose file
-  ansible.builtin.file:
-    path: "~/authelia.compose"
-    state: absent
+- name: Create PiHole Resource
+  become: true
+  vars:
+    docker_template_files:
+      - src: authelia.compose.j2
+        dest_name: ~/authelia.compose
+    compose_file: authelia.compose
+    compose_project_name: authelia
+  ansible.builtin.include_tasks: ../tasks/docker-compose-up.yml

@@ -1,9 +1,11 @@
 - name: Template Docker Compose and Env Files
   ansible.builtin.template:
-    mode: u=rw,g=r
-    src: "{{ item.src }}"
-    dest: "~/{{ item.dest_name }}"
+    mode: u=rw,g=r,o=
+    src: "{{ docks.src }}"
+    dest: "~/{{ docks.dest_name }}"
   loop: '{{ docker_template_files }}'
+  loop_control:
+    loop_var: docks
 
 - name: Create Resources
   community.docker.docker_compose_v2:
@@ -14,6 +16,8 @@
 
 - name: Remove All Templated Files
   ansible.builtin.file:
-    path: "~/{{ item.dest_name }}"
+    path: "~/{{ docks.dest_name }}"
     state: absent
   loop: '{{ docker_template_files }}'
+  loop_control:
+    loop_var: docks

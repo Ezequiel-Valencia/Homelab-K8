@@ -1,20 +1,8 @@
-- name: Copy compose file
-  become_user: "{{ ansible_user }}"
-  ansible.builtin.template:
-    mode: u=rw,g=r
-    src: "dashy.compose.j2"
-    dest: "~/dashy.compose"
-
-- name: Spin up dashy
-  become_user: "{{ ansible_user }}"
-  community.docker.docker_compose:
-    project_name: Dashy
-    project_src: "~/"
-    files:
-      - "dashy.compose"
-
-- name: Delete compose file
-  become_user: "{{ ansible_user }}"
-  ansible.builtin.file:
-    path: "~/dashy.compose"
-    state: absent
+- name: Create Dashy Resource
+  vars:
+    docker_template_files:
+      - src: dashy.compose.j2
+        dest_name: dashy.compose
+    compose_file: dashy.compose
+    compose_project_name: dashy
+  ansible.builtin.include_tasks: ../tasks/docker-compose-up.yml
