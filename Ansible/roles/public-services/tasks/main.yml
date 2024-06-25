@@ -1,12 +1,5 @@
 ---
 
-- name: Copy template files home dir
-  ansible.builtin.template:
-    mode: u=rw,g=r
-    src: "{{ item.src }}"
-    dest: "~/{{ item.name }}"
-  loop: '{{ template_files }}'
-
 - name: Make Docker Volume Directory
   become: true
   ansible.builtin.file:
@@ -53,15 +46,12 @@
     state: file
     owner: "{{ traefik_local_user }}"
 
-- name: Create Online Services
-  community.docker.docker_compose:
-    project_name: Online
-    project_src: "~/"
-    files:
-      - "online.compose"
 
-- name: Delete env files
-  ansible.builtin.file:
-    path: "~/{{ item.name }}"
-    state: absent
-  loop: '{{ template_files }}'
+- name: Create Traefik Resource
+  vars:
+    docker_template_files:
+      - src: online.compose.j2
+        dest_name: nextcloud.compose
+    compose_file: nextcloud.compose
+    compose_project_name: nextcloud
+  ansible.builtin.include_tasks: ../tasks/docker-compose-up.yml

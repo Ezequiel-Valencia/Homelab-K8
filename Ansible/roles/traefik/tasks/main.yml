@@ -1,12 +1,5 @@
 ---
 
-- name: Copy env files to container
-  ansible.builtin.template:
-    mode: u=rw,g=r
-    src: "{{ item.src }}"
-    dest: "~/{{ item.name }}"
-  loop: '{{ traefik_template_files }}'
-
 - name: Make Docker Volume Directory
   become: true
   ansible.builtin.file:
@@ -44,15 +37,11 @@
     state: file
     owner: "{{ traefik_local_user }}"
 
-- name: Create Traefik
-  community.docker.docker_compose:
-    project_name: Traefik
-    project_src: "~/"
-    files:
-      - "traefik.compose"
-
-- name: Delete env files
-  ansible.builtin.file:
-    path: "~/{{ item.name }}"
-    state: absent
-  loop: '{{ traefik_template_files }}'
+- name: Create Traefik Resource
+  vars:
+    docker_template_files:
+      - src: traefik-compose.yml.j2
+        dest_name: traefik.compose
+    compose_file: traefik.compose
+    compose_project_name: traefik
+  ansible.builtin.include_tasks: ../tasks/docker-compose-up.yml
