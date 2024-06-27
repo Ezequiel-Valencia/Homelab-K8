@@ -11,4 +11,3 @@ resources:
 - certs.yml
 - ./monitor/
 - servicemesh.yml
-- tunnel.yml
