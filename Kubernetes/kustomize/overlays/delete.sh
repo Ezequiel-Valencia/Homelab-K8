@@ -1,8 +1,8 @@
 
 
-read -s -p "Delete Production (y/n): " PRODUCTION
+read -p "Delete Production (y/n): " PRODUCTION
 
-if [PRODUCTION -eq "y"]; then
+if [ "$PRODUCTION" = "y" ]; then
 kubectl kustomize \
     ./production \
     | kubectl delete --kubeconfig=/home/zek/.kube/config_prd -f -

@@ -3,7 +3,7 @@
 # Example: ./sealed_vpn.sh wireguard_key address mullvad > output.yaml
 
 SECRET_NAME="cloudflare-tunnel-token"
-NAMESPACE="servicemesh"
+NAMESPACE="media"
 read -s -p "Cloud Flare Tunnel Token: " TUNNEL_TOKEN
 
 
