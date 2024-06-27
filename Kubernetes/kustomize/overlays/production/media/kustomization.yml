@@ -20,3 +20,4 @@ resources:
 - ../../../config/production
 - storage.yml
 - ingress.yml
+- tunnel.yml
