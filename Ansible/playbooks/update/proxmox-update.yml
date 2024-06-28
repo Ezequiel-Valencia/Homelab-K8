@@ -1,0 +1,17 @@
+---
+- name: Update Proxmox Servers
+  hosts: proxmox_servers
+  gather_facts: false
+  vars:
+    other_port: false
+
+  pre_tasks:
+    - name: Get facts after SSH set
+      ansible.builtin.include_tasks: ../../tasks/gather-facts-ssh.yml
+
+    - name: Change Python Env
+      ansible.builtin.include_tasks: ../../tasks/change-python-env.yml
+
+  tasks:
+    - name: Update
+      ansible.builtin.include_tasks: ../../tasks/update.yml
