@@ -4,16 +4,15 @@ http:
 
     # Admin
     ### Proxmox
-    zimaprox:
+    alienwareprox:
       entryPoints:
         - "https"
-      rule: "Host(`zimaprox.homelab.ezequielvalencia.com`)"
+      rule: "Host(`alienwareprox.homelab.ezequielvalencia.com`)"
       middlewares:
-        - authelia
         - default-headers
         - https-redirectscheme
       tls: {}
-      service: zimaprox
+      service: alienwareprox
     pcprox:
       entryPoints:
         - "https"
@@ -24,16 +23,6 @@ http:
         - https-redirectscheme
       tls: {}
       service: pcprox
-    laptopprox:
-      entryPoints:
-        - "https"
-      rule: "Host(`laptopprox.homelab.ezequielvalencia.com`)"
-      middlewares:
-        - authelia
-        - default-headers
-        - https-redirectscheme
-      tls: {}
-      service: laptopprox
     zpcprox:
       entryPoints:
         - "https"
@@ -71,26 +60,6 @@ http:
 
     # Tools
     
-    nextcloud:
-      entryPoints:
-        - "https"
-      rule: "Host(`nextcloud.homelab.ezequielvalencia.com`)"
-      middlewares:
-        - authelia
-        - default-headers
-        - https-redirectscheme
-      tls: {}
-      service: nextcloud
-    firefly:
-      entryPoints:
-        - "https"
-      rule: "Host(`firefly.homelab.ezequielvalencia.com`)"
-      middlewares:
-        - authelia
-        - default-headers
-        - https-redirectscheme
-      tls: {}
-      service: firefly
     dashy:
       entryPoints:
         - "https"
@@ -107,12 +76,7 @@ http:
   services:
 
     # Admin
-    zimaprox:
-      loadBalancer:
-        servers:
-          - url: "https://10.0.0.3:8006"
-        passHostHeader: true
-    laptopprox:
+    alienwareprox:
       loadBalancer:
         servers:
           - url: "https://10.0.0.4:8006"
@@ -139,16 +103,6 @@ http:
         passHostHeader: true
     
     # Tools
-    firefly:
-      loadBalancer:
-        servers:
-          - url: "http://10.0.0.10:5780"
-        passHostHeader: true
-    nextcloud:
-      loadBalancer:
-        servers:
-          - url: "https://10.0.0.13:9782"
-        passHostHeader: true
     dashy:
       loadBalancer:
         servers:
