@@ -5,7 +5,7 @@
 - name: Create media group
   become: true
   ansible.builtin.group:
-    name: media
+    name: '911'
     state: present
   register: group_return_values
 
