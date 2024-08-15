@@ -23,11 +23,18 @@
     autoclean: true
     autoremove: true
 
-- name: Install essential packages
+- name: Install Vim
   become: true
   ansible.builtin.apt:
-    pkg: "{{ packages }}"
+    pkg: vim
     state: present
+
+- name: Install QEMU Guest Agent
+  become: true
+  ansible.builtin.apt:
+    pkg: qemu-guest-agent
+    state: present
+  when: isQEMUGuest
 
 - name: Install PythonVenv
   become: true

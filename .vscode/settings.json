@@ -1,7 +1,10 @@
 {
     "ansible.python.interpreterPath": ".venv/bin/activate",
     "cSpell.words": [
+        "alienwareprox",
         "authelia",
+        "autoclean",
+        "autoremove",
         "Bazarr",
         "ezequielvalencia",
         "gluetun",
