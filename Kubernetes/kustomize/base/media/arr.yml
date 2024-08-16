@@ -254,3 +254,93 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: bazarr
+
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: readarr
+  name: readarr
+spec:
+  selector:
+    matchLabels:
+      app: readarr
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: readarr
+      annotations:
+        consul.hashicorp.com/connect-service: readarr
+        consul.hashicorp.com/connect-inject: 'true'
+        consul.hashicorp.com/transparent-proxy-exclude-outbound-ports: '9845,9078'
+        consul.hashicorp.com/transparent-proxy: 'true'
+    spec:
+      # https://www.ibm.com/docs/de/spectrum-conductor/2.5.0?topic=instances-network-provisioning-docker-pods
+      # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
+      containers:
+        - name: readarr
+          image: lscr.io/linuxserver/readarr:develop
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: time-zone
+            - configMapRef:
+                name: arr-user
+          resources:
+            limits: 
+              memory: 512M
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+          ports:
+            - containerPort: 8787
+          volumeMounts:
+            - name: media-local-storage
+              mountPath: /media/books
+              subPath: books
+            - name: media-config-local-storage
+              mountPath: /config
+              subPath: readarr
+            - name: media-local-storage
+              mountPath: /media/downloads
+              subPath: downloads
+      
+      serviceAccount: readarr
+      
+      volumes:
+        - name: media-config-local-storage
+          persistentVolumeClaim:
+            claimName: media-config-local-storage-claim
+        - name: media-local-storage
+          persistentVolumeClaim:
+            claimName: media-local-storage-claim
+      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: readarr
+  name: readarr
+spec:
+  ports:
+    - name: readarr
+      port: 8787
+      targetPort: 8787
+  selector:
+    app: readarr
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: readarr
+
+
