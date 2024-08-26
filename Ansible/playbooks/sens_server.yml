@@ -16,7 +16,7 @@
   roles:
     - debian-system-startup
 
-- hosts: money
+# For now manually input adc.json and cache.db
+- hosts: bots
   roles:
-    - firefly_install
-
+    - bots
