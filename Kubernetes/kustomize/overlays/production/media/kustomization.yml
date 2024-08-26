@@ -17,7 +17,7 @@ patches:
 
 resources:
 - ../../../base/media
-- ../../../config/production
+- ../../../config/production/media
 - storage.yml
 - ingress.yml
 - tunnel.yml
