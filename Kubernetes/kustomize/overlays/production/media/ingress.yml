@@ -58,11 +58,4 @@ spec:
           name: kavita
           namespace: media
           port: book-ui
-    - kind: Rule
-      match: Host(`readarr.homelab.ezequielvalencia.com`)
-      services:
-        - kind: Service
-          name: readarr
-          namespace: media
-          port: readarr
           

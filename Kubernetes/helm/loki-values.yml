@@ -15,12 +15,20 @@ deploymentMode: SingleBinary
 # Need to set retention limit, https://grafana.com/docs/loki/latest/operations/storage/retention/
 
 
+# Meant to fix processing request error: https://github.com/grafana/loki/issues/7649
+structuredConfig:
+  frontend:
+    address: "loki-gateway.monitoring.svc.cluster.local"
+
+frontend:
+  address: "loki-gateway.monitoring.svc.cluster.local"
+
 loki:
   commonConfig:
     replication_factor: 1
   
   storage:
-    # type: filesystem
+    type: filesystem
     bucketNames:
       chunks: loki-chunks
       ruler: loki-ruler
@@ -52,18 +60,18 @@ singleBinary:
 #   nodeSelector:
 #     nodetype: monitor # Set desired node with this label https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/
 #   replicas: 1
-# read:
-#   nodeSelector: 
-#     nodetype: monitor  
-#   replicas: 1
-# backend:
-#   nodeSelector:
-#     nodetype: monitor  
-#   replicas: 1
-# write:
-#   nodeSelector:
-#     nodetype: monitor 
-#   replicas: 1
+read:
+  nodeSelector: 
+    nodetype: monitor  
+  replicas: 0
+backend:
+  nodeSelector:
+    nodetype: monitor  
+  replicas: 0
+write:
+  nodeSelector:
+    nodetype: monitor 
+  replicas: 0
 # monitoring:
 #   lokiCanary:
 #     enabled: false
@@ -72,11 +80,25 @@ lokiCanary:
 gateway:
   enabled: true
   nodeSelector:
-    nodetype: monitor 
+    nodetype: monitor
+  
+  # https://github.com/grafana/loki/issues/5963
+  write:
+    extraArgs:
+      - -querier.engine.timeout=5m
+      - -querier.query-timeout=5m
+      - -server.http-read-timeout=5m
+      - -server.http-write-timeout=5m
+  read:
+    extraArgs:
+      - -querier.engine.timeout=5m
+      - -querier.query-timeout=5m
+      - -server.http-read-timeout=5m
+      - -server.http-write-timeout=5m
 test:
   enabled: false
 selfMonitoring:
-  enabled: false
+  enabled: true
 resultsCache:
   nodeSelector:
     nodetype: monitor 
