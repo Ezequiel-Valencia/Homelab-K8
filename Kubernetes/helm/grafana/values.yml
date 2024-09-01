@@ -1,6 +1,14 @@
 fullnameOverride: prometheus
 
+nodeSelector:
+  nodetype: monitor
+
+server:
+  nodeSelector:
+    nodetype: monitor
+
 defaultRules:
+
   create: true
   rules:
     alertmanager: true
@@ -31,6 +39,8 @@ defaultRules:
 
 alertmanager:
   fullnameOverride: alertmanager
+  nodeSelector:
+    nodetype: monitor
   enabled: true
   ingress:
     enabled: false
@@ -47,6 +57,8 @@ alertmanager:
 grafana:
   enabled: true
   fullnameOverride: grafana
+  nodeSelector:
+    nodetype: monitor
   forceDeployDatasources: false
   forceDeployDashboards: false
   defaultDashboardsEnabled: true
@@ -117,6 +129,8 @@ kubeStateMetrics:
 
 kube-state-metrics:
   fullnameOverride: kube-state-metrics
+  nodeSelector:
+    nodetype: monitor
   selfMonitor:
     enabled: true
   prometheus:
@@ -178,6 +192,8 @@ prometheus-node-exporter:
 
 prometheusOperator:
   enabled: true
+  nodeSelector:
+    nodetype: monitor
   prometheusConfigReloader:
     resources:
       requests:
@@ -199,6 +215,8 @@ prometheusOperator:
 
 prometheus:
   enabled: true
+  nodeSelector:
+    nodetype: monitor
   prometheusSpec:
     replicas: 1
     replicaExternalLabelName: "replica"

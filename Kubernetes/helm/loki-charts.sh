@@ -5,18 +5,10 @@ read -p "Install Loki (y/n): " INSTALL
 
 if [ "$INSTALL" = "y" ]; then
 
-    read -p "Fresh Install (y/n): " FRESH
-
-    if [ "$FRESH" = "y" ]; then
-        helm install -n monitoring loki \
-        --kubeconfig=/home/zek/.kube/config_prd \
-        grafana/loki -f loki-values.yml
-
-    else
-        helm upgrade -n monitoring loki \
-        --kubeconfig=/home/zek/.kube/config_prd \
-        grafana/loki -f loki-values.yml
-    fi
+    helm upgrade -n monitoring loki \
+    --install \
+    --kubeconfig=/home/zek/.kube/config_prd \
+    grafana/loki -f loki-values.yml
 
 
 else 

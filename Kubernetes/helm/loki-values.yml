@@ -8,7 +8,7 @@
 # - SingleBinary<->SimpleScalable: Migrate from SingleBinary to SimpleScalable (or vice versa)
 # - SimpleScalable<->Distributed: Migrate from SimpleScalable to Distributed (or vice versa)
 # Note: SimpleScalable and Distributed REQUIRE the use of object storage.
-deploymentMode: SingleScalable
+deploymentMode: SingleBinary
 
 # Single Binary Seems just not to work  because loki frontend is affiliated with "read" pod, https://stackoverflow.com/questions/74947246/failed-to-enable-query-frontend-using-loki-simple-scalable-deployment-mode
 # And to start monitoring the other Pods securely
@@ -39,23 +39,31 @@ loki:
 
   auth_enabled: false
 
+singleBinary:
+  # replicas: 1
+  nodeSelector:
+    nodetype: monitor
+# queryFrontend:
+#   replicas: 1
+# queryScheduler:
+#   replicas: 1
 
-adminApi:
-  nodeSelector:
-    type: monitor # Set desired node with this label https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/
-  replicas: 1
-read:
-  nodeSelector: 
-    type: monitor  
-  replicas: 1
-backend:
-  nodeSelector:
-    type: monitor  
-  replicas: 1
-write:
-  nodeSelector:
-    type: monitor 
-  replicas: 1
+# adminApi:
+#   nodeSelector:
+#     nodetype: monitor # Set desired node with this label https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/
+#   replicas: 1
+# read:
+#   nodeSelector: 
+#     nodetype: monitor  
+#   replicas: 1
+# backend:
+#   nodeSelector:
+#     nodetype: monitor  
+#   replicas: 1
+# write:
+#   nodeSelector:
+#     nodetype: monitor 
+#   replicas: 1
 # monitoring:
 #   lokiCanary:
 #     enabled: false
@@ -64,18 +72,18 @@ lokiCanary:
 gateway:
   enabled: true
   nodeSelector:
-    type: monitor 
+    nodetype: monitor 
 test:
   enabled: false
 selfMonitoring:
-  enabled: true
+  enabled: false
 resultsCache:
   nodeSelector:
-    type: monitor 
+    nodetype: monitor 
 chunksCache:
   allocatedMemory: 1024
   nodeSelector:
-    type: monitor 
+    nodetype: monitor 
 
 
 
