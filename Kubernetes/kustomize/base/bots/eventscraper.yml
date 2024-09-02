@@ -1,22 +1,10 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1
+kind: Job #Job instead of deployment because of it's ability to back off x num of failures
 metadata:
-  labels:
-    app: eventscraper
   name: eventscraper
 spec:
-  selector:
-    matchLabels:
-      app: eventscraper
-  replicas: 1
-  strategy:
-    type: Recreate
   template:
-    metadata:
-      labels:
-        app: eventscraper
     spec:
-      # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
       containers: 
         - name: eventscraper
           image: avocadomoon/ctevent-scraper:latest
@@ -40,4 +28,5 @@ spec:
         - name: eventscraper-storage
           persistentVolumeClaim:
             claimName: eventscraper-storage-claim
-      restartPolicy: Always
+      restartPolicy: Never
+  backoffLimit: 3
