@@ -2,3 +2,5 @@
 .vscode/settings.json
 stack.env
 .venv
+
+helm-resource.yml
