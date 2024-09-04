@@ -20,4 +20,10 @@ spec:
               name: grafana
               secure: true
               sameSite: none
+    
+    - match: Host(`semaphore.homelab.ezequielvalencia.com`)
+      kind: Rule
+      services:
+        - name: semaphoreui
+          port: 3000
           

@@ -8,3 +8,6 @@ namespace: monitoring
 
 resources:
 - ingress.yml
+- storage.yml
+- ../../../base/monitor
+- ../../../config/production/monitor

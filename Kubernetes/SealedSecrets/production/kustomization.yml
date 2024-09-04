@@ -7,3 +7,4 @@ resources:
 - certs.yml
 - monitor.yml
 - eventscraper-secrets.yml
+- semaphore.yml
