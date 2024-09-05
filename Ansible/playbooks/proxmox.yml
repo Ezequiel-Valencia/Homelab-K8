@@ -1,8 +1,0 @@
----
-- name: Init Proxmox Machines
-  hosts: proxmox_servers
-  vars:
-    other_port: false
-
-  roles:
-    - proxmox-init

@@ -1,6 +1,0 @@
-traefik_files:
-  - traefik.yml
-  - config.yml
-
-
-traefik_local_user: root

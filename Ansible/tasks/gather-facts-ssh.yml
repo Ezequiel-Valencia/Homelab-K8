@@ -1,8 +1,0 @@
----
-- name: Set ssh port if not 22
-  ansible.builtin.set_fact:
-    ansible_port: "{{ alt_ssh_port }}"
-  when: other_port
-
-- name: Gather facts now
-  ansible.builtin.gather_facts:
