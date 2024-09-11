@@ -1,9 +1,20 @@
-apiVersion: batch/v1
-kind: Job #Job instead of deployment because of it's ability to back off x num of failures
+apiVersion: apps/v1
+kind: Deployment
 metadata:
+  labels:
+    app: eventscraper
   name: eventscraper
 spec:
+  selector: 
+    matchLabels:
+      app: eventscraper
+  replicas: 1
+  strategy:
+    type: Recreate
   template:
+    metadata:
+      labels:
+        app: eventscraper
     spec:
       containers: 
         - name: eventscraper
@@ -28,5 +39,4 @@ spec:
         - name: eventscraper-storage
           persistentVolumeClaim:
             claimName: eventscraper-storage-claim
-      restartPolicy: Never
-  backoffLimit: 3
+      restartPolicy: Always
