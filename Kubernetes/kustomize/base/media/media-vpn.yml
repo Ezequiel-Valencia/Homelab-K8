@@ -132,10 +132,10 @@ metadata:
   name: mediavpn
 spec:
   ports:
-    - name: jackett
+    - name: tcp-jackett
       port: 9845
       targetPort: 9117
-    - name: qbit-web-ui
+    - name: tcp-qbit-web-ui
       port: 9078
       targetPort: 9078
   selector:

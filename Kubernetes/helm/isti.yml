@@ -1,0 +1,38 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+
+
+patches:
+  - target:
+      kind: Deployment
+      name: kiali
+    patch: |
+      - op: add
+        path: /spec/template/spec/nodeName
+        value: monitor
+  - target:
+      kind: Deployment
+      name: prometheus
+    patch: |
+      - op: add
+        path: /spec/template/spec/nodeName
+        value: monitor
+  # - target: https://stackoverflow.com/questions/63372998/how-to-install-kiali-dashboard-with-prometheus-in-place-in-gke-with-default-isti
+  #     kind: ConfigMap
+  #     name: kiali
+  #     patch: |
+  #       - op: add
+  #         path: /spec 
+  #         value: prometheus:
+  #       url: http://prometheus-prometheus.monitoring.svc.cluster.local:9090/
+
+  # kubectl apply -f istio-1.23.2/samples/addons/prometheus.yaml --kubeconfig=/home/zek/.kube/config_prd
+  # kubectl apply -f istio-1.23.2/samples/addons/prometheus.yaml --kubeconfig=/home/zek/.kube/config_prd
+
+
+resources:
+  - ../../istio-1.23.2/samples/addons/kilali
+  - ../../istio-1.23.2/samples/addons/prometheus
+
+

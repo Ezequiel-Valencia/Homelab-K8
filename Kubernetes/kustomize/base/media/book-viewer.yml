@@ -15,6 +15,7 @@ spec:
     metadata:
       labels:
         app: kavita
+        sidecar.istio.io/inject: "true"
       annotations:
         consul.hashicorp.com/connect-inject: "true"
         consul.hashicorp.com/transparent-proxy: "true" # Can use K8 DNS instead of having to
@@ -63,7 +64,7 @@ metadata:
   name: kavita
 spec:
   ports:
-    - name: book-ui
+    - name: tcp-book-ui
       port: 8083
       targetPort: 5000
   selector:

@@ -15,6 +15,7 @@ spec:
     metadata:
       labels:
         app: jellyfin
+        sidecar.istio.io/inject: "true"
       annotations:
         consul.hashicorp.com/connect-inject: "true"
         consul.hashicorp.com/transparent-proxy: "true" # Can use K8 DNS instead of having to
@@ -67,7 +68,7 @@ metadata:
   name: jellyfin
 spec:
   ports:
-    - name: web-ui
+    - name: tcp-web-ui
       port: 7026
       targetPort: 8096
   selector:

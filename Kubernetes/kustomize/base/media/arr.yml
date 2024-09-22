@@ -15,6 +15,7 @@ spec:
     metadata:
       labels:
         app: sonarr
+        sidecar.istio.io/inject: "true"
       annotations:
         consul.hashicorp.com/connect-service: sonarr
         consul.hashicorp.com/connect-inject: 'true'
@@ -69,7 +70,7 @@ metadata:
   name: sonarr
 spec:
   ports:
-    - name: sonarr
+    - name: tcp-sonarr
       port: 9898
       targetPort: 8989
   selector:
@@ -99,6 +100,7 @@ spec:
     metadata:
       labels:
         app: radarr
+        sidecar.istio.io/inject: "true"
       annotations:
         consul.hashicorp.com/connect-service: radarr
         consul.hashicorp.com/connect-inject: 'true'
@@ -161,7 +163,7 @@ metadata:
   name: radarr
 spec:
   ports:
-    - name: radarr
+    - name: tcp-radarr
       port: 7878
       targetPort: 7878
   selector:
@@ -187,6 +189,7 @@ spec:
     metadata:
       labels:
         app: bazarr
+        sidecar.istio.io/inject: "true"
       annotations:
         consul.hashicorp.com/connect-service: bazarr
         consul.hashicorp.com/connect-inject: 'true'
@@ -243,7 +246,7 @@ metadata:
   name: bazarr
 spec:
   ports:
-    - name: bazarr
+    - name: tcp-bazarr
       port: 7676
       targetPort: 6767
   selector:
