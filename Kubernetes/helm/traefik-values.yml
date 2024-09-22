@@ -18,11 +18,14 @@ deployment:
   # Additional deployment annotations (e.g. for jaeger-operator sidecar injection)
   annotations: {}
   # Additional pod annotations (e.g. for mesh injection or prometheus scraping)
+  # consul.hashicorp.com/connect-inject: "true",
+    # consul.hashicorp.com/transparent-proxy: "true",
+    # consul.hashicorp.com/transparent-proxy-exclude-inbound-ports: "8000,80,443,9000,8443",
+    # consul.hashicorp.com/transparent-proxy-exclude-outbound-cidrs: "10.43.0.1/32",
   podAnnotations: {
-    consul.hashicorp.com/connect-inject: "true",
-    consul.hashicorp.com/transparent-proxy: "true",
-    consul.hashicorp.com/transparent-proxy-exclude-inbound-ports: "8000,80,443,9000,8443",
-    consul.hashicorp.com/transparent-proxy-exclude-outbound-cidrs: "10.43.0.1/32"
+  }
+  podLabels: {
+    sidecar.istio.io/inject: "true"
   }
   # Additional containers (e.g. for metric offloading sidecars)
   additionalContainers: []
