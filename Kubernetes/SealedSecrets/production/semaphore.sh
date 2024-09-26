@@ -6,7 +6,7 @@ SECRET_NAME="semaphore-secrets"
 NAMESPACE="monitoring"
 read -s -p "DB Password: " SEMAPHORE_DB_PASS
 echo
-read -s -p "Semaphore Access Key: " SEMAPHORE_ACCESS_KEY_ENCRYPTION
+read -s -p "Semaphore Access Key (Key for encrypting DB): " SEMAPHORE_ACCESS_KEY_ENCRYPTION
 echo
 read -s -p "Semaphore Admin Password: " SEMAPHORE_ADMIN_PASSWORD
 
@@ -20,4 +20,6 @@ kubectl create secret generic ${SECRET_NAME} --dry-run=client --kubeconfig=/home
       --from-literal=POSTGRES_PASSWORD="${SEMAPHORE_DB_PASS}" \
       --namespace="${NAMESPACE}" -o yaml | \
       kubeseal --kubeconfig=/home/zek/.kube/config_prd \
+      --controller-namespace=kube-system \
+      --controller-name=sealed-secrets \
       --format yaml > ./semaphore.yml

@@ -20,4 +20,6 @@ kubectl create secret generic ${SECRET_NAME} --dry-run=client --kubeconfig=/home
       --from-literal=UPDATER_PERIOD="48h" \
       --namespace="${NAMESPACE}" -o yaml | \
       kubeseal --kubeconfig=/home/zek/.kube/config_prd \
+      --controller-namespace=kube-system \
+      --controller-name=sealed-secrets \
       --format yaml > ./vpn-secrets.yml
