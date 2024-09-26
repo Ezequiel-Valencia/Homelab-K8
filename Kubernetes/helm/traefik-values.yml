@@ -24,9 +24,7 @@ deployment:
     # consul.hashicorp.com/transparent-proxy-exclude-outbound-cidrs: "10.43.0.1/32",
   podAnnotations: {
   }
-  podLabels: {
-    sidecar.istio.io/inject: "true"
-  }
+  
   # Additional containers (e.g. for metric offloading sidecars)
   additionalContainers: []
   # Additional initContainers (e.g. for setting file permission as shown below)
