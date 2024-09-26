@@ -51,7 +51,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: media-certs
-  namespace: media
+  namespace: istio-system
 spec:
   secretName: media-certs
   issuerRef:

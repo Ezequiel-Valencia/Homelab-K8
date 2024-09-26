@@ -18,3 +18,5 @@ resources:
 - media-vpn.yml
 - arr.yml
 - book-viewer.yml
+- gateway.yml
+- virtual-service.yml
