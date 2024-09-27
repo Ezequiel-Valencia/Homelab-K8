@@ -2,7 +2,9 @@
 https://istio.io/latest/docs/setup/install/istioctl/
 ```
 !#/bin/bash
-istioctl install --set profile=ambient --set "components.ingressGateways[0].enabled=true" --set "components.ingressGateways[0].name=istio-ingressgateway" 
+./istio-1.23.2/bin/istioctl install --set profile=ambient --set "components.ingressGateways[0].enab
+led=true" --set "components.ingressGateways[0].name=istio-ingressgateway" --set meshConfig.outboundTr
+afficPolicy.mode=ALLOW_ANY --kubeconfig=/home/zek/.kube/config_pr
 ```
 [Source](https://medium.com/@SabujJanaCodes/touring-the-kubernetes-istio-ambient-mesh-part-1-setup-ztunnel-c80336fcfb2d)
 
