@@ -15,10 +15,7 @@ spec:
     metadata:
       labels:
         app: mediavpn
-      # annotations:
-      #   consul.hashicorp.com/connect-inject: "true"
-      #   consul.hashicorp.com/connect-service-upstreams: mediaarr.svc:9117, traefik.svc:9117, mediaarr.svc:9078, traefik.svc:9078
-
+        istio.io/dataplane-mode: none
     spec:
       # https://www.ibm.com/docs/de/spectrum-conductor/2.5.0?topic=instances-network-provisioning-docker-pods
       # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
@@ -132,26 +129,33 @@ metadata:
   name: mediavpn
 spec:
   ports:
-    - name: tcp-jackett
+    - name: http-jackett
       port: 9845
       targetPort: 9117
-    - name: tcp-qbit-web-ui
+  selector:
+    app: mediavpn
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: qbit
+  name: qbit
+spec:
+  ports:
+    - name: http-qbit-web-ui
       port: 9078
       targetPort: 9078
   selector:
     app: mediavpn
-
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: mediavpn
 
----
-apiVersion: consul.hashicorp.com/v1alpha1
-kind: ServiceDefaults
-metadata:
-  name: mediavpn
-spec:
-  transparentProxy:
-    dialedDirectly: true
+
+# https://medium.com/mercedes-benz-techinnovation-blog/linux-capability-net-admin-in-a-hardened-kubernetes-world-216fc1a7be3
+# https://istio.io/latest/docs/tasks/traffic-management/egress/egress-control/
+# https://stackoverflow.com/questions/72879480/istio-outbound-traffic-fails

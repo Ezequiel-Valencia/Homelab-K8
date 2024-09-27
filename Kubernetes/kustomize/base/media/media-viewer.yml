@@ -15,10 +15,6 @@ spec:
     metadata:
       labels:
         app: jellyfin
-        sidecar.istio.io/inject: "true"
-      annotations:
-        consul.hashicorp.com/connect-inject: "true"
-        consul.hashicorp.com/transparent-proxy: "true" # Can use K8 DNS instead of having to
     spec:
       # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
       containers: 

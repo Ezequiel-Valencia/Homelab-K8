@@ -29,7 +29,7 @@ spec:
         - kind: Service
           name: mediavpn
           namespace: media
-          port: tcp-jackett
+          port: http-jackett
     - kind: Rule
       match: Host(`radarr.homelab.ezequielvalencia.com`)
       services:
@@ -43,14 +43,14 @@ spec:
         - kind: Service
           name: mediavpn
           namespace: media
-          port: tcp-qbit-web-ui
+          port: http-qbit-web-ui
     - kind: Rule
       match: Host(`jellyfin.homelab.ezequielvalencia.com`)
       services:
         - kind: Service
           name: jellyfin
           namespace: media
-          port: tcp-web-ui
+          port: http-web-ui
     - kind: Rule
       match: Host(`library.homelab.ezequielvalencia.com`)
       services:

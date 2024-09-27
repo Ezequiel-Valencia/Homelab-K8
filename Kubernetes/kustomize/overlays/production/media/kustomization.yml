@@ -19,5 +19,5 @@ resources:
 - ../../../base/media
 - ../../../config/production/media
 - storage.yml
-- ingress.yml
+# - ingress.yml
 - tunnel.yml

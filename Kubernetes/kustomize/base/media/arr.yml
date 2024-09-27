@@ -15,12 +15,6 @@ spec:
     metadata:
       labels:
         app: sonarr
-        sidecar.istio.io/inject: "true"
-      annotations:
-        consul.hashicorp.com/connect-service: sonarr
-        consul.hashicorp.com/connect-inject: 'true'
-        consul.hashicorp.com/transparent-proxy-exclude-outbound-ports: '9845,9078'
-        consul.hashicorp.com/transparent-proxy: 'true'
     spec:
       # https://www.ibm.com/docs/de/spectrum-conductor/2.5.0?topic=instances-network-provisioning-docker-pods
       # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
@@ -51,7 +45,10 @@ spec:
               subPath: sonarr
       
       serviceAccount: sonarr
-      
+      dnsPolicy: "None"
+      dnsConfig:
+        nameservers:
+          - 10.0.0.6
       volumes:
         - name: media-config-local-storage
           persistentVolumeClaim:
@@ -70,7 +67,7 @@ metadata:
   name: sonarr
 spec:
   ports:
-    - name: tcp-sonarr
+    - name: http-sonarr
       port: 9898
       targetPort: 8989
   selector:
@@ -100,12 +97,6 @@ spec:
     metadata:
       labels:
         app: radarr
-        sidecar.istio.io/inject: "true"
-      annotations:
-        consul.hashicorp.com/connect-service: radarr
-        consul.hashicorp.com/connect-inject: 'true'
-        consul.hashicorp.com/transparent-proxy-exclude-outbound-ports: '9845,9078'
-        consul.hashicorp.com/transparent-proxy: 'true'
     spec:
       # https://www.ibm.com/docs/de/spectrum-conductor/2.5.0?topic=instances-network-provisioning-docker-pods
       # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
@@ -136,7 +127,10 @@ spec:
             - name: media-config-local-storage
               mountPath: /config
               subPath: radarr
-      
+      dnsPolicy: "None"
+      dnsConfig:
+        nameservers:
+          - 10.0.0.6
       serviceAccount: radarr
       volumes:
         - name: media-config-local-storage
@@ -163,7 +157,7 @@ metadata:
   name: radarr
 spec:
   ports:
-    - name: tcp-radarr
+    - name: http-radarr
       port: 7878
       targetPort: 7878
   selector:
@@ -189,12 +183,6 @@ spec:
     metadata:
       labels:
         app: bazarr
-        sidecar.istio.io/inject: "true"
-      annotations:
-        consul.hashicorp.com/connect-service: bazarr
-        consul.hashicorp.com/connect-inject: 'true'
-        consul.hashicorp.com/transparent-proxy-exclude-outbound-ports: '9845,9078'
-        consul.hashicorp.com/transparent-proxy: 'true'
     spec:
       # https://www.ibm.com/docs/de/spectrum-conductor/2.5.0?topic=instances-network-provisioning-docker-pods
       # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
@@ -246,7 +234,7 @@ metadata:
   name: bazarr
 spec:
   ports:
-    - name: tcp-bazarr
+    - name: http-bazarr
       port: 7676
       targetPort: 6767
   selector:

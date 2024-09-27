@@ -13,5 +13,78 @@ spec:
         host: jellyfin
         port:
           number: 7026
-
 ---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: kavita-route
+spec:
+  hosts:
+  - library.homelab.ezequielvalencia.com
+  gateways:
+  - media-gateway 
+  http:
+  - route:
+    - destination:
+        host: kavita
+---
+
+###########################
+#        ARRs             #      
+###########################
+
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: sonarr-route
+spec:
+  hosts:
+  - sonarr.homelab.ezequielvalencia.com
+  gateways:
+  - media-gateway 
+  http:
+  - route:
+    - destination:
+        host: sonarr
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: radarr-route
+spec:
+  hosts:
+  - radarr.homelab.ezequielvalencia.com
+  gateways:
+  - media-gateway 
+  http:
+  - route:
+    - destination:
+        host: radarr
+---
+apiVersion: networking.istio.io/v1
+kind: ServiceEntry
+metadata:
+  name: jackett
+spec:
+  hosts:
+  - jackett.homelab.ezequielvalencia.com
+  ports:
+  - number: 443
+    name: https
+    protocol: HTTPS
+  resolution: DNS
+  location: MESH_EXTERNAL
+---
+apiVersion: networking.istio.io/v1
+kind: ServiceEntry
+metadata:
+  name: qbit
+spec:
+  hosts:
+  - qbit.homelab.ezequielvalencia.com
+  ports:
+  - number: 443
+    name: https
+    protocol: HTTPS
+  resolution: DNS
+  location: MESH_EXTERNAL
