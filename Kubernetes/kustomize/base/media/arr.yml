@@ -15,11 +15,6 @@ spec:
     metadata:
       labels:
         app: sonarr
-      annotations:
-        consul.hashicorp.com/connect-service: sonarr
-        consul.hashicorp.com/connect-inject: 'true'
-        consul.hashicorp.com/transparent-proxy-exclude-outbound-ports: '9845,9078'
-        consul.hashicorp.com/transparent-proxy: 'true'
     spec:
       # https://www.ibm.com/docs/de/spectrum-conductor/2.5.0?topic=instances-network-provisioning-docker-pods
       # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
@@ -50,7 +45,10 @@ spec:
               subPath: sonarr
       
       serviceAccount: sonarr
-      
+      dnsPolicy: "None"
+      dnsConfig:
+        nameservers:
+          - 10.0.0.6
       volumes:
         - name: media-config-local-storage
           persistentVolumeClaim:
@@ -69,7 +67,7 @@ metadata:
   name: sonarr
 spec:
   ports:
-    - name: sonarr
+    - name: http-sonarr
       port: 9898
       targetPort: 8989
   selector:
@@ -99,11 +97,6 @@ spec:
     metadata:
       labels:
         app: radarr
-      annotations:
-        consul.hashicorp.com/connect-service: radarr
-        consul.hashicorp.com/connect-inject: 'true'
-        consul.hashicorp.com/transparent-proxy-exclude-outbound-ports: '9845,9078'
-        consul.hashicorp.com/transparent-proxy: 'true'
     spec:
       # https://www.ibm.com/docs/de/spectrum-conductor/2.5.0?topic=instances-network-provisioning-docker-pods
       # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
@@ -134,7 +127,10 @@ spec:
             - name: media-config-local-storage
               mountPath: /config
               subPath: radarr
-      
+      dnsPolicy: "None"
+      dnsConfig:
+        nameservers:
+          - 10.0.0.6
       serviceAccount: radarr
       volumes:
         - name: media-config-local-storage
@@ -161,97 +157,9 @@ metadata:
   name: radarr
 spec:
   ports:
-    - name: radarr
+    - name: http-radarr
       port: 7878
       targetPort: 7878
   selector:
     app: radarr
-
-
-
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  labels:
-    app: bazarr
-  name: bazarr
-spec:
-  selector:
-    matchLabels:
-      app: bazarr
-  replicas: 1
-  strategy:
-    type: Recreate
-  template:
-    metadata:
-      labels:
-        app: bazarr
-      annotations:
-        consul.hashicorp.com/connect-service: bazarr
-        consul.hashicorp.com/connect-inject: 'true'
-        consul.hashicorp.com/transparent-proxy-exclude-outbound-ports: '9845,9078'
-        consul.hashicorp.com/transparent-proxy: 'true'
-    spec:
-      # https://www.ibm.com/docs/de/spectrum-conductor/2.5.0?topic=instances-network-provisioning-docker-pods
-      # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
-      containers:
-        - name: bazarr
-          image: lscr.io/linuxserver/bazarr:latest
-          imagePullPolicy: Always
-          envFrom:
-            - configMapRef:
-                name: time-zone
-            - configMapRef:
-                name: arr-user
-          resources:
-            limits: 
-              memory: 512M
-          securityContext:
-            allowPrivilegeEscalation: false
-            privileged: false
-          ports:
-            - containerPort: 6767
-          volumeMounts:
-            - name: media-local-storage
-              mountPath: /media/tv
-              subPath: tv
-            - name: media-local-storage
-              mountPath: /media/movie
-              subPath: movies
-            - name: media-config-local-storage
-              mountPath: /config
-              subPath: bazarr
-      
-      serviceAccount: bazarr
-      
-      volumes:
-        - name: media-config-local-storage
-          persistentVolumeClaim:
-            claimName: media-config-local-storage-claim
-        - name: media-local-storage
-          persistentVolumeClaim:
-            claimName: media-local-storage-claim
-      restartPolicy: Always
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: bazarr
-  name: bazarr
-spec:
-  ports:
-    - name: bazarr
-      port: 7676
-      targetPort: 6767
-  selector:
-    app: bazarr
-
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: bazarr
 

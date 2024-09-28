@@ -2,5 +2,6 @@
 .vscode/settings.json
 stack.env
 .venv
+istio*
 
 helm-resource.yml

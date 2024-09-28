@@ -17,4 +17,6 @@ kubectl create secret generic ${SECRET_NAME} --dry-run=client --kubeconfig=/home
       --from-literal=SLACK_WEBHOOK="${SLACK_WEBHOOK}" \
       --namespace="${NAMESPACE}" -o yaml | \
       kubeseal --kubeconfig=/home/zek/.kube/config_prd \
+      --controller-namespace=kube-system \
+      --controller-name=sealed-secrets \
       --format yaml > ./eventscraper-secrets.yml

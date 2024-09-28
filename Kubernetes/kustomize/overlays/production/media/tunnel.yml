@@ -60,12 +60,3 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: cloudtunnel
-
----
-apiVersion: consul.hashicorp.com/v1alpha1
-kind: ServiceDefaults
-metadata:
-  name: cloudtunnel
-spec:
-  transparentProxy:
-    dialedDirectly: true

@@ -1,4 +1,4 @@
-fullnameOverride: prometheus
+fullnameOverride: homelab
 
 nodeSelector:
   nodetype: monitor
@@ -53,6 +53,9 @@ alertmanager:
         resources:
           requests:
             storage: 3Gi
+  resources:
+    requests:
+      cpu: 100m
 
 grafana:
   enabled: true
@@ -154,6 +157,9 @@ nodeExporter:
         sourceLabels:
           - __meta_kubernetes_pod_node_name
         targetLabel: kubernetes_node
+  resources:
+    requests:
+      cpu: 50m
 
 prometheus-node-exporter:
   fullnameOverride: node-exporter
@@ -177,7 +183,7 @@ prometheus-node-exporter:
   resources:
     requests:
       memory: 512Mi
-      cpu: 250m
+      cpu: 100m
     limits:
       memory: 2048Mi
   storage:
@@ -236,6 +242,12 @@ prometheus:
         resources:
           requests:
             storage: 3Gi
+  resources:
+    requests:
+      memory: 512Mi
+      cpu: 100m
+    limits:
+      memory: 512Mi
 
 thanosRuler:
   enabled: false

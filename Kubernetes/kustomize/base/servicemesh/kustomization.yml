@@ -4,10 +4,16 @@ kind: Kustomization
 
 # Merge Patch https://stackoverflow.com/questions/76004172/how-to-add-init-container-with-kustomize
 
-namespace: monitoring
+
+# patches:
+#   - target:
+#       kind: Deployment
+#       namespace: media
+#       name: '[^\s]+arr\b'
+#     path: arr-patch.yml
+
 
 resources:
-# - ingress.yml
-- storage.yml
-- ../../../base/monitor
-- ../../../config/production/monitor
+- gateway.yml
+- media-vs.yml
+- monitor-vs.yml

@@ -1,0 +1,4 @@
+spec:
+  nodeSelector:
+    nodetype: monitor
+

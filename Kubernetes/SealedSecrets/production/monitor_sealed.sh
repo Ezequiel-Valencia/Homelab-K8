@@ -14,4 +14,6 @@ kubectl create secret generic ${SECRET_NAME} --dry-run=client --kubeconfig=/home
       --from-literal=admin-user="admin" \
       --namespace="${NAMESPACE}" -o yaml | \
       kubeseal --kubeconfig=/home/zek/.kube/config_prd \
+      --controller-namespace=kube-system \
+      --controller-name=sealed-secrets \
       --format yaml > ./monitor.yml
