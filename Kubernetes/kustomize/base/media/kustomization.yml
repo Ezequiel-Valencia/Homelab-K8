@@ -17,5 +17,3 @@ resources:
 - media-viewer.yml
 - arr.yml
 - book-viewer.yml
-- gateway.yml
-- virtual-service.yml
