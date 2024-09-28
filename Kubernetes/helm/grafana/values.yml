@@ -1,4 +1,4 @@
-fullnameOverride: prometheus
+fullnameOverride: homelab
 
 nodeSelector:
   nodetype: monitor
@@ -236,6 +236,12 @@ prometheus:
         resources:
           requests:
             storage: 3Gi
+  resources:
+    requests:
+      memory: 512Mi
+      cpu: 250m
+    limits:
+      memory: 1024Mi
 
 thanosRuler:
   enabled: false
