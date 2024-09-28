@@ -68,7 +68,7 @@ metadata:
   name: semaphoreui
 spec:
   ports:
-    - name: web-ui
+    - name: http-web-ui
       port: 3000
       targetPort: 3000
   selector:
@@ -80,12 +80,3 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: semaphoreui
-
----
-apiVersion: consul.hashicorp.com/v1alpha1
-kind: ServiceDefaults
-metadata:
-  name: semaphoreui
-spec:
-  transparentProxy:
-    dialedDirectly: true

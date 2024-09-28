@@ -7,7 +7,7 @@ kind: Kustomization
 namespace: monitoring
 
 resources:
-- ingress.yml
+# - ingress.yml
 - storage.yml
 - ../../../base/monitor
 - ../../../config/production/monitor

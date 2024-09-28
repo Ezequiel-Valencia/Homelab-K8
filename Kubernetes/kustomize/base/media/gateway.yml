@@ -13,7 +13,12 @@ spec:
       tls:
         httpsRedirect: true # sends 301 redirect for http requests
       hosts:
-        - media/*.homelab.ezequielvalencia.com
+        - "media/jellyfin.homelab.ezequielvalencia.com"
+        - "media/library.homelab.ezequielvalencia.com"
+        - "media/sonarr.homelab.ezequielvalencia.com"
+        - "media/radarr.homelab.ezequielvalencia.com"
+        - "media/jackett.homelab.ezequielvalencia.com"
+        - "media/qbit.homelab.ezequielvalencia.com"
     - port:
         number: 443
         name: https
@@ -22,6 +27,10 @@ spec:
         mode: SIMPLE
         credentialName: media-certs # Same name as secret 
       hosts:
-        - media/*.homelab.ezequielvalencia.com # namespace/FQDN 
-
+        - "media/jellyfin.homelab.ezequielvalencia.com"
+        - "media/library.homelab.ezequielvalencia.com"
+        - "media/sonarr.homelab.ezequielvalencia.com"
+        - "media/radarr.homelab.ezequielvalencia.com"
+        - "media/jackett.homelab.ezequielvalencia.com"
+        - "media/qbit.homelab.ezequielvalencia.com"
 
