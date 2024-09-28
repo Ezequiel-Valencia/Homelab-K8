@@ -51,6 +51,7 @@ singleBinary:
   # replicas: 1
   nodeSelector:
     nodetype: monitor
+  targetCPUUtilizationPercentage: 20
 # queryFrontend:
 #   replicas: 1
 # queryScheduler:
@@ -100,10 +101,13 @@ test:
 selfMonitoring:
   enabled: true
 resultsCache:
+  allocatedMemory: 512
+  targetCPUUtilizationPercentage: 5
   nodeSelector:
     nodetype: monitor 
 chunksCache:
-  allocatedMemory: 1024
+  allocatedMemory: 512
+  targetCPUUtilizationPercentage: 5
   nodeSelector:
     nodetype: monitor 
 
