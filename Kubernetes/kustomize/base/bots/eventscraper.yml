@@ -30,7 +30,7 @@ spec:
                 name: eventscraper-env
           resources:
             limits: 
-              memory: 512M
+              memory: 216M
               cpu: "300m"
           volumeMounts:
             - name: eventscraper-storage
