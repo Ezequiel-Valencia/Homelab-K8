@@ -10,7 +10,7 @@ spec:
       app: jellyfin
   replicas: 1
   strategy:
-    type: Recreate
+    type: RollingUpdate
   template:
     metadata:
       labels:

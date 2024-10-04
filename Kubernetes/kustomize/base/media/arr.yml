@@ -10,7 +10,7 @@ spec:
       app: sonarr
   replicas: 1
   strategy:
-    type: Recreate
+    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -92,7 +92,7 @@ spec:
       app: radarr
   replicas: 1
   strategy:
-    type: Recreate
+    type: RollingUpdate
   template:
     metadata:
       labels:
