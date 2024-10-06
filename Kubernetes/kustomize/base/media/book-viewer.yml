@@ -7,10 +7,10 @@ metadata:
 spec:
   selector:
     matchLabels:
-      type: RollingUpdate
+      app: kavita
   replicas: 1
   strategy:
-    type: Recreate
+    type: RollingUpdate
   template:
     metadata:
       labels:
