@@ -20,7 +20,7 @@ spec:
     spec:
       containers: 
         - name: eventscraper
-          image: avocadomoon/ctevent-scraper:latest
+          image: avocadomoon/event-scraper:latest
           imagePullPolicy: "Always"
           securityContext:
             allowPrivilegeEscalation: false
