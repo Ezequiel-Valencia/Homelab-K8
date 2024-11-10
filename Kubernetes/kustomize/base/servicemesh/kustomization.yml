@@ -17,3 +17,4 @@ resources:
 - gateway.yml
 - media-vs.yml
 - monitor-vs.yml
+- acl.yml

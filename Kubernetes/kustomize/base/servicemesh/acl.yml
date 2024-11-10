@@ -1,0 +1,70 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+ name: media-viewer-policy
+ namespace: media
+spec:
+  podSelector:
+    matchLabels:
+      network-policy: media-viewer
+  
+  # Allow for the media-viewers to initiate the conversation with anything
+  # But only allow them to have conversations started from gateway and cloud-tunnel
+  ingress:
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: istio-system
+            app: cloudtunnel
+  egress:
+    - {}
+  policyTypes:
+    - Ingress
+    - Egress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+ name: allow-gateway
+ namespace: media
+spec:
+  podSelector:
+    matchLabels:
+      network-policy: arr
+  
+  # Allow for the media-viewers to initiate the conversation with anything
+  # But only allow them to have conversations started from gateway and cloud-tunnel
+  ingress:
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: istio-system
+    
+    - from:
+      - ipBlock:
+          cidr: 10.0.0.0/24
+  egress:
+    - {}
+  policyTypes:
+    - Ingress
+    - Egress
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+ name: tunnel-policy
+ namespace: media
+spec:
+  podSelector:
+    matchLabels:
+      network-policy: media-tunnel
+  ingress:
+    - {}
+  egress:
+    - {}
+  policyTypes:
+    - Ingress
+    - Egress
+
+

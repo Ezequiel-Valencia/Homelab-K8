@@ -15,9 +15,7 @@ spec:
     metadata:
       labels:
         app: cloudtunnel
-      annotations:
-        consul.hashicorp.com/connect-inject: "true"
-        consul.hashicorp.com/transparent-proxy: "true" # Can use K8 DNS instead of having to
+        network-policy: media-tunnel
     spec:
       # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
       containers: 
