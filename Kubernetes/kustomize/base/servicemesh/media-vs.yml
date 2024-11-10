@@ -66,6 +66,21 @@ spec:
         host: radarr
 ---
 apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: ittool-route
+  namespace: media
+spec:
+  hosts:
+  - ittool.homelab.ezequielvalencia.com
+  gateways:
+  - istio-system/homelab-gateway 
+  http:
+  - route:
+    - destination:
+        host: ittool
+---
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: jackett

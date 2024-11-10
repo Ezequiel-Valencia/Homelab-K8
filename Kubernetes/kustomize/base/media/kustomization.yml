@@ -17,3 +17,4 @@ resources:
 - media-viewer.yml
 - arr.yml
 - book-viewer.yml
+- it-tools.yml
