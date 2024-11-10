@@ -11,11 +11,7 @@ spec:
   # Allow for the media-viewers to initiate the conversation with anything
   # But only allow them to have conversations started from gateway and cloud-tunnel
   ingress:
-    - from:
-      - namespaceSelector:
-          matchLabels:
-            kubernetes.io/metadata.name: istio-system
-            app: cloudtunnel
+    - {}
   egress:
     - {}
   policyTypes:
