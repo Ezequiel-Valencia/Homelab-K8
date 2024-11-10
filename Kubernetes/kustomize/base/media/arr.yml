@@ -15,6 +15,7 @@ spec:
     metadata:
       labels:
         app: sonarr
+        network-policy: arr
     spec:
       # https://www.ibm.com/docs/de/spectrum-conductor/2.5.0?topic=instances-network-provisioning-docker-pods
       # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
@@ -97,6 +98,7 @@ spec:
     metadata:
       labels:
         app: radarr
+        network-policy: arr
     spec:
       # https://www.ibm.com/docs/de/spectrum-conductor/2.5.0?topic=instances-network-provisioning-docker-pods
       # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
