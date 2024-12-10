@@ -19,4 +19,4 @@ kubectl create secret generic ${SECRET_NAME} --dry-run=client --kubeconfig=/home
       kubeseal --kubeconfig=/home/zek/.kube/config_prd \
       --controller-namespace=kube-system \
       --controller-name=sealed-secrets \
-      --format yaml > ./eventscraper-secrets.yml
+      --format yaml > ../eventscraper-secrets.yml

@@ -2,17 +2,18 @@
 
 # Example: ./sealed_vpn.sh wireguard_key address mullvad > output.yaml
 
-SECRET_NAME="cloudflare-token-secret"
-NAMESPACE="cert-manager"
-read -s -p "Cert Token: " CERT_TOKEN
+SECRET_NAME="grafana-admin-credentials"
+NAMESPACE="monitoring"
+read -s -p "Admin Password: " ADMIN_PASSWORD
 
 
 # Broken on purpose since it has production configurations, remove kubconfig flag to bring it back to test
 
 kubectl create secret generic ${SECRET_NAME} --dry-run=client --kubeconfig=/home/zek/.kube/config_prd \
-      --from-literal=cloudflare-token="${CERT_TOKEN}" \
+      --from-literal=admin-password="${ADMIN_PASSWORD}" \
+      --from-literal=admin-user="admin" \
       --namespace="${NAMESPACE}" -o yaml | \
       kubeseal --kubeconfig=/home/zek/.kube/config_prd \
       --controller-namespace=kube-system \
       --controller-name=sealed-secrets \
-      --format yaml > ./certs.yml
+      --format yaml > ../monitor.yml
