@@ -1,3 +1,12 @@
+### Cleanup Dead Images
+If for some reason K3s agent is taking up large amounts of memory, it can be that the garbage
+collection for images is not strict enough.
+To force the equivalent of docker system prune for K3s run this.
+https://github.com/k3s-io/k3s/issues/1900#issuecomment-644453072
+
+```k3s crictl rmi --prune```
+
+
 ### Start Minikube
 ```bash
 minikube start
