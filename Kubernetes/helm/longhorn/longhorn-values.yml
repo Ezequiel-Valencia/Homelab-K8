@@ -1,0 +1,6 @@
+defaultSettings:
+  defaultReplicaCount: 1
+  defaultLonghornStaticStorageClass: longhorn-static
+
+longhornUI:
+  replicas: 1

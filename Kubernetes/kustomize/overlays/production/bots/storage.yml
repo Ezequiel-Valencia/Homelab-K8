@@ -5,15 +5,16 @@ metadata:
   name: eventscraper-storage
 spec:
   capacity:
-    storage: 10Gi
+    storage: 2Gi
   volumeMode: Filesystem
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: "standard"
-  hostPath:
-    path: /docker_data/eventscraper
-    type: DirectoryOrCreate
+  storageClassName: "longhorn"
+  csi:
+    driver: driver.longhorn.io
+    volumeHandle: eventscraper-longhorn-storage
+    fsType: ext4
 
 
 ---
@@ -24,9 +25,9 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: "standard"
+  storageClassName: "longhorn"
   resources:
     requests:
-      storage: 10Gi
+      storage: 2Gi
   volumeName: eventscraper-storage
 
