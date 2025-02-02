@@ -47,10 +47,11 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
           env:
+            # All subdomains can also access this cookie
             - name: COOKIE_DOMAIN
-              value: backend.threemix.ezequielvalencia.com
+              value: ezequielvalencia.com
             - name: WEB_PAGE_DOMAIN
-              value: threemix.ezequielvalencia.com
+              value: https://threemix.ezequielvalencia.com
             # NEEDS TO BE EVERY INTERFACE FOR THE CONTAINER
             - name: PUBLIC_HOST
               value: 0.0.0.0
