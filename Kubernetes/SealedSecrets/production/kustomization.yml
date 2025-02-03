@@ -11,3 +11,4 @@ resources:
 - three-mix.yml
 - semaphore.yml
 - public-tunnel.yml
+- longhorn.yml
