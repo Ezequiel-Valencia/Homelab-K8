@@ -13,3 +13,4 @@ resources:
 - servicemesh.yml
 - ./bots/
 - ../../../base/servicemesh
+- ./registry/registry.yml

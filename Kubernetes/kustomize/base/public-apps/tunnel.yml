@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: public-tunnel
+  name: public-tunnel
+spec:
+  selector:
+    matchLabels:
+      app: public-tunnel
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: public-tunnel
+    spec:
+      # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
+      containers: 
+        - name: tunnel
+          image: cloudflare/cloudflared:latest
+          imagePullPolicy: "Always"
+          args: 
+            - tunnel
+            - run
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+          envFrom:
+            - secretRef:
+                name: public-apps-tunnel-token
+          resources:
+            limits:
+              cpu: 200m
+              memory: 512M 
+              
+      restartPolicy: Always
+      serviceAccount: public-tunnel

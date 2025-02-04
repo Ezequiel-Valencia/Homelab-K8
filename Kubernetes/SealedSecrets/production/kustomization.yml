@@ -8,4 +8,7 @@ resources:
 - cloudflare-tunnel.yml
 - monitor.yml
 - eventscraper-secrets.yml
+- three-mix.yml
 - semaphore.yml
+- public-tunnel.yml
+- longhorn.yml
