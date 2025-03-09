@@ -12,3 +12,4 @@ resources:
 - semaphore.yml
 - public-tunnel.yml
 - longhorn.yml
+- aws-longhorn.yml
