@@ -41,7 +41,7 @@ spec:
             - name: media-local-storage
               mountPath: /media/downloads
               subPath: downloads
-            - name: media-config-local-storage
+            - name: media-config-longhorn-storage
               mountPath: /config
               subPath: sonarr
       
@@ -51,9 +51,9 @@ spec:
         nameservers:
           - 10.0.0.6
       volumes:
-        - name: media-config-local-storage
+        - name: media-config-longhorn-storage
           persistentVolumeClaim:
-            claimName: media-config-local-storage-claim
+            claimName: media-config-longhorn-storage-claim
         - name: media-local-storage
           persistentVolumeClaim:
             claimName: media-local-storage-claim
@@ -126,7 +126,7 @@ spec:
             - name: media-local-storage
               mountPath: /media/downloads
               subPath: downloads
-            - name: media-config-local-storage
+            - name: media-config-longhorn-storage
               mountPath: /config
               subPath: radarr
       dnsPolicy: "None"
@@ -135,9 +135,9 @@ spec:
           - 10.0.0.6
       serviceAccount: radarr
       volumes:
-        - name: media-config-local-storage
+        - name: media-config-longhorn-storage
           persistentVolumeClaim:
-            claimName: media-config-local-storage-claim
+            claimName: media-config-longhorn-storage-claim
         - name: media-local-storage
           persistentVolumeClaim:
             claimName: media-local-storage-claim

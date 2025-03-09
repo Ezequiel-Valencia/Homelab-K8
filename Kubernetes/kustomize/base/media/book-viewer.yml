@@ -36,16 +36,16 @@ spec:
           ports:
             - containerPort: 5000
           volumeMounts:
-            - name: media-config-local-storage
+            - name: media-config-longhorn-storage
               mountPath: /config
               subPath: kavita
             - name: media-local-storage
               mountPath: /media/books
               subPath: books
       volumes:
-        - name: media-config-local-storage
+        - name: media-config-longhorn-storage
           persistentVolumeClaim:
-            claimName: media-config-local-storage-claim
+            claimName: media-config-longhorn-storage-claim
         - name: media-local-storage
           persistentVolumeClaim:
             claimName: media-local-storage-claim

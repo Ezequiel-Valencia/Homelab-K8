@@ -36,7 +36,7 @@ spec:
           ports:
             - containerPort: 8096
           volumeMounts:
-            - name: media-config-local-storage
+            - name: media-config-longhorn-storage
               mountPath: /config
               subPath: jellyfin
             - name: media-local-storage
@@ -47,9 +47,9 @@ spec:
               subPath: movies
           # healthcheck: # https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/        
       volumes:
-        - name: media-config-local-storage
+        - name: media-config-longhorn-storage
           persistentVolumeClaim:
-            claimName: media-config-local-storage-claim
+            claimName: media-config-longhorn-storage-claim
         - name: media-local-storage
           persistentVolumeClaim:
             claimName: media-local-storage-claim
