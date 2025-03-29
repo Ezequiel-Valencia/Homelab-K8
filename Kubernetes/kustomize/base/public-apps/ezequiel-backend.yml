@@ -1,0 +1,122 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ezequiel-backend
+  name: ezequiel-backend
+spec:
+  selector: 
+    matchLabels:
+      app: ezequiel-backend
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: ezequiel-backend
+    spec:
+      initContainers:
+        - name: postgres
+          image: postgres:17
+          restartPolicy: Always
+          envFrom:
+            - secretRef:
+                name: ezequiel-backend-secrets
+          volumeMounts:
+            - name: ezequiel-backend-storage
+              mountPath: /var/lib/postgresql/data
+              subPath: ezequiel-backend/data
+
+      containers: 
+        - name: ezequiel-backend
+          image: localhost:31000/ezequiel-backend
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+          env:
+            # All subdomains can also access this cookie
+            - name: CORS_ALLOWED
+              value: https://ezequielvalencia.com
+          envFrom:
+            - secretRef:
+                name: ezequiel-backend-secrets
+          resources:
+            limits: 
+              cpu: "300m"
+              memory: "900M"
+          
+      volumes:
+        - name: ezequiel-backend-storage
+          persistentVolumeClaim:
+            claimName: ezequiel-backend-storage-claim
+      restartPolicy: Always
+      serviceAccount: ezequiel-backend
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: ezequiel-backend-storage
+spec:
+  capacity:
+    storage: 2Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: "longhorn"
+  csi:
+    driver: driver.longhorn.io
+    volumeHandle: ezequiel-backend-longhorn-storage
+    fsType: ext4
+
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ezequiel-backend-storage-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: "longhorn"
+  resources:
+    requests:
+      storage: 2Gi
+  volumeName: ezequiel-backend-storage
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: ezequiel-backend
+  name: ezequiel-backend
+spec:
+  ports:
+    - name: backend
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    - name: db
+      port: 5432
+      protocol: TCP
+      targetPort: 5432
+  selector:
+    app: ezequiel-backend
+
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ezequiel-backend
+

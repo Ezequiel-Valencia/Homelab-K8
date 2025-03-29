@@ -7,6 +7,17 @@ https://github.com/k3s-io/k3s/issues/1900#issuecomment-644453072
 ```k3s crictl rmi --prune```
 
 
+https://askubuntu.com/questions/1012912/systemd-logs-journalctl-are-too-large-and-slow
+Size of journalctl logs
+
+
+https://stackoverflow.com/questions/71900937/is-it-possible-to-shrink-the-spaces-of-io-containerd-snapshotter-v1-overlayfs-fo
+Need to address container images being stored locally. That is whats taking up so much space.
+If I can reduce that, or just increase disk size I'm golden.
+It does not pull more images if the disk reaches 85% usage.
+
+Monitor seems to be storing allocated logs locally. Need to move that to longhorn storage.
+
 ### Start Minikube
 ```bash
 minikube start
