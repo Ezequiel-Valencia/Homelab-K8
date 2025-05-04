@@ -17,7 +17,7 @@ spec:
         app: jellyfin
         network-policy: media-viewer
     spec:
-      # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
+      runtimeClassName: nvidia # https://forum.jellyfin.org/t-enable-nvidia-hardware-transcode-on-k8s
       containers: 
         - name: jellyfin
           image: lscr.io/linuxserver/jellyfin:latest
@@ -25,6 +25,9 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
+          env:
+            - name: NVIDIA_VISIBLE_DEVICES
+              value: all
           envFrom:
             - configMapRef:
                 name: time-zone
@@ -33,6 +36,7 @@ spec:
           resources:
             limits: 
               memory: 1024M # 1GB Memory
+              nvidia.com/gpu: 1
           ports:
             - containerPort: 8096
           volumeMounts:
