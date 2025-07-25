@@ -37,3 +37,9 @@ spec:
               
       restartPolicy: Always
       serviceAccount: public-tunnel
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: public-tunnel
