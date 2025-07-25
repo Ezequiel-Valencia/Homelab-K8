@@ -74,7 +74,7 @@ spec:
   storageClassName: "longhorn"
   csi:
     driver: driver.longhorn.io
-    volumeHandle: ezequiel-backend-longhorn-storage
+    volumeHandle: cloned-ezequiel-backend-longhorn-storage
     fsType: ext4
 
 

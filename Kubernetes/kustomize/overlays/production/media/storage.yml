@@ -11,7 +11,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: "standard"
   hostPath:
-    path: /mnt/overlay2/docker_data/media # Example host path to simulate an empty directory
+    path: /mnt/k8data/media # Example host path to simulate an empty directory
     type: DirectoryOrCreate
 
 
