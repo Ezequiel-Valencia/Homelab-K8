@@ -1,0 +1,110 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: open-web-ui
+  name: open-web-ui
+spec:
+  selector: 
+    matchLabels:
+      app: open-web-ui
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+  template:
+    metadata:
+      labels:
+        app: open-web-ui
+    spec:
+      containers: 
+        - name: open-web-ui
+          image: ghcr.io/open-webui/open-webui:main
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+          # env:
+          #   - name: OLLAMA_BASE_URL
+          #     value: http://ollama:11434
+          #   - name: CORS_ALLOW_ORIGIN
+          #     value: http://localhost
+          # envFrom:
+          #   - secretRef:
+          #       name: open-web-ui-secrets
+          resources:
+            limits: 
+              memory: 2048M
+              cpu: "1000m"
+          volumeMounts:
+            - name: open-web-ui-storage
+              mountPath: /app/backend/data
+              subPath: open-web-ui/data
+          
+      volumes:
+        - name: open-web-ui-storage
+          persistentVolumeClaim:
+            claimName: open-web-ui-storage-claim
+      restartPolicy: Always
+      serviceAccount: open-web-ui
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: open-web-ui-storage
+spec:
+  capacity:
+    storage: 2Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: "longhorn"
+  csi:
+    driver: driver.longhorn.io
+    volumeHandle: cloned-open-web-ui-longhorn-storage
+    fsType: ext4
+
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: open-web-ui-storage-claim
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: "longhorn"
+  resources:
+    requests:
+      storage: 2Gi
+  volumeName: open-web-ui-storage
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: open-web-ui
+  name: open-web-ui
+spec:
+  ports:
+    - name: website
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: open-web-ui
+
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: open-web-ui
+
