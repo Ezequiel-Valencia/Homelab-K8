@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: quadrant
+  name: quadrant
+spec:
+  selector: 
+    matchLabels:
+      app: quadrant
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+  template:
+    metadata:
+      labels:
+        app: quadrant
+        network-policy: local-or-tunnel
+    spec:
+      containers: 
+        - name: quadrant
+          image: qdrant/qdrant:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 6333
+            - containerPort: 6334
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+          resources:
+            limits: 
+              memory: 512M
+              cpu: "500m"
+          volumeMounts:
+            - name: quadrant-storage
+              mountPath: /qdrant/storage
+              subPath: quadrant/data
+          
+      volumes:
+        - name: quadrant-storage
+          persistentVolumeClaim:
+            claimName: n8n-storage-claim
+      restartPolicy: Always
+      serviceAccount: quadrant
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: quadrant
+  name: quadrant
+spec:
+  ports:
+    - name: http
+      port: 6333
+      protocol: TCP
+      targetPort: 6333
+    - name: grpc
+      port: 6334
+      protocol: TCP
+
+  selector:
+    app: quadrant
+
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: quadrant
+

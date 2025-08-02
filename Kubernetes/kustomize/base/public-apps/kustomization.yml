@@ -10,3 +10,4 @@ resources:
 - openweb-ui.yml
 - namespace.yml
 - n8n.yml
+- quadrant.yml

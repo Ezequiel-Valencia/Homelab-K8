@@ -1,0 +1,15 @@
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: openweb-secret
+  namespace: public-apps
+spec:
+  encryptedData:
+    QDRANT_API_KEY: AgCCd2I+kt/mD+S4ly8F/ReqXV+Ojk8rEMexOqtPMJ6ebVAqqzr8dKO9d/qdqlRvbb5HKE/GydQkj2lht6/A6MMq3clMIhiexY+aLjpJzNPN7wrbDQnq0D6lhamHVIYw+KLh4oIuGWr8ndRAjqk2HH3bOOVidTxlFFh//XFpOHKXNr8e0FT0RAjbMU7EAJI6t8VXuavcfooxjwZLKrw72y2um7rR79Kcef4yS6+BFGyWIXKY85KPQd7D3BKGiaEobChTJFgTKfTyf2qCOZCfZZO7BMZ2S2hnr3aT1iVKN94qQQe7kKd6LzbKK/sCrgUQRYXjgZ9soM5hvLOCLQcOUhU6v7oGDAIQsjLS3V2ePHp3zUFD8doN+jsxmfHsg0Bfr0zMp9ZqdgnXHT02GkLu4CEyTcMjYorVtFSUg7+lwITb/FYYLBdEG0+j1L9TC6D527i7aQZ5kf5/2YoglIETd34xCRE/6oGUCAsbJuJm2CA+KWFzZ027G3Q00pl4PFtHP7JCgSA7K6cRxBLlw/nRJclO2xe8qaT8hjKKyzikkDxMPpNO0fU0f64tOpLkkuYoWXKoBRwNZBfoZQxJ7sgBN1cjzM4Fl0Y2RUENNOXo+Qm6CUecyUMlGlYsmr8BfgBWtzY/++y8ayuzW/12S1kpJd6Q31p5Ikr6aPNNboPfB/CeILuVxNZMCa8JCMXgj/475C1GpYh0N7EiAjQOAe3tDQzuJK+GGufnl4yqrqZ+CMgcFv2o6WfP8o7sSD6MZfTFOeFQNqaNrHACtA==
+  template:
+    metadata:
+      creationTimestamp: null
+      name: openweb-secret
+      namespace: public-apps
