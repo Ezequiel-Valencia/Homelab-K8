@@ -45,11 +45,10 @@ spec:
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: "longhorn"
-  csi:
-    driver: driver.longhorn.io
-    volumeHandle: media-config-longhorn
-    fsType: ext4
+  storageClassName: "default"
+  nfs:
+    server: 10.0.0.146
+    path: /volume1/k8data/storage/media-config
 
 
 ---
@@ -60,7 +59,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: "longhorn"
+  storageClassName: "default"
   resources:
     requests:
       storage: 10Gi

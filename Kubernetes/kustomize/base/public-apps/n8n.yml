@@ -17,24 +17,30 @@ spec:
     metadata:
       labels:
         app: n8n
+        network-policy: local-or-tunnel
     spec:
       containers: 
         - name: n8n
           image: n8nio/n8n:stable
           imagePullPolicy: Always
+          env:
+            - name: N8N_HOST
+              value: n8n.homelab.tunnel.ezequielvalencia.com
+            - name: N8N_PORT
+              value: "80"
           ports:
-            - containerPort: 5678
+            - containerPort: 80
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
           resources:
             limits: 
-              memory: 2048M
+              memory: 1024M
               cpu: "500m"
           volumeMounts:
             - name: n8n-storage
               mountPath: /home/node/.n8n
-              subPath: n8n/data
+              subPath: n8n
           
       volumes:
         - name: n8n-storage
@@ -47,7 +53,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: n8n-storage
+  name: ai-storage
 spec:
   capacity:
     storage: 2Gi
@@ -55,11 +61,10 @@ spec:
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: "longhorn"
-  csi:
-    driver: driver.longhorn.io
-    volumeHandle: n8n-longhorn-storage
-    fsType: ext4
+  storageClassName: "default"
+  nfs:
+    server: 10.0.0.146
+    path: /volume1/k8data/storage/ai
 
 
 ---
@@ -70,11 +75,11 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: "longhorn"
+  storageClassName: "default"
   resources:
     requests:
       storage: 2Gi
-  volumeName: n8n-storage
+  volumeName: ai-storage
 
 
 ---
@@ -89,7 +94,7 @@ spec:
     - name: website
       port: 5678
       protocol: TCP
-      targetPort: 5678
+      targetPort: 80
   selector:
     app: n8n
 

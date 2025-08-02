@@ -29,7 +29,7 @@ spec:
           volumeMounts:
             - name: three-mix-storage
               mountPath: /var/lib/postgresql/data
-              subPath: three-mix/data
+              subPath: data
 
       containers: 
         - name: threemix
@@ -76,11 +76,10 @@ spec:
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: "longhorn"
-  csi:
-    driver: driver.longhorn.io
-    volumeHandle: three-mix-longhorn-storage
-    fsType: ext4
+  storageClassName: "default"
+  nfs:
+    server: 10.0.0.146
+    path: /volume1/k8data/storage/threemix
 
 
 ---
@@ -91,7 +90,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: "longhorn"
+  storageClassName: "default"
   resources:
     requests:
       storage: 2Gi
