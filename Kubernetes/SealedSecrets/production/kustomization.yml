@@ -14,3 +14,4 @@ resources:
 - longhorn.yml
 - aws-longhorn.yml
 - ezequiel-backend.yml
+- openweb.yml

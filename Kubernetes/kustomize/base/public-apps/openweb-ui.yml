@@ -34,6 +34,8 @@ spec:
               value: http://quadrant.public-apps.svc.cluster.local
             - name: VECTOR_DB
               value: qdrant
+            - name: ENABLE_GOOGLE_DRIVE_INTEGRATION
+              value: "true"
           envFrom:
             - secretRef:
                 name: openweb-secret
