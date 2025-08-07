@@ -15,7 +15,9 @@ spec:
         httpsRedirect: true # sends 301 redirect for http requests
       hosts:
         - "media/*.homelab.ezequielvalencia.com"
-        - monitoring/*.homelab.ezequielvalencia.com
+        - "monitoring/*.homelab.ezequielvalencia.com"
+        - "bots/*.homelab.ezequielvalencia.com"
+        - "public-apps/*.homelab.ezequielvalencia.com"
     - port:
         number: 443
         name: https
@@ -25,5 +27,7 @@ spec:
         credentialName: media-certs # Same name as secret 
       hosts:
         - "media/*.homelab.ezequielvalencia.com"
-        - monitoring/*.homelab.ezequielvalencia.com
+        - "monitoring/*.homelab.ezequielvalencia.com"
+        - "bots/*.homelab.ezequielvalencia.com"
+        - "public-apps/*.homelab.ezequielvalencia.com"
 

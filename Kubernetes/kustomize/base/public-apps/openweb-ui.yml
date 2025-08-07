@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: open-web-ui
+  name: open-web-ui
+spec:
+  selector: 
+    matchLabels:
+      app: open-web-ui
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+  template:
+    metadata:
+      labels:
+        app: open-web-ui
+    spec:
+      containers: 
+        - name: open-web-ui
+          image: ghcr.io/open-webui/open-webui:main
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+          env:
+            - name: OLLAMA_BASE_URL
+              value: http://10.0.0.52:3210
+            - name: QDRANT_URI
+              value: http://quadrant.public-apps.svc.cluster.local
+            - name: VECTOR_DB
+              value: qdrant
+            - name: ENABLE_GOOGLE_DRIVE_INTEGRATION
+              value: "true"
+          envFrom:
+            - secretRef:
+                name: openweb-secret
+          resources:
+            limits: 
+              memory: 2048M
+              cpu: "1000m"
+          volumeMounts:
+            - name: open-web-ui-storage
+              mountPath: /app/backend/data
+              subPath: open-web-ui/data
+          
+      volumes:
+        - name: open-web-ui-storage
+          persistentVolumeClaim:
+            claimName: n8n-storage-claim
+      restartPolicy: Always
+      serviceAccount: open-web-ui
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: open-web-ui
+  name: open-web-ui
+spec:
+  ports:
+    - name: website
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: open-web-ui
+
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: open-web-ui
+

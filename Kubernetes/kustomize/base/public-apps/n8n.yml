@@ -1,0 +1,107 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: n8n
+  name: n8n
+spec:
+  selector: 
+    matchLabels:
+      app: n8n
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+  template:
+    metadata:
+      labels:
+        app: n8n
+        network-policy: local-or-tunnel
+    spec:
+      containers: 
+        - name: n8n
+          image: n8nio/n8n:stable
+          imagePullPolicy: Always
+          env:
+            - name: N8N_HOST
+              value: n8n.homelab.tunnel.ezequielvalencia.com
+            - name: N8N_PORT
+              value: "80"
+          ports:
+            - containerPort: 80
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+          resources:
+            limits: 
+              memory: 1024M
+              cpu: "500m"
+          volumeMounts:
+            - name: n8n-storage
+              mountPath: /home/node/.n8n
+              subPath: n8n
+          
+      volumes:
+        - name: n8n-storage
+          persistentVolumeClaim:
+            claimName: n8n-storage-claim
+      restartPolicy: Always
+      serviceAccount: n8n
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: ai-storage
+spec:
+  capacity:
+    storage: 2Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: "default"
+  nfs:
+    server: 10.0.0.146
+    path: /volume1/k8data/storage/ai
+
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: n8n-storage-claim
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: "default"
+  resources:
+    requests:
+      storage: 2Gi
+  volumeName: ai-storage
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: n8n
+  name: n8n
+spec:
+  ports:
+    - name: website
+      port: 5678
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app: n8n
+
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: n8n
+

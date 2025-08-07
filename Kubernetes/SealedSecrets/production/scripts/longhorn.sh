@@ -11,7 +11,7 @@ echo
 read -s -p "Aws Access Key Secret: " AWS_SECRET_ACCESS_KEY
 echo
 # https://www.civo.com/learn/backup-longhorn-volumes-to-a-minio-s3-bucket
-echo "Now write the url in longhorn as s3://<bucket-name>@<region>/"
+echo "Now write the url in longhorn as s3://<bucket-name>@<region>/ (region is 'homelab' for after set in Minio settings)"
 
 # Broken on purpose since it has production configurations, remove kubconfig flag to bring it back to test
 

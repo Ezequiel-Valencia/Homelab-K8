@@ -14,7 +14,7 @@ read -p "Install Longhorn (y/n): " INSTALL
 if [ "$INSTALL" = "y" ]; then
 
     helm upgrade --install -n longhorn-system longhorn \
-    --version 1.8.0 \
+    --version 1.9.0 \
     --kubeconfig=/home/zek/.kube/config_prd \
     longhorn/longhorn -f longhorn-values.yml
 

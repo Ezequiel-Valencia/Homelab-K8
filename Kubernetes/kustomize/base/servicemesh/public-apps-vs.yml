@@ -1,0 +1,33 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: n8n
+  namespace: public-apps
+spec:
+  hosts:
+  - n8n.homelab.ezequielvalencia.com
+  gateways:
+  - istio-system/homelab-gateway 
+  http:
+  - route:
+    - destination:
+        host: n8n.public-apps.svc.cluster.local
+        port:
+          number: 80
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: n8n
+  namespace: public-apps
+spec:
+  hosts:
+  - quadrant.homelab.ezequielvalencia.com
+  gateways:
+  - istio-system/homelab-gateway 
+  http:
+  - route:
+    - destination:
+        host: quadrant.public-apps.svc.cluster.local
+        port:
+          number: 6333

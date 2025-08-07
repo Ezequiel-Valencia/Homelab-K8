@@ -13,7 +13,7 @@ spec:
   strategy:
     type: RollingUpdate
     rollingUpdate:
-      maxSurge: 1
+      maxSurge: 0
   template:
     metadata:
       labels:
@@ -71,10 +71,10 @@ spec:
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: "longhorn"
+  storageClassName: "default"
   csi:
     driver: driver.longhorn.io
-    volumeHandle: ezequiel-backend-longhorn-storage
+    volumeHandle: cloned-ezequiel-backend-longhorn-storage
     fsType: ext4
 
 
@@ -86,7 +86,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: "longhorn"
+  storageClassName: "default"
   resources:
     requests:
       storage: 2Gi
