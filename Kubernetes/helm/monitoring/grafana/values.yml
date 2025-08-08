@@ -44,18 +44,18 @@ alertmanager:
   enabled: true
   ingress:
     enabled: false
-  storage:
-    volumeClaimTemplate:
-      spec:
-        accessModes:
-          - ReadWriteMany
-        storageClassName: "standard"
-        resources:
-          requests:
-            storage: 3Gi
-  resources:
-    requests:
-      cpu: 100m
+  alertmanagerSpec:
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: nfs-01
+          accessModes: ["ReadWriteMany"]
+          resources:
+            requests:
+              storage: 5Gi
+    resources:
+      requests:
+        cpu: 100m
 
 grafana:
   enabled: true
@@ -72,15 +72,6 @@ grafana:
     existingSecret: grafana-admin-credentials
     userKey: admin-user
     passwordKey: admin-password
-  storage:
-    volumeClaimTemplate:
-      spec:
-        accessModes:
-          - ReadWriteMany
-        storageClassName: "standard"
-        resources:
-          requests:
-            storage: 3Gi
 
 kubeApiServer:
   enabled: true
@@ -186,36 +177,17 @@ prometheus-node-exporter:
       cpu: 100m
     limits:
       memory: 2048Mi
-  storage:
-    volumeClaimTemplate:
-      spec:
-        accessModes:
-          - ReadWriteMany
-        storageClassName: "standard"
-        resources:
-          requests:
-            storage: 3Gi
 
 prometheusOperator:
   enabled: true
   nodeSelector:
     nodetype: monitor
-  prometheusConfigReloader:
-    resources:
-      requests:
-        cpu: 200m
-        memory: 50Mi
-      limits:
-        memory: 100Mi
-  storage:
-    volumeClaimTemplate:
-      spec:
-        accessModes:
-          - ReadWriteMany
-        storageClassName: "standard"
-        resources:
-          requests:
-            storage: 2Gi
+  resources:
+    requests:
+      cpu: 200m
+      memory: 50Mi
+    limits:
+      memory: 100Mi
 
 
 
@@ -233,21 +205,20 @@ prometheus:
     retention: 2h
     enableAdminAPI: true
     walCompression: true
-  storage:
-    volumeClaimTemplate:
-      spec:
-        accessModes:
-          - ReadWriteMany
-        storageClassName: "standard"
-        resources:
-          requests:
-            storage: 3Gi
-  resources:
-    requests:
-      memory: 512Mi
-      cpu: 100m
-    limits:
-      memory: 512Mi
+    storageSpec:
+       volumeClaimTemplate:
+        spec:
+          storageClassName: nfs-01
+          accessModes: ["ReadWriteMany"]
+          resources:
+            requests:
+              storage: 5Gi
+    resources:
+      requests:
+        memory: 512Mi
+        cpu: 100m
+      limits:
+        memory: 512Mi
 
 thanosRuler:
   enabled: false
