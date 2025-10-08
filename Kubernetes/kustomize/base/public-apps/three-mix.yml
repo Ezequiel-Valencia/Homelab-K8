@@ -19,18 +19,6 @@ spec:
       labels:
         app: three-mix
     spec:
-      initContainers:
-        - name: postgres
-          image: postgres:17
-          restartPolicy: Always
-          envFrom:
-            - secretRef:
-                name: three-mix-secrets
-          volumeMounts:
-            - name: three-mix-storage
-              mountPath: /var/lib/postgresql/data
-              subPath: data
-
       containers: 
         - name: threemix
           image: localhost:31000/threemix
@@ -49,6 +37,14 @@ spec:
             # NEEDS TO BE EVERY INTERFACE FOR THE CONTAINER
             - name: PUBLIC_HOST
               value: 0.0.0.0
+            - name: DB_HOST
+              value: postgres.database.homelab.ezequielvalencia.com
+            - name: DB_NAME
+              value: threemix
+            - name: DB_USER
+              value: ezq-backend
+            - name: DB_SSL
+              value: "true"
           envFrom:
             - secretRef:
                 name: three-mix-secrets
@@ -56,6 +52,10 @@ spec:
             limits: 
               memory: 216M
               cpu: "300m"
+      dnsPolicy: "None"
+      dnsConfig:
+        nameservers:
+          - 10.0.0.6
           
       volumes:
         - name: three-mix-storage
