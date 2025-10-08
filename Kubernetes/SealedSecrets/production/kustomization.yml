@@ -13,3 +13,4 @@ resources:
 - public-tunnel.yml
 - ezequiel-backend.yml
 - openweb.yml
+- karakeep-secrets.yml

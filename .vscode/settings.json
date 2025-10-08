@@ -13,6 +13,7 @@
         "ittool",
         "Jackett",
         "jellyfin",
+        "karakeep",
         "kavita",
         "Kustomization",
         "laptopprox",
@@ -36,6 +37,7 @@
         "threemix",
         "traefik",
         "truenas",
+        "wallabag",
         "zimaprox",
         "zpcprox"
     ],

@@ -15,3 +15,20 @@ spec:
         host: ittool.bots.svc.cluster.local
         port:
           number: 80
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: karakeep-route
+  namespace: bots
+spec:
+  hosts:
+  - karakeep.homelab.ezequielvalencia.com
+  gateways:
+  - istio-system/homelab-gateway 
+  http:
+  - route:
+    - destination:
+        host: karakeep.bots.svc.cluster.local
+        port:
+          number: 80
