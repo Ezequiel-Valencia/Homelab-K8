@@ -18,6 +18,7 @@ spec:
         - "monitoring/*.homelab.ezequielvalencia.com"
         - "bots/*.homelab.ezequielvalencia.com"
         - "public-apps/*.homelab.ezequielvalencia.com"
+        - "ai/*.homelab.ezequielvalencia.com"
     - port:
         number: 443
         name: https
@@ -30,4 +31,5 @@ spec:
         - "monitoring/*.homelab.ezequielvalencia.com"
         - "bots/*.homelab.ezequielvalencia.com"
         - "public-apps/*.homelab.ezequielvalencia.com"
+        - "ai/*.homelab.ezequielvalencia.com"
 

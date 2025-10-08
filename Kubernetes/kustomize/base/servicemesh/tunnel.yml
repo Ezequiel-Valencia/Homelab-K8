@@ -1,20 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: istio-system
   labels:
-    app: public-tunnel
-  name: public-tunnel
+    app: cloudtunnel
+  name: cloudtunnel
 spec:
   selector:
     matchLabels:
-      app: public-tunnel
+      app: cloudtunnel
   replicas: 1
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: public-tunnel
+        app: cloudtunnel
+        network-policy: tunnel
     spec:
       # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
       containers: 
@@ -29,17 +31,18 @@ spec:
             privileged: false
           envFrom:
             - secretRef:
-                name: public-apps-tunnel-token
+                name: cloudflare-tunnel-token
           resources:
             limits:
               cpu: 200m
               memory: 512M 
-              
       restartPolicy: Always
-      serviceAccount: public-tunnel
+      serviceAccount: cloudtunnel
+
 
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: public-tunnel
+  namespace: istio-system
+  name: cloudtunnel

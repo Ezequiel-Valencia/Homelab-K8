@@ -1,0 +1,19 @@
+apiVersion: velero.io/v1
+kind: Backup
+metadata:
+  name: backup-everything
+  namespace: nfs-provisioner
+spec:
+  includedResources:
+    - pv
+    - pvc
+  storageLocation: backups
+  excludedNamespaces:
+    - default
+    - kube-node-lease
+    - kube-public
+    - kube-system
+    - kube-registry
+    - kube-public
+    - nvidia-gpu-operator
+    - monitoring

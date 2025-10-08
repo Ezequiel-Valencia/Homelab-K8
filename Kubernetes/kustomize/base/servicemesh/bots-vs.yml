@@ -1,33 +1,34 @@
+---
 apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
-  name: n8n
-  namespace: public-apps
+  name: ittool-route
+  namespace: bots
 spec:
   hosts:
-  - n8n.homelab.ezequielvalencia.com
+  - ittool.homelab.ezequielvalencia.com
   gateways:
   - istio-system/homelab-gateway 
   http:
   - route:
     - destination:
-        host: n8n.public-apps.svc.cluster.local
+        host: ittool.bots.svc.cluster.local
         port:
           number: 80
 ---
 apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
-  name: n8n
-  namespace: public-apps
+  name: karakeep-route
+  namespace: bots
 spec:
   hosts:
-  - quadrant.homelab.ezequielvalencia.com
+  - karakeep.homelab.ezequielvalencia.com
   gateways:
   - istio-system/homelab-gateway 
   http:
   - route:
     - destination:
-        host: quadrant.public-apps.svc.cluster.local
+        host: karakeep.bots.svc.cluster.local
         port:
-          number: 6333
+          number: 80

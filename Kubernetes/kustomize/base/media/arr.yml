@@ -59,6 +59,8 @@ spec:
             claimName: media-local-storage-claim
       restartPolicy: Always
 
+# https://wiki.servarr.com/radarr/postgres-setup
+
 ---
 apiVersion: v1
 kind: Service

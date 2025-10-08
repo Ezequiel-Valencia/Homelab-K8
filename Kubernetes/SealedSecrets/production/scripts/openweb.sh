@@ -3,7 +3,7 @@
 # Example: ./sealed_vpn.sh wireguard_key address mullvad > output.yaml
 
 SECRET_NAME="openweb-secret"
-NAMESPACE="public-apps"
+NAMESPACE="ai"
 read -s -p "QDRant API Key: " QDRANT_API_KEY
 echo
 read -s -p "Google Client ID: " GOOGLE_DRIVE_CLIENT_ID

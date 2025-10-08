@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: karakeep
+  name: karakeep
+spec:
+  selector: 
+    matchLabels:
+      app: karakeep
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+  template:
+    metadata:
+      labels:
+        app: karakeep
+    spec:
+      # https://doc.wallabag.org/user/errors_during_fetching/
+      # Errors are thrown in /var/www/wallabag/var/logs/prod.log, 0.26.0
+      containers: 
+        - name: karakeep
+          image: ghcr.io/karakeep-app/karakeep:0.26.0
+          imagePullPolicy: "Always"
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NEXTAUTH_SECRET
+              value: e0e6149c500b8e32168539e05b152e39811c1a81b96a1ddfa2cf25fbb237e267
+            - name: NEXTAUTH_URL
+              value: https://karakeep.homelab.ezequielvalencia.com
+            - name: DATA_DIR
+              value: /data
+          resources:
+            limits: 
+              memory: 712M
+          volumeMounts:
+            - name: karakeep-storage
+              mountPath: /data
+      
+      volumes:
+        - name: karakeep-storage
+          persistentVolumeClaim:
+            claimName: karakeep-storage-claim
+      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: karakeep-storage-claim
+  labels:
+    backup: every-3-days
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: nfs-01
+  resources:
+    requests:
+      storage: 2Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: karakeep
+  name: karakeep
+spec:
+  ports:
+    - name: http-karakeep
+      port: 80
+      targetPort: 3000
+  selector:
+    app: karakeep
+
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: karakeep

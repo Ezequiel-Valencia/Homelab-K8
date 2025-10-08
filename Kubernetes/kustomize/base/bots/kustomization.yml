@@ -5,3 +5,6 @@ namespace: bots
 
 resources:
 - eventscraper.yml
+- namespace.yml
+- it-tools.yml
+- karakeep.yml

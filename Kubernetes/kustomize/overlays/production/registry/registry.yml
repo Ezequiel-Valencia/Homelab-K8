@@ -46,3 +46,23 @@ spec:
             limits: 
               memory: 216M
               cpu: "300m"
+        volumeMounts:
+            - name: image-registry-volume
+              mountPath: /var/lib/registry
+      volumes:
+        - name: image-registry-volume
+          persistentVolumeClaim:
+            claimName: image-registry
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: image-registry
+  namespace: kube-registry
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: nfs-01
+  resources:
+    requests:
+      storage: 30Gi

@@ -28,3 +28,7 @@ An amazing web series that I found to late, but seems to be very informational. 
 - Check VPN connection
 - Modify qbittorent download location
 - Create additional hard drive for media VM
+
+### Set K8 Cluster
+
+- export KUBECONFIG=/home/zek/.kube/config_prd

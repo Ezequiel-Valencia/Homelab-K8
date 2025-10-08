@@ -4,16 +4,6 @@ kind: Kustomization
 
 namespace: bots
 
-patches:
-  - target:
-      kind: Deployment
-      namespace: bots
-    patch: |
-      - op: add
-        path: /spec/template/spec/nodeName
-        value: bots
-
 resources:
 - ../../../base/bots
 - ../../../config/production/bots
-- storage.yml

@@ -1,0 +1,19 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: main-cluster
+  namespace: database-system
+spec:
+  instances: 2
+  imageName: ghcr.io/cloudnative-pg/postgresql:16
+  postgresUID: 0
+  postgresGID: 0
+  storage:
+    storageClass: db-client
+    size: 50Gi
+  walStorage:
+    storageClass: db-client
+    size: 50Gi
+
+

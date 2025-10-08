@@ -1,0 +1,21 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: threemix
+  namespace: database
+spec:
+  cluster: main-cluster
+  name: threemix
+  owner: threemix
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: ezequiel-backend
+  namespace: database
+spec:
+  cluster: main-cluster
+  name: ezequiel-backend
+  owner: ezequiel-backend

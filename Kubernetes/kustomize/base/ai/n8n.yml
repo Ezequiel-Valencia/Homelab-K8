@@ -17,7 +17,6 @@ spec:
     metadata:
       labels:
         app: n8n
-        network-policy: local-or-tunnel
     spec:
       containers: 
         - name: n8n
@@ -72,6 +71,8 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: n8n-storage-claim
+  labels:
+    backup: every-3-days
 spec:
   accessModes:
     - ReadWriteMany

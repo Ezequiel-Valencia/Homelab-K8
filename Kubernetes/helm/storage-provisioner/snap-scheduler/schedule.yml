@@ -1,0 +1,110 @@
+apiVersion: snapscheduler.backube/v1
+kind: SnapshotSchedule
+metadata:
+  name: every-3-days
+  # Schedules are namespaced objects
+  namespace: nfs-provisioner
+spec:
+  claimSelector:
+    matchLabels:
+      backup: every-3-days
+  disabled: false
+  retention:
+    expires: "336h"  # 2 weeks
+    maxCount: 10  # Max snapshots
+  schedule: "0 4 * * 0/3"
+  snapshotTemplate:
+    # A set of labels can be added to each
+    # VolumeSnapshot object
+    labels:  # optional
+      backup: snapshot-scheduler
+    snapshotClassName: nfs-snapshot
+---
+apiVersion: snapscheduler.backube/v1
+kind: SnapshotSchedule
+metadata:
+  name: every-3-days
+  # Schedules are namespaced objects
+  namespace: ai
+spec:
+  claimSelector:
+    matchLabels:
+      backup: every-3-days
+  disabled: false
+  retention:
+    expires: "336h"  # 2 weeks
+    maxCount: 10  # Max snapshots
+  schedule: "0 4 * * 0/3"
+  snapshotTemplate:
+    # A set of labels can be added to each
+    # VolumeSnapshot object
+    labels:  # optional
+      backup: snapshot-scheduler
+    snapshotClassName: nfs-snapshot
+---
+apiVersion: snapscheduler.backube/v1
+kind: SnapshotSchedule
+metadata:
+  name: every-3-days
+  # Schedules are namespaced objects
+  namespace: public-apps
+spec:
+  claimSelector:
+    matchLabels:
+      backup: every-3-days
+  disabled: false
+  retention:
+    expires: "336h"  # 2 weeks
+    maxCount: 10  # Max snapshots
+  schedule: "0 4 * * 0/3"
+  snapshotTemplate:
+    # A set of labels can be added to each
+    # VolumeSnapshot object
+    labels:  # optional
+      backup: snapshot-scheduler
+    snapshotClassName: nfs-snapshot
+
+---
+apiVersion: snapscheduler.backube/v1
+kind: SnapshotSchedule
+metadata:
+  name: every-3-days
+  # Schedules are namespaced objects
+  namespace: media
+spec:
+  claimSelector:
+    matchLabels:
+      backup: every-3-days
+  disabled: false
+  retention:
+    expires: "336h"  # 2 weeks
+    maxCount: 10  # Max snapshots
+  schedule: "0 4 * * 0/3"
+  snapshotTemplate:
+    # A set of labels can be added to each
+    # VolumeSnapshot object
+    labels:  # optional
+      backup: snapshot-scheduler
+    snapshotClassName: nfs-snapshot
+---
+apiVersion: snapscheduler.backube/v1
+kind: SnapshotSchedule
+metadata:
+  name: every-3-days
+  # Schedules are namespaced objects
+  namespace: bots
+spec:
+  claimSelector:
+    matchLabels:
+      backup: every-3-days
+  disabled: false
+  retention:
+    expires: "336h"  # 2 weeks
+    maxCount: 10  # Max snapshots
+  schedule: "0 4 * * 0/3"
+  snapshotTemplate:
+    # A set of labels can be added to each
+    # VolumeSnapshot object
+    labels:  # optional
+      backup: snapshot-scheduler
+    snapshotClassName: nfs-snapshot

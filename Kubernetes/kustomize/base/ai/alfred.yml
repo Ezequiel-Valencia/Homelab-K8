@@ -2,53 +2,55 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: ittool
-  name: ittool
+    app: alfred
+  name: alfred
 spec:
   selector:
     matchLabels:
-      app: ittool
+      app: alfred
   replicas: 1
   strategy:
     type: RollingUpdate
   template:
     metadata:
       labels:
-        app: ittool
+        app: alfred
     spec:
       containers: 
-        - name: ittool
-          image: corentinth/it-tools:latest
+        - name: alfred
+          image: localhost:31000/alfred
           imagePullPolicy: "Always"
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
           resources:
-            limits: 
+            limits:
+              cpu: 500m
               memory: 512M # 1GB Memory
           ports:
-            - containerPort: 80
+            - containerPort: 8000
       restartPolicy: Always
-      serviceAccount: kavita
+      serviceAccount: alfred
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: ittool
-  name: ittool
+    app: alfred
+  name: alfred
 spec:
+  clusterIP: 10.43.92.54
   ports:
-    - name: http-ittool
+    - name: http-alfred
       port: 80
-      targetPort: 80
+      targetPort: 8000
   selector:
-    app: ittool
+    app: alfred
 
 
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: ittool
+  name: alfred

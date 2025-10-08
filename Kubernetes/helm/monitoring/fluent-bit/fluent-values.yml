@@ -1,0 +1,153 @@
+# Default values for fluent-bit.
+
+# kind -- DaemonSet or Deployment
+kind: DaemonSet
+
+# replicaCount -- Only applicable if kind=Deployment
+replicaCount: 1
+
+
+envFrom:
+  - secretRef:
+      name: loki-login
+
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name:
+
+rbac:
+  create: true
+  nodeAccess: false
+  eventsAccess: false
+
+# OpenShift-specific configuration
+openShift:
+  enabled: false
+  securityContextConstraints:
+    # Create SCC for Fluent-bit and allow use it
+    create: true
+    name: ""
+    annotations: {}
+    # Use existing SCC in cluster, rather then create new one
+    existingName: ""
+
+prometheusRule:
+  enabled: false
+#   namespace: ""
+#   additionalLabels: {}
+#   rules:
+#   - alert: NoOutputBytesProcessed
+#     expr: rate(fluentbit_output_proc_bytes_total[5m]) == 0
+#     annotations:
+#       message: |
+#         Fluent Bit instance {{ $labels.instance }}'s output plugin {{ $labels.name }} has not processed any
+#         bytes for at least 15 minutes.
+#       summary: No Output Bytes Processed
+#     for: 15m
+#     labels:
+#       severity: critical
+
+dashboards:
+  enabled: false
+  labelKey: grafana_dashboard
+  labelValue: 1
+  annotations: {}
+  namespace: "fluentbit"
+
+
+flush: 1
+
+metricsPort: 2020
+
+networkPolicy:
+  enabled: false
+#   ingress:
+#     from: []
+
+luaScripts: {}
+
+## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file
+config:
+
+  ## https://docs.fluentbit.io/manual/pipeline/inputs
+  # The * after tag includes the logs full FS path, which is required for the K8 filter and getting K8 metadata https://docs.fluentbit.io/manual/data-pipeline/filters/kubernetes
+  inputs: |
+    [INPUT]
+        Name tail
+        Path /var/log/containers/*.log
+        multiline.parser docker, cri
+        Tag kube.*
+        Mem_Buf_Limit 5MB
+        Skip_Long_Lines On
+        db /var/log/flb_logs.db
+
+  ## https://docs.fluentbit.io/manual/pipeline/filters
+  # Modify filter required for VCell logs because having "." in a JSON key is not parsable
+  filters: |
+    [FILTER]
+        Name kubernetes
+        Match kube.*
+        Merge_Log On
+        Kube_Tag_Prefix kube.var.log.containers.
+        Keep_Log Off
+        K8S-Logging.Parser On
+        K8S-Logging.Exclude On
+
+  ## https://docs.fluentbit.io/manual/pipeline/outputs
+  # https://docs.fluentbit.io/manual/data-pipeline/outputs/loki
+  outputs: |
+    [OUTPUT]
+        name loki
+        Match kube.*
+        host loki-gateway.monitoring.svc.cluster.local
+        tenant_id homelab
+        http_user ${LOKI_USERNAME}
+        http_passwd ${LOKI_PASSWD}
+        Port 80
+        tls off
+        tls.verify Off
+        tls.debug 4
+        Labels namespace=$kubernetes['namespace_name'], container=$kubernetes['container_name']
+
+
+  ## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/upstream-servers
+  ## This configuration is deprecated, please use `extraFiles` instead.
+  upstream: {}
+
+  ## https://docs.fluentbit.io/manual/pipeline/parsers
+  customParsers: |
+    [PARSER]
+        Name docker_no_time
+        Format json
+        Time_Keep Off
+        Time_Key time
+        Time_Format %Y-%m-%dT%H:%M:%S.%L
+
+  # This allows adding more files with arbitrary filenames to /fluent-bit/etc/conf by providing key/value pairs.
+  # The key becomes the filename, the value becomes the file content.
+  extraFiles: {}
+#     upstream.conf: |
+#       [UPSTREAM]
+#           upstream1
+#
+#       [NODE]
+#           name       node-1
+#           host       127.0.0.1
+#           port       43000
+#     example.conf: |
+#       [OUTPUT]
+#           Name example
+#           Match foo.*
+#           Host bar
+
+
+command:
+  - /fluent-bit/bin/fluent-bit
+
+args:
+  - --workdir=/fluent-bit/etc
+  - --config=/fluent-bit/etc/conf/fluent-bit.conf
+
+logLevel: info

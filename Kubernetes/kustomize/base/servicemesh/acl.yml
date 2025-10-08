@@ -45,22 +45,4 @@ spec:
     - Ingress
     - Egress
 
----
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
- name: tunnel-policy
- namespace: media
-spec:
-  podSelector:
-    matchLabels:
-      network-policy: media-tunnel
-  ingress:
-    - {}
-  egress:
-    - {}
-  policyTypes:
-    - Ingress
-    - Egress
-
 
