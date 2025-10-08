@@ -176,7 +176,7 @@ prometheus-node-exporter:
       memory: 512Mi
       cpu: 100m
     limits:
-      memory: 2048Mi
+      memory: 1024Mi
 
 prometheusOperator:
   enabled: true
@@ -218,7 +218,7 @@ prometheus:
         memory: 512Mi
         cpu: 100m
       limits:
-        memory: 512Mi
+        memory: 712Mi
 
 thanosRuler:
   enabled: false
