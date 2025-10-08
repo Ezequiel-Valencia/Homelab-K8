@@ -218,7 +218,7 @@ prometheus:
         memory: 512Mi
         cpu: 100m
       limits:
-        memory: 712Mi
+        memory: 1024Mi
 
 thanosRuler:
   enabled: false
