@@ -29,7 +29,7 @@ spec:
           ports:
             - containerPort: 80
       restartPolicy: Always
-      serviceAccount: kavita
+      serviceAccount: ittool
 
 ---
 apiVersion: v1

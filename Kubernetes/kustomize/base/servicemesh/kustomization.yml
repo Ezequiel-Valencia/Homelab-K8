@@ -19,3 +19,4 @@ resources:
 - monitor-vs.yml
 - acl.yml
 - ai-vs.yml
+- bots-vs.yml

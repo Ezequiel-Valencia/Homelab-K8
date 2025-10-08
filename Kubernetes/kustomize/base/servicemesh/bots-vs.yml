@@ -1,0 +1,17 @@
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: ittool-route
+  namespace: bots
+spec:
+  hosts:
+  - ittool.homelab.ezequielvalencia.com
+  gateways:
+  - istio-system/homelab-gateway 
+  http:
+  - route:
+    - destination:
+        host: ittool.bots.svc.cluster.local
+        port:
+          number: 80

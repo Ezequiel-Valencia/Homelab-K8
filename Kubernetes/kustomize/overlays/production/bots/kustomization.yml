@@ -7,4 +7,3 @@ namespace: bots
 resources:
 - ../../../base/bots
 - ../../../config/production/bots
-- storage.yml

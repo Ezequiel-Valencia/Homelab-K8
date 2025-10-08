@@ -43,3 +43,18 @@ spec:
           persistentVolumeClaim:
             claimName: eventscraper-storage-claim
       restartPolicy: Always
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: eventscraper-storage-claim
+  labels:
+    backup: every-3-days
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: nfs-01
+  resources:
+    requests:
+      storage: 2Gi
