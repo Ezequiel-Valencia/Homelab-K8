@@ -2,7 +2,7 @@ apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: n8n
-  namespace: public-apps
+  namespace: ai
 spec:
   hosts:
   - n8n.homelab.ezequielvalencia.com
@@ -11,23 +11,23 @@ spec:
   http:
   - route:
     - destination:
-        host: n8n.public-apps.svc.cluster.local
+        host: n8n.ai.svc.cluster.local
         port:
-          number: 80
+          number: 5678
 ---
 apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
-  name: n8n
-  namespace: public-apps
+  name: openweb-ui
+  namespace: ai
 spec:
   hosts:
-  - quadrant.homelab.ezequielvalencia.com
+  - openweb-ui.homelab.ezequielvalencia.com
   gateways:
   - istio-system/homelab-gateway 
   http:
   - route:
     - destination:
-        host: quadrant.public-apps.svc.cluster.local
+        host: open-web-ui.ai.svc.cluster.local
         port:
-          number: 6333
+          number: 8080

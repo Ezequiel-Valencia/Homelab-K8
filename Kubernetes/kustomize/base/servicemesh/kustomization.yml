@@ -18,4 +18,4 @@ resources:
 - media-vs.yml
 - monitor-vs.yml
 - acl.yml
-- public-apps-vs.yml
+- ai-vs.yml

@@ -31,7 +31,7 @@ spec:
             - name: OLLAMA_BASE_URL
               value: http://10.0.0.52:3210
             - name: QDRANT_URI
-              value: http://quadrant.public-apps.svc.cluster.local
+              value: https://qdrant-ui.database.homelab.ezequielvalencia.com:443
             - name: VECTOR_DB
               value: qdrant
             - name: ENABLE_GOOGLE_DRIVE_INTEGRATION
@@ -47,7 +47,10 @@ spec:
             - name: open-web-ui-storage
               mountPath: /app/backend/data
               subPath: open-web-ui/data
-          
+      dnsPolicy: "None"
+      dnsConfig:
+        nameservers:
+          - 10.0.0.6
       volumes:
         - name: open-web-ui-storage
           persistentVolumeClaim:

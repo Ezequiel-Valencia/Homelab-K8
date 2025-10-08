@@ -17,7 +17,6 @@ spec:
     metadata:
       labels:
         app: n8n
-        network-policy: local-or-tunnel
     spec:
       containers: 
         - name: n8n
