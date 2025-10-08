@@ -1,11 +1,11 @@
 fullnameOverride: homelab
 
-nodeSelector:
-  nodetype: monitor
+# nodeSelector:
+#   nodetype: monitor
 
-server:
-  nodeSelector:
-    nodetype: monitor
+# server:
+#   nodeSelector:
+#     nodetype: monitor
 
 defaultRules:
 
@@ -60,8 +60,8 @@ alertmanager:
 grafana:
   enabled: true
   fullnameOverride: grafana
-  nodeSelector:
-    nodetype: monitor
+  # nodeSelector:
+  #   nodetype: monitor
   forceDeployDatasources: false
   forceDeployDashboards: false
   defaultDashboardsEnabled: true
