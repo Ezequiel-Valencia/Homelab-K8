@@ -6,7 +6,4 @@ namespace: public-apps
 resources:
 - three-mix.yml
 - ezequiel-backend.yml
-- openweb-ui.yml
 - namespace.yml
-- n8n.yml
-- quadrant.yml
