@@ -42,7 +42,6 @@ spec:
           resources:
             limits: 
               memory: 2048M
-              cpu: "1000m"
           volumeMounts:
             - name: open-web-ui-storage
               mountPath: /app/backend/data
