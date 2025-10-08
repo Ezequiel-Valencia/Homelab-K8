@@ -1,0 +1,118 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+ name: tunnel-policy
+ namespace: istio-system
+spec:
+  podSelector:
+    matchLabels:
+      network-policy: tunnel
+  ingress:
+    - from:
+      - ipBlock:
+          cidr: 198.41.192.0/24
+      - ipBlock:
+          cidr: 198.41.200.0/24
+      - ipBlock:
+          cidr: 198.41.218.0/28
+      - ipBlock:
+            cidr: 198.41.219.0/28
+      ports:
+        - protocol: UDP
+          port: 7844
+        - protocol: TCP
+          port: 7844
+      
+  egress:
+    - to:
+        # AI
+        - podSelector:
+            matchLabels:
+              app: n8n
+          namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ai
+        - podSelector:
+            matchLabels:
+              app: open-web-ui
+          namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ai
+
+        # Bots
+        - podSelector:
+            matchLabels:
+              app: ittool
+          namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: bots
+        - podSelector:
+            matchLabels:
+              app: karakeep
+          namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: bots
+        
+        # Media
+        - podSelector:
+            matchLabels:
+              app: jellyfin
+          namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: media
+        
+        # Public-Apps
+        - podSelector:
+            matchLabels:
+              app: three-mix
+          namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: public-apps
+        - podSelector:
+            matchLabels:
+              app: ezequiel-backend
+          namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: public-apps
+    
+    - to:
+      - ipBlock:
+          cidr: 10.0.0.8/32
+      ports:
+        - protocol: TCP
+          port: 8080
+
+    # Cluster DNS to translate <app>.<namespace>.svc.cluster.local to it's actual IP
+    - to:
+      - podSelector:
+          matchLabels:
+            k8s-app: kube-dns
+        namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: kube-system
+      ports: 
+        - protocol: UDP
+          port: 53
+    
+    # Allow Traffic back outside through the tunnel, IP range owned by cloudflare
+    # https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/configure-tunnels/tunnel-with-firewall/
+    - to:
+      - ipBlock:
+          cidr: 198.41.192.0/24
+      - ipBlock:
+          cidr: 198.41.200.0/24
+      - ipBlock:
+          cidr: 198.41.218.0/28
+      - ipBlock:
+          cidr: 198.41.219.0/28
+      ports:
+        - protocol: UDP
+          port: 7844
+        - protocol: TCP
+          port: 7844
+
+
+  policyTypes:
+    - Ingress
+    - Egress

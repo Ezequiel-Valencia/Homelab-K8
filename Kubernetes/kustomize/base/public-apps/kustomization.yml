@@ -5,7 +5,6 @@ namespace: public-apps
 
 resources:
 - three-mix.yml
-- tunnel.yml
 - ezequiel-backend.yml
 - openweb-ui.yml
 - namespace.yml

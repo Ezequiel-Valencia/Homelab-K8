@@ -10,7 +10,6 @@ resources:
 - eventscraper-secrets.yml
 - three-mix.yml
 - semaphore.yml
-- public-tunnel.yml
 - ezequiel-backend.yml
 - openweb.yml
 - karakeep-secrets.yml
