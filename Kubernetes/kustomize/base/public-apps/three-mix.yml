@@ -56,48 +56,8 @@ spec:
       dnsConfig:
         nameservers:
           - 10.0.0.6
-          
-      volumes:
-        - name: three-mix-storage
-          persistentVolumeClaim:
-            claimName: three-mix-storage-claim
       restartPolicy: Always
       serviceAccount: three-mix
-
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: three-mix-storage
-spec:
-  capacity:
-    storage: 2Gi
-  volumeMode: Filesystem
-  accessModes:
-    - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: "default"
-  nfs:
-    server: 10.0.0.146
-    path: /volume1/k8data/storage/threemix
-
-
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: three-mix-storage-claim
-  labels:
-    backup: every-3-days
-spec:
-  accessModes:
-    - ReadWriteMany
-  storageClassName: "default"
-  resources:
-    requests:
-      storage: 2Gi
-  volumeName: three-mix-storage
-
 
 ---
 apiVersion: v1
