@@ -80,8 +80,12 @@ lokiCanary:
   enabled: false
 gateway:
   enabled: true
-  nodeSelector:
-    nodetype: monitor
+  # nodeSelector:
+  #   nodetype: monitor
+  
+  basicAuth:
+    enabled: true
+    existingSecret: loki-htp-file
   
   # https://github.com/grafana/loki/issues/5963
   write:

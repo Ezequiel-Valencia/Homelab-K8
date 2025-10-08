@@ -6,3 +6,5 @@ istio*
 
 helm-resource.yml
 minio-creds.txt
+
+.htpasswd
