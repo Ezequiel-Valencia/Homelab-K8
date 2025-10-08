@@ -87,6 +87,8 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: three-mix-storage-claim
+  labels:
+    backup: every-3-days
 spec:
   accessModes:
     - ReadWriteMany

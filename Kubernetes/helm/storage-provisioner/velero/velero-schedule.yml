@@ -1,0 +1,28 @@
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: every-3-days
+  namespace: nfs-provisioner
+spec:
+  schedule: '0 4 * * 0/3'
+  skipImmediately: false
+  template:
+    includedResources:
+      - pv
+      - pvc
+    storageLocation: backups
+    ttl: 144h0m0s # Lasts for 2 weeks
+    includedNamespaces:
+      - bots
+    excludedNamespaces:
+      - default
+      - kube-node-lease
+      - kube-public
+      - kube-system
+      - kube-registry
+      - kube-public
+      - nvidia-gpu-operator
+      - monitoring
+
+# https://velero.io/docs/v1.16/api-types/schedule/
+# If manual backup is wanted https://velero.io/docs/v1.16/api-types/backup/

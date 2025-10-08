@@ -1,0 +1,27 @@
+
+configuration:
+  backupStorageLocation:
+    - name: backups
+      provider: aws
+      bucket:  k8-app-backups
+      default: true
+      config:
+        s3ForcePathStyle: true
+        region: homelab
+        s3Url: http://10.0.0.146:9000
+  volumeSnapshotLocation:
+    - name: snapshots
+      provider: aws
+      bucket:  k8-app-backups
+      default: true
+      config: 
+        s3ForcePathStyle: true
+        region: homelab
+        s3Url: http://10.0.0.146:9000
+initContainers:
+  - name: velero-plugin-for-aws
+    image: velero/velero-plugin-for-aws:v1.12.0
+    volumeMounts:
+      - name: plugins
+        mountPath: /target
+

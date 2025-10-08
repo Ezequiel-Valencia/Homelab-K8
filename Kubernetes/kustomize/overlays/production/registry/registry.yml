@@ -46,3 +46,15 @@ spec:
             limits: 
               memory: 216M
               cpu: "300m"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: image-registry-claim
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: nfs-01
+  resources:
+    requests:
+      storage: 30Gi
