@@ -1,0 +1,140 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ct-grassroots
+  name: ct-grassroots
+spec:
+  selector: 
+    matchLabels:
+      app: ct-grassroots
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+  template:
+    metadata:
+      labels:
+        app: ct-grassroots
+    spec:
+      containers: 
+        - name: ct-grassroots
+          image: framasoft/mobilizon:4.1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 4000
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+          env:
+            # - name: MIX_ENV
+            #   value: prod mix release
+            - name: MOBILIZON_LOGLEVEL
+              value: info
+            - name: MOBILIZON_INSTANCE_NAME 
+              value: CT Grass Roots
+            - name: MOBILIZON_INSTANCE_HOST
+              value: mobilizon.ezequielvalencia.com
+            - name: MOBILIZON_INSTANCE_PORT
+              value: '4000'
+            - name: MOBILIZON_INSTANCE_REGISTRATIONS_OPEN
+              value: "false"
+            - name: MOBILIZON_INSTANCE_EMAIL
+
+            # Mobilizon Database
+            - name: MOBILIZON_DATABASE_USERNAME
+              value: mobilizon
+            - name: MOBILIZON_DATABASE_DBNAME
+              value: ct-grassroots
+            - name: MOBILIZON_DATABASE_HOST 
+              value: postgres.database.homelab.ezequielvalencia.com
+            - name: MOBILIZON_DATABASE_PORT
+              value: "54333"
+            - name: MOBILIZON_DATABASE_SSL
+              value: "false"
+          envFrom:
+            - secretRef:
+                name: mobilizon-secret
+          resources:
+            limits: 
+              memory: 1024M
+              cpu: "500m"
+          volumeMounts:
+            - name: mobilizon-storage
+              mountPath: /app/config
+              subPath: ct-grassroots
+
+            # - name: mobilizon-storage
+            #   mountPath: /etc/mobilizon/config.exs
+            #   subPath: ct-grassroots/config.exs
+          
+      volumes:
+        - name: mobilizon-storage
+          persistentVolumeClaim:
+            claimName: mobilizon-storage-claim
+      dnsPolicy: "None"
+      dnsConfig:
+        nameservers:
+          - 10.0.0.6
+      restartPolicy: Always
+      serviceAccount: ct-grassroots
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mobilizon-storage
+spec:
+  capacity:
+    storage: 10Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: "default"
+  nfs:
+    server: 10.0.0.146
+    path: /volume1/k8data/storage/mobilizon
+
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mobilizon-storage-claim
+  labels:
+    backup: every-3-days
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: "default"
+  resources:
+    requests:
+      storage: 5Gi
+  volumeName: mobilizon-storage
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: ct-grassroots
+  name: ct-grassroots
+spec:
+  ports:
+    - name: website
+      port: 4000
+      protocol: TCP
+      targetPort: 4000
+  selector:
+    app: ct-grassroots
+
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ct-grassroots
+

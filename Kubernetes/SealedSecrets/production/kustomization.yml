@@ -13,3 +13,4 @@ resources:
 - ezequiel-backend.yml
 - openweb.yml
 - karakeep-secrets.yml
+- mobilizon.yml
