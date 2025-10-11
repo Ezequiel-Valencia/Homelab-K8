@@ -1,34 +1,12 @@
-# Home-Network
- Internal home network architeture. Everything here is only for internal network and does not have any external connection, other than a singualr port that a VPN connection is required for.
- https://superuser.com/questions/1324710/why-do-end-device-need-to-support-vlans
+# Homelab Kubernetes Cluster
+Repository to manage my homelab kubernetes cluster for agile deployments of 
+applications I've personally developed or publicly available.
 
- ## Applications
-The applications that will be ran on top of the OS that are installed within the hypervisor, and the management interface for all of these applications.
-
-
-## Work Enviroment
-
-
- ## System Admin
- Consists of Firewall, intrusion detection system (IDS), intrusion prevention system (IPS), type one hypervisor, and DNS.
-
-
-
-# Whole Picture
-
-
-
-An amazing web series that I found to late, but seems to be very informational. https://youtube.com/playlist?list=PLjLkaXQ353210citr52k74DWb3IOzHWL7
-
-# What I still need to do manually
-
-## Provision Containers and VMs
-- Add public key to containers
-- Add user to containers
-- Check VPN connection
-- Modify qbittorent download location
-- Create additional hard drive for media VM
-
-### Set K8 Cluster
-
-- export KUBECONFIG=/home/zek/.kube/config_prd
+The cluster ensures:
+- Secure isolation/communication (both in and out of K8 context)
+- Monitoring
+- GPU Access
+- Appropiate allocation of computational resources
+- Easy storage use
+- Secrets/Config handling
+- 
