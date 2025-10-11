@@ -21,7 +21,7 @@ spec:
     spec:
       containers: 
         - name: ct-grassroots
-          image: framasoft/mobilizon:4.1.0
+          image: framasoft/mobilizon:4.0.2
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 4000
@@ -34,9 +34,9 @@ spec:
             - name: MOBILIZON_LOGLEVEL
               value: info
             - name: MOBILIZON_INSTANCE_NAME 
-              value: CT Grass Roots
+              value: CTGrassRoots
             - name: MOBILIZON_INSTANCE_HOST
-              value: mobilizon.ezequielvalencia.com
+              value: ctgrassroots.org
             - name: MOBILIZON_INSTANCE_PORT
               value: '4000'
             - name: MOBILIZON_INSTANCE_REGISTRATIONS_OPEN
