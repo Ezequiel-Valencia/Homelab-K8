@@ -109,6 +109,7 @@ config:
         tls off
         tls.verify Off
         tls.debug 4
+        structured_metadata message=$log, host=$kubernetes['host']
         Labels namespace=$kubernetes['namespace_name'], container=$kubernetes['container_name']
 
 
