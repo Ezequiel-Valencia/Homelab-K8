@@ -21,7 +21,7 @@ spec:
     spec:
       containers: 
         - name: ct-grassroots
-          image: framasoft/mobilizon:4.0.2
+          image: framasoft/mobilizon:4.1.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 4000
@@ -32,7 +32,7 @@ spec:
             # - name: MIX_ENV
             #   value: prod mix release
             - name: MOBILIZON_LOGLEVEL
-              value: info
+              value: error
             - name: MOBILIZON_INSTANCE_NAME 
               value: CTGrassRoots
             - name: MOBILIZON_INSTANCE_HOST
