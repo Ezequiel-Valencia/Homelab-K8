@@ -63,8 +63,8 @@ spec:
               cpu: "500m"
           volumeMounts:
             - name: mobilizon-storage
-              mountPath: /app/config
-              subPath: ct-grassroots
+              mountPath: /var/lib/mobilizon/uploads
+              subPath: ct-grassroots/uploads
 
             # - name: mobilizon-storage
             #   mountPath: /etc/mobilizon/config.exs
