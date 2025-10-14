@@ -21,3 +21,4 @@ resources:
 - ai-vs.yml
 - bots-vs.yml
 - tunnel-acl.yml
+- tunnel.yml
