@@ -31,7 +31,7 @@ spec:
           env:
             # All subdomains can also access this cookie
             - name: CORS_ALLOWED
-              value: https://ezequielvalencia.com
+              value: https://ezequielvalencia.com,https://d29w5rfwyyex3t.cloudfront.net
           envFrom:
             - secretRef:
                 name: ezequiel-backend-secrets
