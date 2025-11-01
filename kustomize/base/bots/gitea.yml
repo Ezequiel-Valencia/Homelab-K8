@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: gitea
+  name: gitea
+spec:
+  selector: 
+    matchLabels:
+      app: gitea
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+  template:
+    metadata:
+      labels:
+        app: gitea
+    spec:
+      containers: 
+        - name: gitea
+          image: docker.gitea.com/gitea:1.24.7
+          imagePullPolicy: "Always"
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+          ports:
+            - containerPort: 3000
+            - containerPort: 22
+          env:
+            - name: GITEA__database__DB_TYPE
+              value: postgres
+            - name: GITEA__database__HOST
+              value: postgres.database.homelab.ezequielvalencia.com
+            - name: GITEA__database__NAME
+              value: gitea
+            - name: GITEA__database__USER
+              value: gitea
+          envFrom:
+            - secretRef:
+                name: gitea-secret
+          resources:
+            limits: 
+              memory: 512M
+              cpu: "500m"
+          volumeMounts:
+            - name: gitea-storage
+              mountPath: /data
+      
+      volumes:
+        - name: gitea-storage
+          persistentVolumeClaim:
+            claimName: gitea-storage-claim
+      dnsPolicy: "None"
+      dnsConfig:
+        nameservers:
+          - 10.0.0.6
+      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gitea-storage-claim
+  labels:
+    backup: every-3-days
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: nfs-01
+  resources:
+    requests:
+      storage: 32Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: gitea
+  name: gitea
+spec:
+  ports:
+    - name: http-gitea
+      port: 80
+      targetPort: 3000
+    - name: ssh-gitea
+      port: 2222
+      targetPort: 22
+  selector:
+    app: gitea
+
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: gitea

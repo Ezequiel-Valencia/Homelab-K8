@@ -1,0 +1,15 @@
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: gitea-secret
+  namespace: bots
+spec:
+  encryptedData:
+    GITEA__database__PASSWD: AgCkpgNPT7ftijZuxlahiI7YknWumhvFWFNomfeN1SOOXEHID8+0AQZEdtacjSn7Kue8v1eCixfpr9BkY03T4u2wOACU+S22qL5Wscuhu3aZWJCMMwepRgsiJBu9rIlhHwPrzzlVuTCiNXQxYd3OudIKI2wiOAwdz4flZOa0Zko6lCcuPxLJSRWAzut9LrYCykCYbZnFq1z+Jbbi8Pregx9B4KumGxfDFw43KVYHe2Uuu9dcGFbB5gQnlYr64/OOr95AUM0GPGikr/w38iOruutYg36ngK+NTriwmmkojtyiYUtuXcIoYxM4Ua0uylmX82azK7b+ZdOrgJ+PTlwxldP/4rOxQH1Kwnh9g4Fnl8+DWeNHrxg+L6SrLUosDMmjDQHZH9VS77Yjkbl9uKblTIddVVdY77HoMaPbCbNk15tPNlIbIVM/ByWousK/gqpeDiBsCEdQ7K2ZXoovJaK1w/1AplL+XMgNoW4tk+F0VYxh0GPs4KklPR9IdX0n4HwSOjV1IZXY/B/wfwSdgsFV9PsobiGuE68ftvrlthgvBcvB7zvc6gl4Dovf2in0lmUmBJot22jrmnpD11auE5XUvapSeyEF8g/H9ChTr19kcvVM9NNT135ygg8WahR1foIBp5facwSKMrwlHfRk9lYMyCj1xAaZaNclbYpIHncKCYUv22ZnoFbCTFC4UNQdlhw7+Sf6v+mvSEtli66fwu4=
+  template:
+    metadata:
+      creationTimestamp: null
+      name: gitea-secret
+      namespace: bots

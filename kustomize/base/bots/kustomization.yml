@@ -8,3 +8,4 @@ resources:
 - namespace.yml
 - it-tools.yml
 - karakeep.yml
+- gitea.yml

@@ -14,3 +14,4 @@ resources:
 - openweb.yml
 - karakeep-secrets.yml
 - mobilizon.yml
+- gitea.yml
