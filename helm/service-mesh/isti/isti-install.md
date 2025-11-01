@@ -6,6 +6,8 @@ https://istio.io/latest/docs/setup/install/istioctl/
 ```
 [Source](https://medium.com/@SabujJanaCodes/touring-the-kubernetes-istio-ambient-mesh-part-1-setup-ztunnel-c80336fcfb2d)
 
+./istio-1.23.2/bin/istioctl operator init
+
 Install in addition to istio prometheus for metrics.
 Double check that all node selections are done for monitoring.
 

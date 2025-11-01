@@ -5,7 +5,7 @@ metadata:
   namespace: istio-system
 spec:
   selector:
-    istio: ingressgateway # use Istio default gateway implementation
+    istio: ingressgateway
   servers:
     - port:
         number: 80
@@ -32,4 +32,50 @@ spec:
         - "bots/*.homelab.ezequielvalencia.com"
         - "public-apps/*.homelab.ezequielvalencia.com"
         - "ai/*.homelab.ezequielvalencia.com"
+    
+    - port:
+        number: 2222
+        name: tls
+        protocol: TCP
+      # tls:
+      #   mode: SIMPLE
+      #   credentialName: media-certs # Same name as secret 
+      hosts:
+        - "bots/gitea.homelab.ezequielvalencia.com"
 
+
+
+
+# https://istio.io/latest/docs/reference/config/istio.operator.v1alpha1/
+# Required to get TCP port 2222 up
+---
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  name: istio-controlplane
+  namespace: istio-system
+spec:
+  components:
+    ingressGateways:
+      - name: istio-ingressgateway
+        enabled: true
+        k8s:
+          service:
+            ports:
+              - name: status-port
+                protocol: TCP
+                port: 15021
+                targetPort: 15021
+              - name: http2
+                protocol: TCP
+                port: 80
+                targetPort: 8080
+              - name: https
+                protocol: TCP
+                port: 443
+                targetPort: 8443
+              # Add a custom TCP port
+              - name: tls
+                protocol: TCP
+                port: 2222
+                targetPort: 2222

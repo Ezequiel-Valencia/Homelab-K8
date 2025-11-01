@@ -86,6 +86,7 @@ spec:
       port: 80
       targetPort: 3000
     - name: ssh-gitea
+      protocol: TCP
       port: 2222
       targetPort: 22
   selector:
