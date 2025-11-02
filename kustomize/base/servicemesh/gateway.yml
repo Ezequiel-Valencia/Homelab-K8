@@ -55,7 +55,18 @@ metadata:
   name: istio-controlplane
   namespace: istio-system
 spec:
+  profile: ambient
   components:
+    pilot:
+      k8s:
+        env:
+          # For a quick fix, I just modified the deployment config manually. Might be problematic in future
+          - name: PILOT_ENABLE_AMBIENT
+            value: "true"
+    cni:
+      enabled: true
+    ztunnel:
+      enabled: true
     ingressGateways:
       - name: istio-ingressgateway
         enabled: true
