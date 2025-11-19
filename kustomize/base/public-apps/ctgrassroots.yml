@@ -21,7 +21,7 @@ spec:
     spec:
       containers: 
         - name: ct-grassroots
-          image: framasoft/mobilizon:4.1.0
+          image: kaihuri/mobilizon:5.1.4
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 4000
