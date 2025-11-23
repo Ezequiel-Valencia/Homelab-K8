@@ -73,27 +73,44 @@ config:
 
   ## https://docs.fluentbit.io/manual/pipeline/inputs
   # The * after tag includes the logs full FS path, which is required for the K8 filter and getting K8 metadata https://docs.fluentbit.io/manual/data-pipeline/filters/kubernetes
-  inputs: |
+  inputs: |    
     [INPUT]
         Name tail
         Path /var/log/containers/*.log
+        Exclude_Path /var/log/containers/jellyfin*.log
         multiline.parser docker, cri
-        Tag kube.*
+        Tag kube.default.*
         Mem_Buf_Limit 5MB
         Skip_Long_Lines On
         db /var/log/flb_logs.db
+    [INPUT]
+        Name tail
+        Path /var/log/containers/jellyfin-*.log
+        multiline.parser cri
+        Parser jellyfin
+        Tag kube.jellyfin.*
+        Mem_Buf_Limit 5MB
+        Skip_Long_Lines On
+        db /var/log/jellyfin_logs.db
 
   ## https://docs.fluentbit.io/manual/pipeline/filters
   # Modify filter required for VCell logs because having "." in a JSON key is not parsable
   filters: |
     [FILTER]
         Name kubernetes
-        Match kube.*
+        Match kube.default.*
         Merge_Log On
-        Kube_Tag_Prefix kube.var.log.containers.
+        Kube_Tag_Prefix kube.default.var.log.containers.
         Keep_Log Off
         K8S-Logging.Parser On
         K8S-Logging.Exclude On
+    [FILTER]
+        Name kubernetes
+        Match kube.jellyfin.*
+        Merge_Log On
+        Merge_Log_Key log_parsed
+        Kube_Tag_Prefix kube.jellyfin.var.log.containers.
+        Keep_Log On
 
   ## https://docs.fluentbit.io/manual/pipeline/outputs
   # https://docs.fluentbit.io/manual/data-pipeline/outputs/loki
@@ -125,6 +142,10 @@ config:
         Time_Keep Off
         Time_Key time
         Time_Format %Y-%m-%dT%H:%M:%S.%L
+    [PARSER]
+        Name jellyfin
+        Format regex
+        Regex ^\[.*?\] \[(?<parsed_level>[A-Z]{3})\].*$
 
   # This allows adding more files with arbitrary filenames to /fluent-bit/etc/conf by providing key/value pairs.
   # The key becomes the filename, the value becomes the file content.
