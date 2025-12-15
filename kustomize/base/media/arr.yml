@@ -106,7 +106,7 @@ spec:
       # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
       containers: 
         - name: radarr
-          image: lscr.io/linuxserver/radarr:latest
+          image: lscr.io/linuxserver/radarr:5.28.0
           imagePullPolicy: Always
           envFrom:
             - configMapRef:
