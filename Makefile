@@ -20,7 +20,7 @@ monitor:
 
 .PHONY: ai
 ai:
-	@echo "🚀 Making bots"
+	@echo "🚀 Making AI"
 	@kubectl kustomize kustomize/overlays/production/ai | kubectl apply -f -
 
 .PHONY: homelab
