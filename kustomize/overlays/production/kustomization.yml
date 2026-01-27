@@ -6,9 +6,11 @@ kind: Kustomization
 
 
 resources:
+- ./ai/
+- ./bots/
 - ./media/
 - ./monitor/
-- ./bots/
+- ./public-apps/
 
 - ../../../SealedSecrets/production
 - ../../base/servicemesh

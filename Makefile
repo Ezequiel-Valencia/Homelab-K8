@@ -23,6 +23,11 @@ ai:
 	@echo "🚀 Making AI"
 	@kubectl kustomize kustomize/overlays/production/ai | kubectl apply -f -
 
+.PHONY: public_apps
+public_apps:
+	@echo "🚀 Making Public Apps"
+	@kubectl kustomize kustomize/overlays/production/public-apps | kubectl apply -f -
+
 .PHONY: homelab
 homelab:
 	@echo "🚀 Making bots"
