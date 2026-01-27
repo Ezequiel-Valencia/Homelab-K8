@@ -18,6 +18,11 @@ monitor:
 	@echo "🚀 Making bots"
 	@kubectl kustomize kustomize/overlays/production/monitor | kubectl apply -f -
 
+.PHONY: ai
+ai:
+	@echo "🚀 Making bots"
+	@kubectl kustomize kustomize/overlays/production/ai | kubectl apply -f -
+
 .PHONY: homelab
 homelab:
 	@echo "🚀 Making bots"
