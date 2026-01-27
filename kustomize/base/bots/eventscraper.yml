@@ -31,30 +31,14 @@ spec:
             - configMapRef:
                 name: eventscraper-env
           resources:
-            limits: 
-              memory: 216M
-              cpu: "300m"
+            limits: {}
           volumeMounts:
             - name: eventscraper-storage
               mountPath: /app/config
-              subPath: eventscraper/data
+              subPath: eventscraper
       volumes:
         - name: eventscraper-storage
           persistentVolumeClaim:
-            claimName: eventscraper-storage-claim
+            claimName: bot-storage-claim
       restartPolicy: Always
 
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: eventscraper-storage-claim
-  labels:
-    backup: every-3-days
-spec:
-  accessModes:
-    - ReadWriteMany
-  storageClassName: nfs-01
-  resources:
-    requests:
-      storage: 2Gi

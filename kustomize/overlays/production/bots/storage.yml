@@ -1,0 +1,38 @@
+# Set to read write once since multiple pods need
+# to access the data, but all the pods run on the same node
+# https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes
+# https://stackoverflow.com/questions/57798267/kubernetes-persistent-volume-access-modes-readwriteonce-vs-readonlymany-vs-read
+--- 
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: bot-storage-volume
+spec:
+  capacity:
+    storage: 50Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: "default"
+  nfs:
+    server: 10.0.0.146
+    path: /volume1/k8data/storage/bots
+
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: bot-storage-claim
+  labels:
+    backup: every-3-days
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: "default"
+  resources:
+    requests:
+      storage: 50Gi
+  volumeName: bot-storage-volume
+
