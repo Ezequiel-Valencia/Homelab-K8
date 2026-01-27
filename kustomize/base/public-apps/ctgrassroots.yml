@@ -83,40 +83,6 @@ spec:
 
 ---
 apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: mobilizon-storage
-spec:
-  capacity:
-    storage: 10Gi
-  volumeMode: Filesystem
-  accessModes:
-    - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: "default"
-  nfs:
-    server: 10.0.0.146
-    path: /volume1/k8data/storage/mobilizon
-
-
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mobilizon-storage-claim
-  labels:
-    backup: every-3-days
-spec:
-  accessModes:
-    - ReadWriteMany
-  storageClassName: "default"
-  resources:
-    requests:
-      storage: 5Gi
-  volumeName: mobilizon-storage
-
----
-apiVersion: v1
 kind: Service
 metadata:
   labels:
