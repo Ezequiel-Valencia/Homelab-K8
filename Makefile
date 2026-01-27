@@ -10,12 +10,12 @@ bots:
 
 .PHONY: media
 media:
-	@echo "🚀 Making bots"
+	@echo "🚀 Making media"
 	@kubectl kustomize kustomize/overlays/production/media | kubectl apply -f -
 
 .PHONY: monitor
 monitor:
-	@echo "🚀 Making bots"
+	@echo "🚀 Making monitor"
 	@kubectl kustomize kustomize/overlays/production/monitor | kubectl apply -f -
 
 .PHONY: ai
@@ -28,8 +28,13 @@ public_apps:
 	@echo "🚀 Making Public Apps"
 	@kubectl kustomize kustomize/overlays/production/public-apps | kubectl apply -f -
 
+.PHONY: check_homelab_diff
+check_homelab_diff:
+	@echo "🚀 Showing Diff Between Code and Production"
+	@kubectl kustomize kustomize/overlays/production | kubectl diff -f -
+
 .PHONY: homelab
 homelab:
-	@echo "🚀 Making bots"
+	@echo "🚀 Making Entire Homelab"
 	@kubectl kustomize kustomize/overlays/production | kubectl apply -f -
 
