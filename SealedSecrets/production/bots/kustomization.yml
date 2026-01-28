@@ -3,8 +3,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-- bots/
-- monitor/
-- network/
-- public-apps/
-- openweb.yml
+- eventscraper-secrets.yml
+- karakeep-secrets.yml
+- gitea.yml
