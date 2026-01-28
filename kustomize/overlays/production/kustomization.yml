@@ -12,7 +12,7 @@ resources:
 - ./monitor/
 - ./public-apps/
 
-- ../../../SealedSecrets/production
+- ../../../SealedSecrets/production/network
 - ../../base/servicemesh
 
 - certs.yml

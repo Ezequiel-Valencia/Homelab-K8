@@ -11,3 +11,4 @@ resources:
 - storage.yml
 - ../../../base/monitor
 - ../../../config/production/monitor
+- ../../../../SealedSecrets/production/monitor

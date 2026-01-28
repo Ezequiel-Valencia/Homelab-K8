@@ -6,4 +6,5 @@ namespace: public-apps
 
 resources:
 - ../../../base/public-apps
+- ../../../../SealedSecrets/production/public-apps
 - storage.yml

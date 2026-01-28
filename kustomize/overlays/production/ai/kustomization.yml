@@ -6,4 +6,5 @@ namespace: ai
 
 resources:
 - ../../../base/ai
+- ../../../../SealedSecrets/production/ai
 - storage.yml
