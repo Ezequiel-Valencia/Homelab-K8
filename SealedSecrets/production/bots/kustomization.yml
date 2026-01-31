@@ -6,3 +6,4 @@ resources:
 - eventscraper-secrets.yml
 - karakeep-secrets.yml
 - gitea.yml
+- openproject.yml

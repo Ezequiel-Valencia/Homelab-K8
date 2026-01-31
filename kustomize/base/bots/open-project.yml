@@ -1,0 +1,90 @@
+# Plane is another Jira esq tool, but seems restrictive with it's enterprise and not as friendly for self-hosting
+# https://developers.plane.so/self-hosting/methods/kubernetes
+# Open-Project is geared more for self hosting, plus is used by linux foundation
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: openproject
+  name: openproject
+spec:
+  selector: 
+    matchLabels:
+      app: openproject
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+  template:
+    metadata:
+      labels:
+        app: openproject
+    spec:
+      containers: 
+      # Before Deployment the DB Needs to be initialized with seed data or else `Data Migration` error will be looping
+      # This can be done by loading the docker compose file while pointed to production DB, https://github.com/opf/openproject-docker-compose/blob/stable/17/docker-compose.yml
+        - name: openproject
+          image: openproject/openproject:17-slim # Slim because other one has DB in it for 'all in one container', https://www.openproject.org/docs/installation-and-operations/installation/docker/#available-containers
+          imagePullPolicy: "Always"
+          ports:
+            - containerPort: 8080
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+          env:
+            - name: OPENPROJECT_HOST__NAME
+              value: openproject.tunnel.homelab.ezequielvalencia.com
+            - name: OPENPROJECT_HTTPS
+              value: 'true'
+            - name: OPENPROJECT_DB_SSLMODE
+              value: require
+            - name: OPENPROJECT_CACHE__MEMCACHE__SERVER
+              value: localhost:11211
+            - name: OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__URL
+              value: wss://localhost/hocuspocus
+          envFrom:
+            - secretRef:
+                name: openproject-secrets
+          resources:
+          volumeMounts:
+            - name: openproject-storage
+              mountPath: /var/openproject
+              subPath: openproject
+
+        - name: cache
+          image: memcached
+
+        - name: hocuspocus
+          envFrom:
+            - secretRef:
+                name: openproject-secrets
+          image: openproject/hocuspocus
+          
+      volumes:
+        - name: openproject-storage
+          persistentVolumeClaim:
+            claimName: bot-storage-claim
+      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: openproject
+  name: openproject
+spec:
+  ports:
+    - name: http-openproject
+      port: 80
+      targetPort: 8080
+  selector:
+    app: openproject
+
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: openproject
