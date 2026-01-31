@@ -14,6 +14,7 @@ resources:
 
 - ../../../SealedSecrets/production/network
 - ../../base/servicemesh
+- dns.yml
 
 - certs.yml
 - ./registry/registry.yml
