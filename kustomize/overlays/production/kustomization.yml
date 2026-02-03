@@ -13,7 +13,7 @@ resources:
 - ./public-apps/
 
 - ../../../SealedSecrets/production/network
-- ../../base/servicemesh
+- servicemesh
 - dns.yml
 
 - certs.yml

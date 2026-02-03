@@ -28,6 +28,11 @@ public_apps:
 	@echo "🚀 Making Public Apps"
 	@kubectl kustomize kustomize/overlays/production/public-apps | kubectl apply -f -
 
+.PHONY: service_mesh
+service_mesh:
+	@echo "🚀 Making Service Mesh"
+	@kubectl kustomize kustomize/overlays/production/servicemesh | kubectl apply -f -
+
 .PHONY: check_homelab_diff
 check_homelab_diff:
 	@echo "🚀 Showing Diff Between Code and Production"
