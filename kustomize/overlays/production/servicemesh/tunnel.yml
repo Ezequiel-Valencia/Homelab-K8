@@ -18,7 +18,6 @@ spec:
         app: cloudtunnel
         network-policy: tunnel
     spec:
-      nodeName: media
       # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
       containers: 
         - name: tunnel
@@ -33,12 +32,16 @@ spec:
           envFrom:
             - secretRef:
                 name: cloudflare-tunnel-token
-          # resources:
-          #   limits:
-          #     cpu: 200m
-          #     memory: 512M 
+          resources:
+            limits:
+              cpu: 200m
+              memory: 512M 
       restartPolicy: Always
       serviceAccount: cloudtunnel
+      dnsPolicy: None
+      dnsConfig:
+        nameservers:
+          - 10.43.0.10 # For some reason it was using an alternative DNS, so hardcoded the clusters DNS for now
 
 
 ---
