@@ -42,27 +42,13 @@ spec:
           volumeMounts:
             - name: karakeep-storage
               mountPath: /data
+              subPath: karakeep
       
       volumes:
         - name: karakeep-storage
           persistentVolumeClaim:
-            claimName: karakeep-storage-claim
+            claimName: bot-storage-claim
       restartPolicy: Always
-
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: karakeep-storage-claim
-  labels:
-    backup: every-3-days
-spec:
-  accessModes:
-    - ReadWriteMany
-  storageClassName: nfs-01
-  resources:
-    requests:
-      storage: 2Gi
 
 ---
 apiVersion: v1

@@ -19,6 +19,23 @@ spec:
 apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
+  name: openproject-route
+  namespace: bots
+spec:
+  hosts:
+  - openproject.homelab.ezequielvalencia.com
+  gateways:
+  - istio-system/homelab-gateway 
+  http:
+  - route:
+    - destination:
+        host: openproject.bots.svc.cluster.local
+        port:
+          number: 80
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
   name: karakeep-route
   namespace: bots
 spec:

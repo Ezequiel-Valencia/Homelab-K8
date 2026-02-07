@@ -7,3 +7,5 @@ namespace: bots
 resources:
 - ../../../base/bots
 - ../../../config/production/bots
+- ../../../../SealedSecrets/production/bots
+- storage.yml

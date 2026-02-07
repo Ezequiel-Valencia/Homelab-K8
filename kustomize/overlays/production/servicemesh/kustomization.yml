@@ -15,10 +15,6 @@ kind: Kustomization
 
 resources:
 - gateway.yml
-- media-vs.yml
-- monitor-vs.yml
-- acl.yml
-- ai-vs.yml
-- bots-vs.yml
-- tunnel-acl.yml
+- acls/
+- virtual-service/
 - tunnel.yml

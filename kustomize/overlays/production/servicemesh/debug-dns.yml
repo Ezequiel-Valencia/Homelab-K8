@@ -1,0 +1,19 @@
+# https://kubernetes.io/docs/tasks/administer-cluster/dns-debugging-resolution/
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dnsutils
+  namespace: monitoring
+spec:
+  nodeName: zpclonghorn
+  containers:
+  - name: dnsutils
+    image: registry.k8s.io/e2e-test-images/agnhost:2.39
+    imagePullPolicy: IfNotPresent
+  restartPolicy: Always
+
+
+# NS Lookup is appending .DOMAINS to query
+# Dig does not
+# When .DOMAINS is added to query, it resolves to the IP addresses that are broken
+# and cause all of this problem.

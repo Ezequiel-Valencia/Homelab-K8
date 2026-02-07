@@ -4,7 +4,7 @@ read -p "Install Promethous (y/n): " INSTALL
 if [ "$INSTALL" = "y" ]; then
 
     helm upgrade --install -n monitoring homelab \
-    --version 75.18.1 \
+    --version 81.5.0 \
     --kubeconfig=/home/zek/.kube/config_prd \
     prometheus-community/kube-prometheus-stack -f values.yml \
     

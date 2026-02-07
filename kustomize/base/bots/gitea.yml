@@ -47,31 +47,17 @@ spec:
           volumeMounts:
             - name: gitea-storage
               mountPath: /data
+              subPath: gitea
       
       volumes:
         - name: gitea-storage
           persistentVolumeClaim:
-            claimName: gitea-storage-claim
+            claimName: bot-storage-claim
       dnsPolicy: "None"
       dnsConfig:
         nameservers:
           - 10.0.0.6
       restartPolicy: Always
-
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: gitea-storage-claim
-  labels:
-    backup: every-3-days
-spec:
-  accessModes:
-    - ReadWriteMany
-  storageClassName: nfs-01
-  resources:
-    requests:
-      storage: 32Gi
 
 ---
 apiVersion: v1

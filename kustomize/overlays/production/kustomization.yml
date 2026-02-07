@@ -6,11 +6,15 @@ kind: Kustomization
 
 
 resources:
-- ./media/
-- ../../../SealedSecrets/production
-- certs.yml
-- ./monitor/
-- servicemesh.yml
+- ./ai/
 - ./bots/
-- ../../../base/servicemesh
+- ./media/
+- ./monitor/
+- ./public-apps/
+
+- ../../../SealedSecrets/production/network
+- servicemesh
+- dns.yml
+
+- certs.yml
 - ./registry/registry.yml

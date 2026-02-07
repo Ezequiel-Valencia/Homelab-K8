@@ -38,6 +38,10 @@ spec:
               memory: 512M 
       restartPolicy: Always
       serviceAccount: cloudtunnel
+      dnsPolicy: None
+      dnsConfig:
+        nameservers:
+          - 10.43.0.10 # For some reason it was using an alternative DNS, so hardcoded the clusters DNS for now
 
 
 ---
