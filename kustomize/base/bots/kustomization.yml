@@ -10,3 +10,17 @@ resources:
 - karakeep.yml
 - gitea.yml
 - open-project.yml
+
+
+
+replicas:
+  - name: eventscraper
+    count: 1
+  - name: gitea
+    count: 1
+  - name: ittool
+    count: 1
+  - name: karakeep
+    count: 1
+  - name: openproject
+    count: 0
