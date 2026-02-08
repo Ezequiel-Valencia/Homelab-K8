@@ -12,7 +12,7 @@ if [ "$INSTALL" = "y" ]; then
 
     helm upgrade -n monitoring loki \
     --install \
-    --version=6.40.0 \
+    --version=6.52.0 \
     grafana/loki -f loki-values.yml
 
 

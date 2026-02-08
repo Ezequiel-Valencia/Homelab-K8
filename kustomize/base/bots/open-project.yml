@@ -11,7 +11,7 @@ spec:
   selector: 
     matchLabels:
       app: openproject
-  replicas: 1
+  replicas: 0
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -40,7 +40,7 @@ spec:
             - name: OPENPROJECT_DB_SSLMODE
               value: require
             - name: OPENPROJECT_CACHE__MEMCACHE__SERVER
-              value: localhost:11211
+              value: memcache.database.ezequielvalencia.com:11211
             - name: OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__URL
               value: wss://localhost/hocuspocus
           envFrom:
@@ -51,9 +51,6 @@ spec:
             - name: openproject-storage
               mountPath: /var/openproject
               subPath: openproject
-
-        - name: cache
-          image: memcached
 
         - name: hocuspocus
           envFrom:
