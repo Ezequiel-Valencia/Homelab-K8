@@ -7,3 +7,4 @@ resources:
 - karakeep-secrets.yml
 - gitea.yml
 - openproject.yml
+- leantime.yml

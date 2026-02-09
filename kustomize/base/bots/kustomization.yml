@@ -10,6 +10,7 @@ resources:
 - karakeep.yml
 - gitea.yml
 - open-project.yml
+- leantime.yml
 
 
 
@@ -24,3 +25,5 @@ replicas:
     count: 1
   - name: openproject
     count: 0
+  - name: leantime
+    count: 1
