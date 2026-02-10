@@ -65,6 +65,12 @@ spec:
           namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: bots
+        - podSelector:
+            matchLabels:
+              app: leantime
+          namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: bots
         
         # Media
         - podSelector:
