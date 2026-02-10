@@ -41,7 +41,7 @@ spec:
             - name: LEAN_DB_USER
               value: leantime
             - name: LEAN_APP_URL
-              value: https://leantime.homelab.ezequielvalencia.com
+              value: https://leantime.tunnel.homelab.ezequielvalencia.com
 
           resources:
           volumeMounts:
