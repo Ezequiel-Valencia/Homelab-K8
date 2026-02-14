@@ -40,6 +40,8 @@ spec:
               value: leantime
             - name: LEAN_DB_USER
               value: leantime
+            - name: LEAN_SESSION_EXPIRATION
+              value: '172800'
             - name: LEAN_APP_URL
               value: https://leantime.tunnel.homelab.ezequielvalencia.com
 
