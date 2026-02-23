@@ -46,6 +46,12 @@ spec:
               value: https://leantime.tunnel.homelab.ezequielvalencia.com
 
           resources:
+            requests:
+              memory: 300M
+              cpu: "0.10"
+            limits: 
+              memory: 1024M
+              cpu: "0.5"
           volumeMounts:
             - name: leantime-storage
               mountPath: /var/www/html/public/userfiles 
