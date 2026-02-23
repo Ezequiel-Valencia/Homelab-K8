@@ -3,5 +3,13 @@ kind: Kustomization
 
 namespace: monitoring
 
+patches:
+  - target:
+      kind: Deployment
+    patch: |
+      - op: add
+        path: /spec/template/spec/hostUsers
+        value: false
+
 resources:
 - semaphore.yml

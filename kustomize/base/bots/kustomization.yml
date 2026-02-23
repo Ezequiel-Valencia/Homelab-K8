@@ -12,7 +12,13 @@ resources:
 - open-project.yml
 - leantime.yml
 
-
+patches:
+  - target:
+      kind: Deployment
+    patch: |
+      - op: add
+        path: /spec/template/spec/hostUsers
+        value: false
 
 replicas:
   - name: eventscraper

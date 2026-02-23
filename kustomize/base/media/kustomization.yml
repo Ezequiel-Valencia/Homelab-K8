@@ -12,6 +12,14 @@ namespace: media
 #       name: '[^\s]+arr\b'
 #     path: arr-patch.yml
 
+patches:
+  - target:
+      kind: Deployment
+    patch: |
+      - op: add
+        path: /spec/template/spec/hostUsers
+        value: false
+
 
 resources:
 - media-viewer.yml

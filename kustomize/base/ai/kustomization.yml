@@ -3,6 +3,15 @@ kind: Kustomization
 
 namespace: ai
 
+patches:
+  - target:
+      kind: Deployment
+    patch: |
+      - op: add
+        path: /spec/template/spec/hostUsers
+        value: false
+
+
 resources:
 - openweb-ui.yml
 - namespace.yml

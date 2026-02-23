@@ -3,6 +3,14 @@ kind: Kustomization
 
 namespace: public-apps
 
+patches:
+  - target:
+      kind: Deployment
+    patch: |
+      - op: add
+        path: /spec/template/spec/hostUsers
+        value: false
+
 resources:
 - three-mix.yml
 - ezequiel-backend.yml
