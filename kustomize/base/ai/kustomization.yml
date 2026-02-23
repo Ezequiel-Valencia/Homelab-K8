@@ -17,3 +17,12 @@ resources:
 - namespace.yml
 - n8n.yml
 - alfred.yml
+
+
+replicas:
+  - name: alfred
+    count: 0
+  - name: n8n
+    count: 1
+  - name: open-web-ui # Don't use it enough and consumes a lot of memory
+    count: 0

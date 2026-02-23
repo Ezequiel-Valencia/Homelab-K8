@@ -33,9 +33,12 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
           resources:
+            requests:
+              memory: 300M
+              cpu: "0.10"
             limits: 
-              memory: 1024M
-              cpu: "500m"
+              memory: 600M
+              cpu: "0.25"
           volumeMounts:
             - name: n8n-storage
               mountPath: /home/node/.n8n
