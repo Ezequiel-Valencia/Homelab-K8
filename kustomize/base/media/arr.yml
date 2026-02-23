@@ -32,6 +32,12 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
           resources:
+            requests:
+              memory: 300M
+              cpu: "0.10"
+            limits: 
+              memory: 512M
+              cpu: "0.25"
           ports: 
             - containerPort: 8989
           volumeMounts:
@@ -114,8 +120,12 @@ spec:
             - configMapRef:
                 name: arr-user
           resources:
+            requests:
+              memory: 300M
+              cpu: "0.10"
             limits: 
               memory: 512M
+              cpu: "0.25"
           ports:
             - containerPort: 7878
           securityContext:

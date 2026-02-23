@@ -31,8 +31,12 @@ spec:
             - configMapRef:
                 name: arr-user
           resources:
+            requests:
+              memory: 300M
+              cpu: "0.10"
             limits: 
-              memory: 1024M # 1GB Memory
+              memory: 512M
+              cpu: "0.25"
           ports:
             - containerPort: 5000
           volumeMounts:

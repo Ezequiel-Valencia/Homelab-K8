@@ -20,6 +20,11 @@ spec:
     spec:
       # https://doc.wallabag.org/user/errors_during_fetching/
       # Errors are thrown in /var/www/wallabag/var/logs/prod.log, 0.26.0
+      securityContext:
+        # runAsUser: 1500
+        # runAsGroup: 1500
+        fsGroup: 1004
+        # runAsNonRoot: true
       containers: 
         - name: karakeep
           image: ghcr.io/karakeep-app/karakeep:0.26.0
@@ -37,8 +42,12 @@ spec:
             - name: DATA_DIR
               value: /data
           resources:
+            requests:
+              memory: 300M
+              cpu: "0.10"
             limits: 
-              memory: 712M
+              memory: 600M
+              cpu: "0.25"
           volumeMounts:
             - name: karakeep-storage
               mountPath: /data

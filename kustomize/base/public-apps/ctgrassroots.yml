@@ -58,9 +58,12 @@ spec:
             - secretRef:
                 name: mobilizon-secret
           resources:
+            requests:
+              memory: 300M
+              cpu: "0.1"
             limits: 
-              memory: 1024M
-              cpu: "500m"
+              memory: 600M
+              cpu: "0.5"
           volumeMounts:
             - name: mobilizon-storage
               mountPath: /var/lib/mobilizon/uploads

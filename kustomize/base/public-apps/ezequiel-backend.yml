@@ -36,9 +36,12 @@ spec:
             - secretRef:
                 name: ezequiel-backend-secrets
           resources:
+            requests:
+              memory: 300M
+              cpu: "0.10"
             limits: 
-              cpu: "300m"
-              memory: "900M"
+              memory: 700M
+              cpu: "0.25"
       dnsPolicy: "None"
       dnsConfig:
         nameservers:
