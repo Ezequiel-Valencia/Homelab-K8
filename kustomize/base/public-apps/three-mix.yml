@@ -49,9 +49,12 @@ spec:
             - secretRef:
                 name: three-mix-secrets
           resources:
+            requests:
+              memory: 100M
+              cpu: "0.10"
             limits: 
               memory: 216M
-              cpu: "300m"
+              cpu: "0.25"
       dnsPolicy: "None"
       dnsConfig:
         nameservers:
