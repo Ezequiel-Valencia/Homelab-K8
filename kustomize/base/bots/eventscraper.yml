@@ -31,7 +31,12 @@ spec:
             - configMapRef:
                 name: eventscraper-env
           resources:
-            limits: {}
+            requests:
+              memory: 300M
+              cpu: "0.10"
+            limits: 
+              memory: 400M
+              cpu: "0.25"
           volumeMounts:
             - name: eventscraper-storage
               mountPath: /app/config

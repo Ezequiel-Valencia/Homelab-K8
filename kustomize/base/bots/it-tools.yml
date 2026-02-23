@@ -24,8 +24,12 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
           resources:
+            requests:
+              memory: 100M
+              cpu: "0.10"
             limits: 
-              memory: 512M # 1GB Memory
+              memory: 100M
+              cpu: "0.10"
           ports:
             - containerPort: 80
       restartPolicy: Always
