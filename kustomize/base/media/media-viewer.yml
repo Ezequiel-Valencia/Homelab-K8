@@ -36,8 +36,12 @@ spec:
             - configMapRef:
                 name: arr-user
           resources:
+            requests:
+              memory: 500M
+              cpu: "0.50"
             limits: 
-              memory: 1024M # 1GB Memory
+              memory: 1024M
+              cpu: "1.5"
               nvidia.com/gpu: 1
           ports:
             - containerPort: 8096
