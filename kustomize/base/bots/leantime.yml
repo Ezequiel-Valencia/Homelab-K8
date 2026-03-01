@@ -35,7 +35,7 @@ spec:
             - name: LEAN_DB_PORT
               value: '3306'
             - name: LEAN_DB_HOST
-              value: 127.0.0.1 # Localhost refused to work 
+              value: mysql.database.homelab.ezequielvalencia.com # Localhost refused to work 
             - name: LEAN_DB_DATABASE
               value: leantime
             - name: LEAN_DB_USER
@@ -50,7 +50,7 @@ spec:
               memory: 300M
               cpu: "0.10"
             limits: 
-              memory: 1024M
+              memory: 712M
               cpu: "0.5"
           volumeMounts:
             - name: leantime-storage
@@ -66,34 +66,16 @@ spec:
               mountPath: /var/www/html/storage/logs
               subPath: leantime/logs
         
-        - name: mysql
-          image: mysql:8.4
-          # command: ["sleep", "3600"] # For Debugging
-          securityContext:
-            allowPrivilegeEscalation: false
-            privileged: false
-            runAsUser: 1000
-            runAsGroup: 1000 
-          envFrom:
-            - secretRef:
-                name: leantime-secrets
-          env:
-            - name: MYSQL_DATABASE
-              value: leantime
-            - name: MYSQL_USER
-              value: leantime
-          resources:
-          volumeMounts:
-            - name: leantime-storage
-              mountPath: /var/lib/mysql
-              subPath: leantime/db
-
       volumes:
         - name: leantime-storage
           persistentVolumeClaim:
             claimName: bot-storage-claim
       restartPolicy: Always
       nodeName: bots
+      dnsPolicy: "None"
+      dnsConfig:
+        nameservers:
+          - 10.0.0.6
 
 ---
 apiVersion: v1
