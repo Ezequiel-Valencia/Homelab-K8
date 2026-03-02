@@ -7,6 +7,10 @@ bots:
 	@echo "🚀 Making bots"
 	@kubectl kustomize kustomize/overlays/production/bots | kubectl apply -f -
 
+.PHONY: tools
+tools:
+	@echo "🚀 Making bots"
+	@kubectl kustomize kustomize/overlays/production/tools | kubectl apply -f -
 
 .PHONY: media
 media:
