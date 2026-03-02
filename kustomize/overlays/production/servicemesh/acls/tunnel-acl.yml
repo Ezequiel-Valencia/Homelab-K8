@@ -40,37 +40,37 @@ spec:
             matchLabels:
               kubernetes.io/metadata.name: ai
 
-        # Bots
+        # Tools
         - podSelector:
             matchLabels:
               app: ittool
           namespaceSelector:
             matchLabels:
-              kubernetes.io/metadata.name: bots
+              kubernetes.io/metadata.name: tools
         - podSelector:
             matchLabels:
               app: karakeep
           namespaceSelector:
             matchLabels:
-              kubernetes.io/metadata.name: bots
+              kubernetes.io/metadata.name: tools
         - podSelector:
             matchLabels:
               app: gitea
           namespaceSelector:
             matchLabels:
-              kubernetes.io/metadata.name: bots
+              kubernetes.io/metadata.name: tools
         - podSelector:
             matchLabels:
               app: openproject
           namespaceSelector:
             matchLabels:
-              kubernetes.io/metadata.name: bots
+              kubernetes.io/metadata.name: tools
         - podSelector:
             matchLabels:
               app: leantime
           namespaceSelector:
             matchLabels:
-              kubernetes.io/metadata.name: bots
+              kubernetes.io/metadata.name: tools
         
         # Media
         - podSelector:

@@ -18,3 +18,4 @@ resources:
 - bots-vs.yml
 - media-vs.yml
 - monitor-vs.yml
+- tools-vs.yml

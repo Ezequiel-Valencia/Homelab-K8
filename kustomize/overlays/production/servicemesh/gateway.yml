@@ -19,6 +19,7 @@ spec:
         - "bots/*.homelab.ezequielvalencia.com"
         - "public-apps/*.homelab.ezequielvalencia.com"
         - "ai/*.homelab.ezequielvalencia.com"
+        - "tools/*.homelab.ezequielvalencia.com"
     - port:
         number: 443
         name: https
@@ -32,6 +33,7 @@ spec:
         - "bots/*.homelab.ezequielvalencia.com"
         - "public-apps/*.homelab.ezequielvalencia.com"
         - "ai/*.homelab.ezequielvalencia.com"
+        - "tools/*.homelab.ezequielvalencia.com"
     
     - port:
         number: 2222
@@ -41,7 +43,7 @@ spec:
       #   mode: SIMPLE
       #   credentialName: media-certs # Same name as secret 
       hosts:
-        - "bots/gitea.homelab.ezequielvalencia.com"
+        - "tools/gitea.homelab.ezequielvalencia.com"
 
 
 
