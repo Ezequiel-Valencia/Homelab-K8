@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 SECRET_NAME="openproject-secrets"
-NAMESPACE="bots"
+NAMESPACE="tools"
 read -s -p "Database Username: " DB_USERNAME
 echo
 read -s -p "Database Password: " DB_PASSWORD

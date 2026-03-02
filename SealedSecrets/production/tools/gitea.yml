@@ -1,0 +1,13 @@
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: gitea-secret
+  namespace: tools
+spec:
+  encryptedData:
+    GITEA__database__PASSWD: AgCVCNlT09TyzcOTaV4AtA7F67E6fAKk8Lf0uKfoQFmNtctt3xP7MsuDSlp2liynpHTjjsbF/HAI2qcKnhr6XofjtI5S/EblQO8pAUk1+/VHznqvgZ3LlFl+JkLYVYHJGIGLlOyc4eyHDeg598e7+SqIttgt+XF5pIwcD0O00zm71GWopteDGPYLMCN3zooyMyWmvbcyXSDOvS6Qf/PLzJ0tUnclYXlTYgizR7UHbeprdUkzCTMHsec/Z/EGsUNJ8NiozXnWamXYs9aUyYkDFo5AgG3TFmDS72/cykCiiNduiAD38pRWBImU5751jOL5VAHHhq3DGPLqTHfpI5BWalmlhpOyTRWbg7D4K/SC85LvAjp63pJG8v5xxDISVcWo/6CoG69rNImUKjdQKx6PVDInwyr6/Wy3MmcN1zPCOt/0WW3u2KDplOK0R7QWRD4pG5NSzRgah6boccgpo0KYbuNL2ZEWZRhAza4VKecNZBkLJNYf9MMQCu96eO94+Mdd4PZMnXNJ07NaUrpPGbRsOBjxDfNy/hmdNwo+nSTYZfclDyYuspPjFJp1HbX4oPv5MtJ1fTW709AEntcR3TBBikdjR2qCISoP072eu3ohzQZ9AxEK52ZmWyzc+0Z1o7eb6J68sPBswvOFPSaGIeQMKJ6NMPy2jAK3H+jB8OEBGymsFF0hQJq844Z9W3iFga1u/IBOzSI9LSRYGgrfOcI=
+  template:
+    metadata:
+      name: gitea-secret
+      namespace: tools
