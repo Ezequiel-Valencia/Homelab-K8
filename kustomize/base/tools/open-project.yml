@@ -61,7 +61,7 @@ spec:
       volumes:
         - name: openproject-storage
           persistentVolumeClaim:
-            claimName: bot-storage-claim
+            claimName: tool-storage-claim
       restartPolicy: Always
 
 ---

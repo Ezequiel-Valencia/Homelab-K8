@@ -1,0 +1,98 @@
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: ittool-route
+  namespace: tools
+spec:
+  hosts:
+  - ittool.homelab.ezequielvalencia.com
+  gateways:
+  - istio-system/homelab-gateway 
+  http:
+  - route:
+    - destination:
+        host: ittool.tools.svc.cluster.local
+        port:
+          number: 80
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: openproject-route
+  namespace: tools
+spec:
+  hosts:
+  - openproject.homelab.ezequielvalencia.com
+  gateways:
+  - istio-system/homelab-gateway 
+  http:
+  - route:
+    - destination:
+        host: openproject.tools.svc.cluster.local
+        port:
+          number: 80
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: karakeep-route
+  namespace: tools
+spec:
+  hosts:
+  - karakeep.homelab.ezequielvalencia.com
+  gateways:
+  - istio-system/homelab-gateway 
+  http:
+  - route:
+    - destination:
+        host: karakeep.tools.svc.cluster.local
+        port:
+          number: 80
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: leantime-route
+  namespace: tools
+spec:
+  hosts:
+  - leantime.homelab.ezequielvalencia.com
+  gateways:
+  - istio-system/homelab-gateway 
+  http:
+  - route:
+    - destination:
+        host: leantime.tools.svc.cluster.local
+        port:
+          number: 80
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: gitea-route
+  namespace: tools
+spec:
+  hosts:
+  - gitea.homelab.ezequielvalencia.com
+  gateways:
+  - istio-system/homelab-gateway 
+  http:
+  - match:
+      - uri:
+          prefix: /
+    route:
+    - destination:
+        host: gitea.tools.svc.cluster.local
+        port:
+          number: 80
+  tcp:
+  - match:
+      - port: 2222
+        # sniHosts:
+        #   - gitea.homelab.ezequielvalencia.com
+    route:
+    - destination:
+        host: gitea.tools.svc.cluster.local
+        port:
+          number: 2222

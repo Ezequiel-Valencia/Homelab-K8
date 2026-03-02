@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 SECRET_NAME="leantime-secrets"
-NAMESPACE="bots"
+NAMESPACE="tools"
 read -p "Database Username: " DB_USERNAME
 read -s -p "Database Password: " DB_PASSWORD
 echo

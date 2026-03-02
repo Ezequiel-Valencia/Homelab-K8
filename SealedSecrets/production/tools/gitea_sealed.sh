@@ -5,7 +5,7 @@
 export KUBECONFIG=/home/zek/.kube/config_prd
 
 SECRET_NAME="gitea-secret"
-NAMESPACE="bots"
+NAMESPACE="tools"
 read -s -p "Gitea DB Password: " DB_PASSWD
 
 
@@ -16,4 +16,4 @@ kubectl create secret generic ${SECRET_NAME} --dry-run=client \
       --namespace="${NAMESPACE}" -o yaml | \
       kubeseal --controller-namespace=kube-system \
       --controller-name=sealed-secrets \
-      --format yaml > ../gitea.yml
+      --format yaml > ./gitea.yml

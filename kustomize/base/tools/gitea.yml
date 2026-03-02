@@ -55,7 +55,7 @@ spec:
       volumes:
         - name: gitea-storage
           persistentVolumeClaim:
-            claimName: bot-storage-claim
+            claimName: tool-storage-claim
       dnsPolicy: "None"
       dnsConfig:
         nameservers:

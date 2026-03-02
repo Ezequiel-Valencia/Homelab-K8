@@ -69,7 +69,7 @@ spec:
       volumes:
         - name: leantime-storage
           persistentVolumeClaim:
-            claimName: bot-storage-claim
+            claimName: tool-storage-claim
       restartPolicy: Always
       nodeName: bots
       dnsPolicy: "None"
