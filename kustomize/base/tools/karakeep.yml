@@ -46,8 +46,8 @@ spec:
               memory: 300M
               cpu: "0.10"
             limits: 
-              memory: 600M
-              cpu: "0.25"
+              memory: 712M
+              cpu: "0.5"
           volumeMounts:
             - name: karakeep-storage
               mountPath: /data

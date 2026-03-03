@@ -40,7 +40,7 @@ spec:
               memory: 500M
               cpu: "0.50"
             limits: 
-              memory: 1024M
+              memory: 1224M
               cpu: "1.5"
               nvidia.com/gpu: 1
           ports:
