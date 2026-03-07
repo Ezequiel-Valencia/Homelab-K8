@@ -10,10 +10,27 @@ patches:
   - target:
       kind: Deployment
       namespace: media
+      labelSelector: "app-type=arr"
     patch: |
       - op: add
         path: /spec/template/spec/nodeName
         value: media
+  - target:
+      kind: Deployment
+      namespace: media
+      name: kavita
+    patch: |
+      - op: add
+        path: /spec/template/spec/nodeName
+        value: media
+  - target:
+      kind: Deployment
+      namespace: media
+      name: jellyfin
+    patch: |
+      - op: add
+        path: /spec/template/spec/nodeName
+        value: zpclonghorn
 
 resources:
 - ../../../base/media

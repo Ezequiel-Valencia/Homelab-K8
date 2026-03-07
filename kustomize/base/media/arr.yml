@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: sonarr
+    app-type: arr
   name: sonarr
 spec:
   selector:
@@ -94,6 +95,7 @@ kind: Deployment
 metadata:
   labels:
     app: radarr
+    app-type: arr
   name: radarr
 spec:
   selector:
