@@ -67,3 +67,35 @@ spec:
       storage: 10Gi
   volumeName: media-config-longhorn-storage
 
+--- 
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: media-content
+spec:
+  capacity:
+    storage: 700Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: "default"
+  nfs:
+    server: 10.0.0.146
+    path: /volume1/media
+
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: media-content-claim
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: "default"
+  resources:
+    requests:
+      storage: 700Gi
+  volumeName: media-content
+

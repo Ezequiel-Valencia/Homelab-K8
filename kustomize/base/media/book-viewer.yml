@@ -43,16 +43,16 @@ spec:
             - name: media-config-longhorn-storage
               mountPath: /config
               subPath: kavita
-            - name: media-local-storage
+            - name: media-content
               mountPath: /media/books
               subPath: books
       volumes:
         - name: media-config-longhorn-storage
           persistentVolumeClaim:
             claimName: media-config-longhorn-storage-claim
-        - name: media-local-storage
+        - name: media-content
           persistentVolumeClaim:
-            claimName: media-local-storage-claim
+            claimName: media-content-claim
       restartPolicy: Always
       serviceAccount: kavita
 
