@@ -113,6 +113,14 @@ spec:
       ports:
         - protocol: TCP
           port: 8080
+    
+    # Home Assistant
+    - to:
+      - ipBlock:
+          cidr: 10.0.0.17/32
+      ports:
+        - protocol: TCP
+          port: 443
 
     # Cluster DNS to translate <app>.<namespace>.svc.cluster.local to it's actual IP
     - to:
