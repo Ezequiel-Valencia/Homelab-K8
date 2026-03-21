@@ -1,0 +1,18 @@
+deployment:
+  resources:
+    requests:
+      cpu: "10m"
+      memory: "64Mi"
+    limits:
+      memory: "216Mi"
+
+external_services:
+    prometheus:
+      # Prometheus service name is "metrics" and is in the "telemetry" namespace
+      url: "http://homelab-prometheus.monitoring.svc.cluster.local:9090/"
+
+server:
+  observability:
+    metrics:
+      enabled: true
+      port: 9090
