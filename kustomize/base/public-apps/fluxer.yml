@@ -1,0 +1,23 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: fluxer
+  name: fluxer
+spec:
+  selector: 
+    matchLabels:
+      app: fluxer
+  replicas: 0
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+  template:
+    metadata:
+      labels:
+        app: fluxer
+    spec:
+      containers: 
+        - name: fluxer
