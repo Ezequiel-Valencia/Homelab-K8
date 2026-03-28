@@ -32,4 +32,4 @@ replicas:
   - name: leantime
     count: 1
   - name: twenty-crm
-    count: 1
+    count: 0
