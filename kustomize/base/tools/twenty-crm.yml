@@ -1,0 +1,123 @@
+---
+# ──────────────────────────────────────────────────────────
+# Twenty Server – Deployment
+# ──────────────────────────────────────────────────────────
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: twenty-crm
+  labels:
+    app: twenty-crm
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: twenty-crm
+  template:
+    metadata:
+      labels:
+        app: twenty-crm
+    spec:
+      containers:
+        - name: twenty-crm-worker
+          image: twentycrm/twenty:latest
+          command: ["yarn", "worker:prod"]
+          envFrom:
+            - secretRef:
+                name: twenty-crm-secrets
+          env:
+            - name: REDIS_URL
+              value: redis://valkey.database.homelab.ezequielvalencia.com:6379  # rediss for SSL
+            - name: DISABLE_DB_MIGRATIONS
+              value: "true"    # Worker must NOT run migrations
+            - name: DISABLE_CRON_JOBS_REGISTRATION
+              value: "true"    # Worker must NOT register cron jobs
+
+          # livenessProbe:
+          #   httpGet:
+          #     path: /healthz
+          #     port: 3000
+          #   initialDelaySeconds: 60
+          #   periodSeconds: 15
+          #   timeoutSeconds: 5
+          #   failureThreshold: 6
+          # readinessProbe:
+          #   httpGet:
+          #     path: /healthz
+          #     port: 3000
+          #   initialDelaySeconds: 30
+          #   periodSeconds: 10
+          #   timeoutSeconds: 5
+          #   failureThreshold: 3
+
+          resources:
+          volumeMounts:
+            - name: twenty-crm-storage
+              mountPath: /app/packages/twenty-server/.local-storage # Shared Volume with Server
+              subPath: twentycrm
+
+        - name: twenty-crm
+          image: twentycrm/twenty:latest
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - secretRef:
+                name: twenty-crm-secrets
+          env:
+            - name: SERVER_URL
+              value: https://twenty-crm.homelab.ezequielvalencia.com
+            - name: REDIS_URL
+              value: redis://valkey.database.homelab.ezequielvalencia.com:6379
+
+          # livenessProbe:
+          #   httpGet:
+          #     path: /healthz
+          #     port: 3000
+          #   initialDelaySeconds: 120
+          #   periodSeconds: 15
+          #   timeoutSeconds: 5
+          #   failureThreshold: 6
+          # readinessProbe:
+          #   httpGet:
+          #     path: /healthz
+          #     port: 3000
+          #   initialDelaySeconds: 120
+          #   periodSeconds: 10
+          #   timeoutSeconds: 5
+          #   failureThreshold: 3
+
+          resources:
+          volumeMounts:
+            - name: twenty-crm-storage
+              mountPath: /app/packages/twenty-server/.local-storage
+              subPath: twentycrm
+      volumes:
+        - name: twenty-crm-storage
+          persistentVolumeClaim:
+            claimName: tool-storage-claim
+      dnsPolicy: "None"
+      dnsConfig:
+        nameservers:
+          - 10.0.0.6
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: twenty-crm
+  labels:
+    app: twenty-crm
+spec:
+  selector:
+    app: twenty-crm
+  ports:
+    - name: http
+      port: 3000
+      targetPort: 3000
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: twenty-crm

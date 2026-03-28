@@ -66,6 +66,25 @@ spec:
         host: leantime.tools.svc.cluster.local
         port:
           number: 80
+
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: twenty-crm-route
+  namespace: tools
+spec:
+  hosts:
+  - twenty-crm.homelab.ezequielvalencia.com
+  gateways:
+  - istio-system/homelab-gateway 
+  http:
+  - route:
+    - destination:
+        host: twenty-crm.tools.svc.cluster.local
+        port:
+          number: 3000
+
 ---
 apiVersion: networking.istio.io/v1
 kind: VirtualService

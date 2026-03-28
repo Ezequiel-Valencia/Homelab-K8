@@ -10,6 +10,7 @@ resources:
 - gitea.yml
 - open-project.yml
 - leantime.yml
+- twenty-crm.yml
 
 patches:
   - target:
@@ -29,4 +30,6 @@ replicas:
   - name: openproject
     count: 0
   - name: leantime
+    count: 1
+  - name: twenty-crm
     count: 1
