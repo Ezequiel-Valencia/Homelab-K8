@@ -7,3 +7,4 @@ resources:
 - gitea.yml
 - openproject.yml
 - leantime.yml
+- twenty-crm.yml
