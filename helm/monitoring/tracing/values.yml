@@ -1,0 +1,16 @@
+
+storage:
+  type: casandra
+  
+  cassandra:
+    host: cassandra.database.homelab.ezequielvalencia.com
+    port: 9042
+    tls:
+      enabled: true
+      # secretName: cassandra-tls-secret
+    user: jaeger
+    # usePassword: true
+    # password: password
+    keyspace: jaeger_v1
+    ## Use existing secret (ignores previous password)
+    # existingSecret: pass
