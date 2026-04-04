@@ -42,12 +42,8 @@ spec:
           ports: 
             - containerPort: 8989
           volumeMounts:
-            - name: media-local-storage
-              mountPath: /media/tv
-              subPath: tv
-            - name: media-local-storage
-              mountPath: /media/downloads
-              subPath: downloads
+            - name: media-content
+              mountPath: /media
             - name: media-config-longhorn-storage
               mountPath: /config
               subPath: sonarr
@@ -61,9 +57,9 @@ spec:
         - name: media-config-longhorn-storage
           persistentVolumeClaim:
             claimName: media-config-longhorn-storage-claim
-        - name: media-local-storage
+        - name: media-content
           persistentVolumeClaim:
-            claimName: media-local-storage-claim
+            claimName: media-content-claim
       restartPolicy: Always
 
 # https://wiki.servarr.com/radarr/postgres-setup
@@ -114,7 +110,7 @@ spec:
       # https://stackoverflow.com/questions/49368047/what-is-the-equivalent-for-depends-on-in-kubernetes
       containers: 
         - name: radarr
-          image: lscr.io/linuxserver/radarr:5.28.0
+          image: lscr.io/linuxserver/radarr
           imagePullPolicy: Always
           envFrom:
             - configMapRef:
@@ -134,12 +130,8 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
           volumeMounts:
-            - name: media-local-storage
-              mountPath: /media/movies
-              subPath: movies
-            - name: media-local-storage
-              mountPath: /media/downloads
-              subPath: downloads
+            - name: media-content
+              mountPath: /media
             - name: media-config-longhorn-storage
               mountPath: /config
               subPath: radarr
@@ -152,9 +144,9 @@ spec:
         - name: media-config-longhorn-storage
           persistentVolumeClaim:
             claimName: media-config-longhorn-storage-claim
-        - name: media-local-storage
+        - name: media-content
           persistentVolumeClaim:
-            claimName: media-local-storage-claim
+            claimName: media-content-claim
       restartPolicy: Always
 
 
