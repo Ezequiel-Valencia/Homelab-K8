@@ -8,3 +8,4 @@ resources:
 - openproject.yml
 - leantime.yml
 - twenty-crm.yml
+- joplin.yml

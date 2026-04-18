@@ -11,6 +11,7 @@ resources:
 - open-project.yml
 - leantime.yml
 - twenty-crm.yml
+- joplin.yml
 
 patches:
   - target:
@@ -33,3 +34,5 @@ replicas:
     count: 1
   - name: twenty-crm
     count: 0
+  - name: joplin
+    count: 1

@@ -115,3 +115,21 @@ spec:
         host: gitea.tools.svc.cluster.local
         port:
           number: 2222
+
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: joplin-route
+  namespace: tools
+spec:
+  hosts:
+  - joplin.homelab.ezequielvalencia.com
+  gateways:
+  - istio-system/homelab-gateway
+  http:
+  - route:
+    - destination:
+        host: joplin.tools.svc.cluster.local
+        port:
+          number: 80

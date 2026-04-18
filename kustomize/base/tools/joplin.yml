@@ -1,0 +1,103 @@
+# Dependency: Joplin Server requires a PostgreSQL database.
+# Ensure a PostgreSQL instance is reachable at the host configured in POSTGRES_HOST.
+# The secret joplin-secret must contain: POSTGRES_PASSWORD, POSTGRES_USER, POSTGRES_DATABASE
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: joplin
+  name: joplin
+spec:
+  selector:
+    matchLabels:
+      app: joplin
+  replicas: 0
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+  template:
+    metadata:
+      labels:
+        app: joplin
+    spec:
+      containers:
+        - name: joplin
+          image: joplin/server:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 22300
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+          envFrom:
+            - secretRef:
+                name: joplin-secret
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: RUNNING_IN_DOCKER
+              value: "1"
+            - name: APP_PORT
+              value: "22300"
+            - name: APP_BASE_URL
+              value: "https://joplin.tunnel.homelab.ezequielvalencia.com"
+            - name: DB_CLIENT
+              value: "pg"
+            - name: POSTGRES_HOST
+              value: "postgres.database.homelab.ezequielvalencia.com"
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: DB_AUTO_MIGRATION
+              value: "1"
+            # Added PGSSLMODE=require to the Joplin deployment. This is a standard PostgreSQL client environment variable that node-postgres (which Joplin uses via knex) respects natively, done by Claude.
+            - name: PGSSLMODE
+              value: "require"
+            - name: STORAGE_DRIVER
+              value: "Type=Filesystem; Path=/joplin/data"
+            - name: STORAGE_DRIVER_LOCAL_DIRECTORY
+              value: "/data/storage"
+            - name: STORAGE_DRIVER_FALLBACK
+              value: "Type=Database"
+          volumeMounts:
+            - name: joplin-storage
+              mountPath: /joplin/data
+              subPath: joplin
+          resources:
+            requests:
+              memory: 256M
+              cpu: "0.10"
+            limits:
+              memory: 512M
+              cpu: "0.5"
+      
+      volumes:
+        - name: joplin-storage
+          persistentVolumeClaim:
+            claimName: tool-storage-claim
+      restartPolicy: Always
+      dnsPolicy: "None"
+      dnsConfig:
+        nameservers:
+          - 10.0.0.6
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: joplin
+  name: joplin
+spec:
+  ports:
+    - name: http-joplin
+      port: 80
+      targetPort: 22300
+  selector:
+    app: joplin
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: joplin
